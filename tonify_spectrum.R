@@ -15,7 +15,7 @@ tonify_spectrum <- function(spectrum) {
   # Add a sinewave for each row of the table
   for (i in 1:nrow(spectrum)) {
     # Generate sine wave
-    sine_wave <- round((spectrum$amplitude[i]) * sin(spectrum$frequency[i] * time))
+    sine_wave <- round(spectrum$amplitude[i] * sin(spectrum$frequency[i] * time))
 
     # Add the sine wave to the sound signal
     sound_signal <- sound_signal + sine_wave

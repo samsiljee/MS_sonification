@@ -5,25 +5,7 @@
 # Output: An audio object of one second duration
 # This function requires the "tuneR" package
 
-# Load the required packages
-library(tuneR)
-
-# test data
-spectrum <- data.frame(
-  frequency = c(440, 660, 880),
-  amplitude = c(0.1, 0.5, 0.5) * 100
-)
-
-# Run the function
-audio_obj <- sonify_spectrum(spectrum)
-
-# Play the sound
-play(audio_obj)
-
-# Save the audio as a WAV file
-writeWave(audio_obj, file = "polyphonic_sound.wav")
-
-sonify_spectrum <- function(spectrum) {
+tonify_spectrum <- function(spectrum) {
   # Create a blank time vector for 1s of tone
   time <- seq(0, 2 * pi, length = 44100)
 
@@ -43,5 +25,5 @@ sonify_spectrum <- function(spectrum) {
   sound_signal <- (sound_signal / max(abs(sound_signal))) * 32000
 
   # Create an audio object
-  return(Wave(sound_signal, samp.rate = 44100))
+  return(Wave(sound_signal, samp.rate = 44100, bit = 16))
 }

@@ -25,8 +25,8 @@ spectrum_4 <- read.csv("test_spectra/spectrum_2.csv", header = TRUE)
 # audio_tone <- tonify_spectrum(spectrum)
 audio_tone_1 <- tonify_spectrum(spectrum_1)
 audio_tone_2 <- tonify_spectrum(spectrum_2)
-audio_tone_3 <- tonify_spectrum(spectrum_4)
-audio_tone_3 <- tonify_spectrum(spectrum_4)
+audio_tone_3 <- tonify_spectrum(spectrum_3)
+audio_tone_4 <- tonify_spectrum(spectrum_4)
 
 # Play the sound
 play(audio_tone_1)

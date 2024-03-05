@@ -1,3 +1,7 @@
+# Input and output files
+*.wav
+*.mzML
+
 # Project files
 MS_sonification.Rproj
 

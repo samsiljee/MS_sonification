@@ -9,6 +9,7 @@ library(dplyr)
 
 # Source the tonification function
 source("tonify_spectrum.R")
+source("tonify_chromatogram.R")
 
 # Open test MS file
 ms <- openMSfile("22-091_1_1ul_SS.mzML")
@@ -22,17 +23,29 @@ spectrum_3 <- read.csv("test_spectra/spectrum_1.csv", header = TRUE)
 spectrum_4 <- read.csv("test_spectra/spectrum_2.csv", header = TRUE)
 
 # Run the function
-# audio_tone <- tonify_spectrum(spectrum)
-audio_tone_1 <- tonify_spectrum(spectrum_1)
-audio_tone_2 <- tonify_spectrum(spectrum_2)
-audio_tone_3 <- tonify_spectrum(spectrum_3)
-audio_tone_4 <- tonify_spectrum(spectrum_4)
+spectrum_tone_1 <- tonify_spectrum(spectrum_1)
+spectrum_tone_2 <- tonify_spectrum(spectrum_2)
+spectrum_tone_3 <- tonify_spectrum(spectrum_3)
+spectrum_tone_4 <- tonify_spectrum(spectrum_4)
 
 # Play the sound
-play(audio_tone_1)
-play(audio_tone_2)
-play(audio_tone_3)
-play(audio_tone_4)
+play(spectrum_tone_1)
+play(spectrum_tone_2)
+play(spectrum_tone_3)
+play(spectrum_tone_4)
 
 # Save the audio as a WAV file
-writeWave(audio_tone_1, file = "polyphonic_sound.wav")
+writeWave(spectrum_tone_1, file = "spectrum_1.wav")
+writeWave(spectrum_tone_2, file = "spectrum_2.wav")
+writeWave(spectrum_tone_3, file = "spectrum_3.wav")
+writeWave(spectrum_tone_4, file = "spectrum_4.wav")
+
+# extract the chromatogram
+chr <- ProtGenerics::chromatogram(ms) %>% .[[1]]
+
+# Create audio from chromatogram
+chromatogram_audio <- tonify_chromatogram(chr$TIC)
+
+# Playand save
+play(chromatogram_audio)
+writeWave(chromatogram_audio, file = "chromatogram.wav")

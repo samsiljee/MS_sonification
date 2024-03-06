@@ -9,10 +9,10 @@ tonify_spectrum <- function(spectrum) {
   # Filter out peaks of 0 intensity
   dat <- spectrum %>%
     filter(intensity != 0)
-  
+
   # Normalise the intensity
   dat$intensity <- dat$intensity / max(dat$intensity) * 10000000
-  
+
   # Create a blank time vector for 1s of tone
   time <- seq(0, 2 * pi, length = 44100)
 

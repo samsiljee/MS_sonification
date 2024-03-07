@@ -12,11 +12,17 @@ source("tonify_spectrum.R")
 source("tonify_chromatogram.R")
 
 # Open test MS file
-ms <- openMSfile("22-091_1_1ul_SS.mzML")
+ms_file <- openMSfile("22-091_1_1ul_SS.mzML")
 
-# Extract some spectra
-spectrum_1 <- as.data.frame(peaks(ms, 2311))
-spectrum_2 <- as.data.frame(peaks(ms, 8401))
+# Extract all the peaks
+ms_peaks <- peaks(ms_file)
+
+# Extract correspondign header information
+ms_header <- header(ms_file)
+
+# Extract some spectra (faster than loading all peaks)
+spectrum_1 <- peaks(ms_file, 2311)
+spectrum_2 <- peaks(ms_file, 8401)
 
 # Load test spectrum
 spectrum_3 <- read.csv("test_spectra/spectrum_1.csv", header = TRUE)
@@ -40,8 +46,14 @@ writeWave(spectrum_tone_2, file = "spectrum_2.wav")
 writeWave(spectrum_tone_3, file = "spectrum_3.wav")
 writeWave(spectrum_tone_4, file = "spectrum_4.wav")
 
+# Example loop to check some spectra
+for(i in c(100, 1000, 10000, 30000)) {
+  audio_clip <- tonify_spectrum(as.data.frame(peaks(ms_file, scan = i)))
+  play(audio_clip)
+}
+
 # extract the chromatogram
-chr <- ProtGenerics::chromatogram(ms) %>% .[[1]]
+chr <- ProtGenerics::chromatogram(ms_file) %>% .[[1]]
 
 # Create audio from chromatogram
 chromatogram_audio <- tonify_chromatogram(chr$TIC)

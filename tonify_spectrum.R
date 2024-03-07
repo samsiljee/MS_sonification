@@ -5,7 +5,7 @@
 # Output: An audio object of one second duration
 # This function requires the "tuneR" and "dplyr" packages
 
-tonify_spectrum <- function(spectrum, filter_threshold = 0) {
+tonify_spectrum <- function(spectrum, filter_threshold = 0, time = 1) {
   # Filter out peaks of 0 intensity
   dat <- spectrum %>%
     filter(intensity > max(spectrum$intensity) * filter_threshold)
@@ -14,15 +14,15 @@ tonify_spectrum <- function(spectrum, filter_threshold = 0) {
   dat$intensity <- dat$intensity / max(dat$intensity) * 10000000
 
   # Create a blank time vector for 1s of tone
-  time <- seq(0, 2 * pi, length = 44100)
+  time_seq <- seq(0, time * 2 * pi, length = time * 44100)
 
   # Initialize an empty vector for the sound signal
-  sound_signal <- numeric(length(time))
+  sound_signal <- numeric(length(time_seq))
 
   # Add a sinewave for each row of the table
   for (i in 1:nrow(dat)) {
     # Generate sine wave
-    sine_wave <- dat$intensity[i] * sin(round(dat$mz[i]) * time)
+    sine_wave <- dat$intensity[i] * sin(round(dat$mz[i]) * time_seq)
 
     # Add the sine wave to the sound signal
     sound_signal <- sound_signal + sine_wave

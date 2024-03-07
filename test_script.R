@@ -23,10 +23,10 @@ spectrum_3 <- read.csv("test_spectra/spectrum_1.csv", header = TRUE)
 spectrum_4 <- read.csv("test_spectra/spectrum_2.csv", header = TRUE)
 
 # Run the function
-spectrum_tone_1 <- tonify_spectrum(spectrum_1)
-spectrum_tone_2 <- tonify_spectrum(spectrum_2)
-spectrum_tone_3 <- tonify_spectrum(spectrum_3)
-spectrum_tone_4 <- tonify_spectrum(spectrum_4)
+spectrum_tone_1 <- tonify_spectrum(spectrum_1, 0)
+spectrum_tone_2 <- tonify_spectrum(spectrum_2, 0)
+spectrum_tone_3 <- tonify_spectrum(spectrum_3, 0)
+spectrum_tone_4 <- tonify_spectrum(spectrum_4, 0)
 
 # Play the sound
 play(spectrum_tone_1)

@@ -5,10 +5,10 @@
 # Output: An audio object of one second duration
 # This function requires the "tuneR" and "dplyr" packages
 
-tonify_spectrum <- function(spectrum) {
+tonify_spectrum <- function(spectrum, filter_threshold = 0) {
   # Filter out peaks of 0 intensity
   dat <- spectrum %>%
-    filter(intensity != 0)
+    filter(intensity > max(spectrum$intensity) * filter_threshold)
 
   # Normalise the intensity
   dat$intensity <- dat$intensity / max(dat$intensity) * 10000000

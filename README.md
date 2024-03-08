@@ -10,3 +10,6 @@ The Fourier theorem states that more complex waveforms can be built up of simple
 Hence, this project takes individual spectra, and maps the m/z value to Hz and the intensity to amplitude. This generates a sine wave for every peak which are then overlaid to produce a tone for the spectrum.
 
 I would like to extend this project so that an entire MS run can be sonified using the tones of the individual spectra.
+
+## Things to try out
+- Using a dedicated package to reverse fourier transform, this will probably be faster

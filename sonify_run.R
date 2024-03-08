@@ -1,0 +1,50 @@
+# Script to sonify an entire mass spectrometry run
+# Sam Siljee
+# 9 March 2024
+# MIT licence
+
+# Libraries
+
+# Source functions
+
+# Load data
+
+# Inverse Fourier transform to get waveforms, and write to folder
+for(i in nrow(ms_header)) {
+  # Reverse Fourier transform
+  waveform <- reversefouriertransform(peaks[i])
+    
+  # Write to .txt file to interrupt long tasks
+  write(waveform, file = paste0("waveforms/waveform_", i, ".txt"))
+}
+
+# Initialise blank matrix for all waveforms
+waveform_matrix <- matrix()
+
+# Get total time length of the run waveform
+total_time <- 44100 * max(ms_header$retentionTime)
+
+# Read in the .txt files
+for(i in list.files("waveforms")) {
+  # Generate blank time before and after the waveform
+  RT_pre <- rep(0, 44100 * ms_header[i]$retentionTime)
+  RT_post <- rep(0, total_time - RT_pre)
+  
+  # read in the waveform and account for intensity
+  waveform <- read(paste0("waveforms/", i)) * ms_header[i]$totIonCurrent
+  
+  # Add in blank time before and after
+  waveform <- c(RT_pre, waveform, RT_post)
+  
+  # Add to the waveform matrix
+  waveform_matrix <- rbind(waveform_matrix, waveform)
+}
+
+# Add all of the waveforms together
+run_waveform <- colSums(waveform_matrix)
+
+# Normalise
+run_waveform <- (run_waveform/max(abs(run_waveform))) * 32000
+
+# Save as .wav
+writeWave(run_waveform, file = "run.wav")

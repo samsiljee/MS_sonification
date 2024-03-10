@@ -1,6 +1,8 @@
 # Function to create a polyphonic sound from a raw mass-spectrometry spectrum
 # Sam Siljee
 # Created 5th March 2024
+
+# Functon to convert a spectrum into a tone
 # Input: A table input of two columns, one column (m/z of the peak) determines the frequency of the sinewave, the second (intensity) determines the relative amplitude of that peak in the polyphonic signal
 # Output: An audio object of one second duration
 # This function requires the "tuneR" and "dplyr" packages
@@ -31,6 +33,20 @@ tonify_spectrum <- function(spectrum, filter_threshold = 0, time = 1) {
   # Normalize the sound signal
   sound_signal <- (sound_signal / max(abs(sound_signal))) * 32000
 
+  # Create an audio object
+  return(Wave(round(sound_signal), samp.rate = 44100, bit = 16))
+}
+
+
+# Function to convert a chromatogram into an audio clip
+# Input: a vector of TIC from a chromatogram
+# Output: An audio object of variable duration
+# This function requires the "tuneR" and "dplyr" packages
+
+tonify_chromatogram <- function(TIC) {
+  # Normalize the TIC vector
+  sound_signal <- (TIC / max(abs(TIC))) * 32000
+  
   # Create an audio object
   return(Wave(round(sound_signal), samp.rate = 44100, bit = 16))
 }

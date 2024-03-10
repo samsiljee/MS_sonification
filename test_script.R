@@ -8,8 +8,7 @@ library(mzR)
 library(dplyr)
 
 # Source the tonification function
-source("tonify_spectrum.R")
-source("tonify_chromatogram.R")
+source("functions.R")
 
 # Open test MS file
 ms_data <- openMSfile("22-091_1_1ul_SS.mzML")

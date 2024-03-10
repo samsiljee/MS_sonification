@@ -4,10 +4,26 @@
 # MIT licence
 
 # Libraries
+library(tuneR)
+library(mzR)
+library(dplyr)
 
 # Source functions
+source("functions.R")
 
 # Load data
+# Open test MS file
+ms_data <- openMSfile("22-091_1_1ul_SS.mzML")
+
+# Extract all the peaks
+ms_peaks <- peaks(ms_data)
+
+# Extract correspondign header information
+ms_header <- header(ms_data)
+
+# Get list of MS1 and MS2 spectrum indexes
+ms_1_indexes <- filter(ms_header, msLevel == 1) %>% .$seqNum
+ms_2_indexes <- filter(ms_header, msLevel == 2) %>% .$seqNum
 
 # Inverse Fourier transform to get waveforms, and write to folder
 for(i in nrow(ms_header)) {

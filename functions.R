@@ -1,4 +1,4 @@
-# Function to create a polyphonic sound from a raw mass-spectrometry spectrum
+# Function to create polyphonic sounds from a raw mass-spectrometry spectrum
 # Sam Siljee
 # Created 5th March 2024
 
@@ -35,6 +35,22 @@ tonify_spectrum <- function(spectrum, filter_threshold = 0, time = 1) {
 
   # Create an audio object
   return(Wave(round(sound_signal), samp.rate = 44100, bit = 16))
+}
+
+
+# Function to take a spectrum and return a waveform as a table
+# Input: a table of two columns, one to plot to frequencies, the other to plot to amplitudes
+# Output: a matrix with everypeak represented as a row, and every column as a sampling in time
+# This function requires the "dplyr" package
+
+spectrum_to_waveform_matrix <- function(spectrum, filter_threshold = 0, duration = 1, sampling_rate = 44100) {
+  dat <- as.data.frame(spectrum) %>%
+    filter(intensity > max(spectrum$intensity) * filter_threshold)
+  frequencies <- dat$mz
+  amplitudes <- dat$intensity
+  time_seq <- seq(0, duration, 1/sampling_rate)
+  wave_matrix <- outer(frequencies, time_seq, FUN = function(freq, time) amplitudes * sin(2 * pi * freq * time))
+  return(wave_matrix)
 }
 
 

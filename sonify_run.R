@@ -17,7 +17,7 @@ duration <- 1
 
 # Load data
 # Open test MS file
-ms_data <- openMSfile("22-091_1_1ul_SS.mzML")
+ms_data <- openMSfile("test.mzML")
 
 # Extract the first 10,000 the peaks
 ms_peaks <- peaks(ms_data, scans = 1:10)

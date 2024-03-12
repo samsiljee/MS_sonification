@@ -59,8 +59,10 @@ for (i in 1:length(list.files("waveforms"))) {
   # Add in blank time before and after
   waveform <- c(RT_pre, waveform, RT_post)
 
-  # Add to the waveform matrix
-  waveform_matrix <- rbind(waveform_matrix, waveform)
+  # # Add to the waveform matrix
+  # waveform_matrix <- rbind(waveform_matrix, waveform)
+  print(i)
+  print(length(waveform))
 }
 
 # Add all of the waveforms together
@@ -92,8 +94,8 @@ for (i in 1:4) {
   # Add in blank time before and after
   waveform <- c(RT_pre, i, RT_post)
   print(i)
-  print(waveform)
+  print(length(waveform))
   
-  # Add to the waveform matrix
-  test_matrix <- rbind(test_matrix, waveform)
+  # # Add to the waveform matrix
+  # test_matrix <- rbind(test_matrix, waveform)
 }

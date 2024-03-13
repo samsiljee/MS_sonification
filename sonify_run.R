@@ -14,102 +14,89 @@ source("functions.R")
 # Set some variables
 sample_rate <- 44100
 duration <- 1
+scan_start <- 1
+scan_end <- 58248
 
 # Load and extract data
 ms_data <- openMSfile("test.mzML")
-ms_peaks <- peaks(ms_data, scans = 1:100)
-ms_header <- header(ms_data) %>% head(100)
+ms_peaks <- peaks(ms_data)
+full_ms_header <- header(ms_data)
+ms_header <- full_ms_header[scan_start:scan_end, ] %>% mutate(index = 1:(scan_end - scan_start + 1))
 
-# Get list of MS1 and MS2 spectrum indexes
-ms_1_indexes <- filter(ms_header, msLevel == 1) %>% .$seqNum
-ms_2_indexes <- filter(ms_header, msLevel == 2) %>% .$seqNum
+# Get list of MS1 and MS2 spectrum indexes and rows
+ms1_indexes <- filter(ms_header, msLevel == 1) %>% .$index
+ms2_indexes <- filter(ms_header, msLevel == 2) %>% .$index
+ms1_scan_indexes <- filter(ms_header, msLevel == 1) %>% .$seqNum
+ms2_scan_indexes <- filter(ms_header, msLevel == 2) %>% .$seqNum
 
 # Synthesise waveforms, and write to .txt (so big runs can be interupted)
-for (i in 1:nrow(ms_header)) {
-  waveform <- spectrum_to_waveform(as.data.frame(ms_peaks[[i]]))
-  write(waveform, ncolumns = 1, file = paste0("waveforms/waveform_", i, ".txt"))
+for (i in ms_header$seqNum) {
+  write(
+    spectrum_to_waveform(ms_peaks[[i]]),
+    ncolumns = 1,
+    file = paste0("waveforms/waveform_", i, ".txt")
+  )
 }
 
-# Total time of run
-total_time <- round(sample_rate * max(ms_header$retentionTime))
+# Total time of the clip, at set sample rate
+max_RT <- max(ms_header$retentionTime)
+min_RT <- min(ms_header$retentionTime)
+total_time <- round(sample_rate * (max_RT - min_RT) + 1)
 
-# Initialise blank matrix for all waveforms
-waveform_matrix <- NULL
+# Make a stereo compilation, Left channel for MS1 spectra, Right channel for MS2 spectra
+# Initialise blank waveform
+ms1_waveform <- rep(0, total_time + duration * sample_rate)
 
-# Read in the .txt files and account for RT and total ion current
-for (i in 1:length(list.files("waveforms"))) {
+# Read in the .txt files and add to the waveform
+for (i in ms1_indexes) {
   # Generate blank time before and after the waveform
-  RT_pre <- rep(0, round(sample_rate * ms_header$retentionTime[i]))
+  RT_pre <- rep(0, round(sample_rate * (ms_header$retentionTime[i] - min_RT)))
   RT_post <- rep(0, total_time - length(RT_pre))
-  
+
   # read in the waveform and account for intensity
   waveform <- read.delim(paste0("waveforms/waveform_", i, ".txt"), header = FALSE)[, 1] * ms_header$totIonCurrent[i]
 
-  # Add to the waveform
-  waveform_matrix <- rbind(waveform_matrix, c(RT_pre, waveform, RT_post))
-  waveform_matrix <- colSums(waveform_matrix)
+  # Add to the waveform with blank RT sound
+  ms1_waveform <- ms1_waveform + c(RT_pre, waveform, RT_post)
+
+  # Monitor progress
+  print(i)
 }
 
 # Normalise the waveform
-run_waveform <- (run_waveform / max(abs(run_waveform))) * 32000
-
-# Create wav object
-wave_obj <- Wave(round(run_waveform), samp.rate = sample_rate, bit = 16)
-play(wave_obj)
-
-# Save as .wav
-writeWave(wave_obj, file = "run.wav")
-
-# Make a stereo compilation
-# Left channel (MS1 spectra)
-# Initialise blank matrix for all MS1 waveforms
-ms1_waveform_matrix <- NULL
-
-# Read in the .txt files
-for (i in ms_1_indexes) {
-  # Generate blank time before and after the waveform
-  RT_pre <- rep(0, round(sample_rate * ms_header$retentionTime[i]))
-  RT_post <- rep(0, total_time - length(RT_pre))
-  
-  # read in the waveform and account for intensity
-  waveform <- read.delim(paste0("waveforms/waveform_", i, ".txt"), header = FALSE)[, 1] * ms_header$totIonCurrent[i]
-  
-  # Add to the waveform
-  ms1_waveform_matrix <- rbind(ms1_waveform_matrix, c(RT_pre, waveform, RT_post))
-  ms1_waveform_matrix <- colSums(ms1_waveform_matrix)
-}
-
-# Normalise the waveform
-ms1_run_waveform <- (ms1_run_waveform / max(abs(ms1_run_waveform))) * 32000
+ms1_waveform <- (ms1_waveform / max(abs(ms1_waveform))) * 32000
 
 # Repeat for MS2 scans
-# Initialise blank matrix for all MS1 waveforms
-ms2_waveform_matrix <- NULL
+# Initialise blank waveform
+ms2_waveform <- rep(0, total_time + duration * sample_rate)
 
 # Read in the .txt files
-for (i in ms_2_indexes) {
+for (i in ms2_indexes) {
   # Generate blank time before and after the waveform
-  RT_pre <- rep(0, round(sample_rate * ms_header$retentionTime[i]))
+  RT_pre <- rep(0, round(sample_rate * (ms_header$retentionTime[i] - min_RT)))
   RT_post <- rep(0, total_time - length(RT_pre))
-  
+
   # read in the waveform and account for intensity
   waveform <- read.delim(paste0("waveforms/waveform_", i, ".txt"), header = FALSE)[, 1] * ms_header$totIonCurrent[i]
-  
-  # Add to the waveform
-  ms2_waveform_matrix <- rbind(ms2_waveform_matrix, c(RT_pre, waveform, RT_post))
-  ms2_waveform_matrix <- colSums(ms2_waveform_matrix)
+
+  # Add to the waveform with blank RT sound
+  ms2_waveform <- ms2_waveform + c(RT_pre, waveform, RT_post)
+
+  # Monitor progress
+  print(i)
 }
 
 # Normalise the waveform
-ms2_run_waveform <- (ms2_run_waveform / max(abs(ms2_run_waveform))) * 32000
+ms2_waveform <- (ms2_waveform / max(abs(ms2_waveform))) * 32000
 
 # Create stereo wav object
 stereo_wave_obj <- Wave(
-  left = round(ms1_run_waveform),
-  right = round(ms2_run_waveform),
+  left = round(ms1_waveform),
+  right = round(ms2_waveform),
   samp.rate = sample_rate,
-  bit = 16)
+  bit = 16
+)
 play(stereo_wave_obj)
 
 # Save as .wav
-writeWave(stereo_wave_obj, file = "stereo_run.wav")
+writeWave(stereo_wave_obj, file = "stereo_run_long.wav")

@@ -7,50 +7,12 @@
 # Output: An audio object of one second duration
 # This function requires the "tuneR" and "dplyr" packages
 
-tonify_spectrum <- function(spectrum, filter_threshold = 0, time = 1) {
-  # Filter out peaks of 0 intensity
-  dat <- spectrum %>%
-    filter(intensity > max(spectrum$intensity) * filter_threshold)
-
-  # Normalise the intensity
-  dat$intensity <- dat$intensity / max(dat$intensity) * 10000000
-
-  # Create a blank time vector for 1s of tone
-  time_seq <- seq(0, time * 2 * pi, length = time * 44100)
-
-  # Initialize an empty vector for the sound signal
-  sound_signal <- numeric(length(time_seq))
-
-  # Add a sinewave for each row of the table
-  for (i in 1:nrow(dat)) {
-    # Generate sine wave
-    sine_wave <- dat$intensity[i] * sin(round(dat$mz[i]) * time_seq)
-
-    # Add the sine wave to the sound signal
-    sound_signal <- sound_signal + sine_wave
-  }
-
-  # Normalize the sound signal
-  sound_signal <- (sound_signal / max(abs(sound_signal))) * 32000
+tonify_spectrum <- function(spectrum, duration = 1, sampling_rate = 44100) {
+  # Call the spectrum_to_waveform function
+  sound_signal <- spectrum_to_waveform(spectrum = spectrum, duration = duration, sampling_rate = sampling_rate)
 
   # Create an audio object
   return(Wave(round(sound_signal), samp.rate = 44100, bit = 16))
-}
-
-
-# Function to take a spectrum and return a waveform as a table
-# Input: a table of two columns, one to plot to frequencies, the other to plot to amplitudes
-# Output: a matrix with everypeak represented as a row, and every column as a sampling in time
-# This function requires the "dplyr" package
-
-spectrum_to_waveform_matrix <- function(spectrum, filter_threshold = 0, duration = 1, sampling_rate = 44100) {
-  dat <- as.data.frame(spectrum) %>%
-    filter(intensity > max(spectrum$intensity) * filter_threshold)
-  frequencies <- dat$mz
-  amplitudes <- dat$intensity
-  time_seq <- seq(0, duration, 1/sampling_rate)
-  wave_matrix <- outer(frequencies, time_seq, FUN = function(freq, time) amplitudes * sin(2 * pi * freq * time))
-  return(wave_matrix)
 }
 
 
@@ -59,34 +21,26 @@ spectrum_to_waveform_matrix <- function(spectrum, filter_threshold = 0, duration
 # Output: An audio object of one second duration
 # This function requires the "tuneR" and "dplyr" packages
 
-spectrum_to_waveform <- function(spectrum, filter_threshold = 0, time = 1) {
+spectrum_to_waveform <- function(spectrum, duration = 1, sampling_rate = 44100) {
+  # Start time for optimisation 
+  # start_time <- Sys.time()
+  
   # Filter out peaks of 0 intensity
-  dat <- spectrum %>%
-    filter(intensity > max(spectrum$intensity) * filter_threshold)
+  dat <- as.data.frame(spectrum) %>%
+    filter(intensity > 0)
 
-  # Normalise the intensity
-  dat$intensity <- dat$intensity / max(dat$intensity) * 10000000
+  # Create time sequence
+  time_seq <- seq(0, duration * 2 * pi, length = duration * sampling_rate)
 
-  # Create a blank time vector for 1s of tone
-  time_seq <- seq(0, time * 2 * pi, length = time * 44100)
-
-  # Initialize an empty vector for the sound signal
-  sound_signal <- numeric(length(time_seq))
-
-  # Add a sinewave for each row of the table
-  for (i in 1:nrow(dat)) {
-    # Generate sine wave
-    sine_wave <- dat$intensity[i] * sin(round(dat$mz[i]) * time_seq)
-
-    # Add the sine wave to the sound signal
-    sound_signal <- sound_signal + sine_wave
-  }
-
+  # Create and add a sine wave for every peak
+  sound_signal <- (sin(outer(time_seq, dat$mz, "*")) %*% dat$intensity)
+  
   # Normalize the sound signal
   sound_signal <- (sound_signal / max(abs(sound_signal))) * 32000
 
-  # Create an audio object
+  # Return the waveform as a numeric vector
   return(round(sound_signal))
+  # return(Sys.time() - start_time)
 }
 
 

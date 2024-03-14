@@ -54,7 +54,7 @@ for (i in ms1_indexes) {
   RT_post <- rep(0, total_time - length(RT_pre))
 
   # read in the waveform and account for intensity
-  waveform <- read.delim(paste0("waveforms/waveform_", i, ".txt"), header = FALSE)[, 1] * ms_header$totIonCurrent[i]
+  waveform <- read.delim(paste0("waveforms/waveform_",ms1_scan_indexes[i], ".txt"), header = FALSE)[, 1] * ms_header$totIonCurrent[i]
 
   # Add to the waveform with blank RT sound
   ms1_waveform <- ms1_waveform + c(RT_pre, waveform, RT_post)
@@ -77,7 +77,7 @@ for (i in ms2_indexes) {
   RT_post <- rep(0, total_time - length(RT_pre))
 
   # read in the waveform and account for intensity
-  waveform <- read.delim(paste0("waveforms/waveform_", i, ".txt"), header = FALSE)[, 1] * ms_header$totIonCurrent[i]
+  waveform <- read.delim(paste0("waveforms/waveform_", ms2_scan_indexes[i], ".txt"), header = FALSE)[, 1] * ms_header$totIonCurrent[i]
 
   # Add to the waveform with blank RT sound
   ms2_waveform <- ms2_waveform + c(RT_pre, waveform, RT_post)

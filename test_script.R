@@ -11,7 +11,7 @@ library(dplyr)
 source("functions.R")
 
 # Open test MS file
-ms_data <- openMSfile("22-091_1_1ul_SS.mzML")
+ms_data <- openMSfile("test.mzML")
 
 # Extract all the peaks
 ms_peaks <- peaks(ms_data)

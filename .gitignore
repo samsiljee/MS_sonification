@@ -2,6 +2,7 @@
 *.wav
 *.mzML
 waveforms/*
+plots/*
 
 # Project files
 MS_sonification.Rproj

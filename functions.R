@@ -2,7 +2,7 @@
 # Sam Siljee
 # Created 5th March 2024
 
-# Functon to convert a spectrum into a tone
+# Function to convert a spectrum into a tone
 # Input: A table input of two columns, one column (m/z of the peak) determines the frequency of the sinewave, the second (intensity) determines the relative amplitude of that peak in the polyphonic signal
 # Output: An audio object of one second duration
 # This function requires the "tuneR" and "dplyr" packages
@@ -22,9 +22,9 @@ tonify_spectrum <- function(spectrum, duration = 1, sampling_rate = 44100) {
 # This function requires the "tuneR" and "dplyr" packages
 
 spectrum_to_waveform <- function(spectrum, duration = 1, sampling_rate = 44100) {
-  # Start time for optimisation 
+  # Start time for optimisation
   # start_time <- Sys.time()
-  
+
   # Filter out peaks of 0 intensity
   dat <- as.data.frame(spectrum) %>%
     filter(intensity > 0)
@@ -34,7 +34,7 @@ spectrum_to_waveform <- function(spectrum, duration = 1, sampling_rate = 44100) 
 
   # Create and add a sine wave for every peak
   sound_signal <- (sin(outer(time_seq, dat$mz, "*")) %*% dat$intensity)
-  
+
   # Normalize the sound signal
   sound_signal <- (sound_signal / max(abs(sound_signal))) * 32000
 
@@ -55,4 +55,28 @@ tonify_chromatogram <- function(TIC) {
 
   # Create an audio object
   return(Wave(round(sound_signal), samp.rate = 44100, bit = 16))
+}
+
+
+# Function to convert a spectrum into a plot
+# Input: a vector of TIC from a chromatogram
+# Output: An audio object of variable duration
+# This function requires the "tuneR" and "dplyr" packages
+
+plot_spectrum <- function(spectrum) {
+  # Filter out peaks of 0 intensity
+  dat <- as.data.frame(spectrum) %>%
+    filter(intensity > 0)
+
+  # Create plot
+  plot <- dat %>%
+    ggplot(aes(x = mz, y = intensity)) +
+    geom_line(col = "green") +
+    theme_void() +
+    theme(
+      plot.background = element_rect(fill = "black")
+    )
+
+  # Return plot
+  return(plot)
 }

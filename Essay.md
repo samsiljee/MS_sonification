@@ -88,11 +88,7 @@ This way there?s far less movement in the system, as they only have to refresh o
 - The rods can be covered in a cloth to smooth the peaks, this would also add a screen for illumination if needed.
 - Bouncing light of the surface of a wave pool
 
-## Bibliography
-(1)
-
-## References
+## References and resources
 1.	Gulland A. The neuroscientist formerly known as Prince's audio engineer. Nature [Internet]. 2024 Mar 14 [cited 2024 Mar 19]; Available from: https://www.nature.com/articles/d41586-024-00791-5
-
-## Resources
-https://mlaetsc.hcommons.org/2023/01/18/data-sonification-for-beginners/
+2. https://mlaetsc.hcommons.org/2023/01/18/data-sonification-for-beginners/
+3. 10.21785/icad2023.4039

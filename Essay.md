@@ -93,3 +93,6 @@ This way there?s far less movement in the system, as they only have to refresh o
 
 ## References
 1.	Gulland A. The neuroscientist formerly known as Prince's audio engineer. Nature [Internet]. 2024 Mar 14 [cited 2024 Mar 19]; Available from: https://www.nature.com/articles/d41586-024-00791-5
+
+## Resources
+https://mlaetsc.hcommons.org/2023/01/18/data-sonification-for-beginners/

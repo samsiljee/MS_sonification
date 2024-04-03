@@ -88,6 +88,11 @@ This way there?s far less movement in the system, as they only have to refresh o
 - The rods can be covered in a cloth to smooth the peaks, this would also add a screen for illumination if needed.
 - Bouncing light of the surface of a wave pool
 
+## Miscelaneous
+- Part of the code came to me in a dream, I woke up up the answer to something I'd been puzzeling over for weeks - namely how to combine multiple tones into a sonification of the entire run in R.
+In my mind the code was a simple 3 lines, however when I came to actually writing the code it ended up as about 30 lines.
+Goes to show that even code bends reality and expectations in dreams.
+
 ## References and resources
 1.	Gulland A. The neuroscientist formerly known as Prince's audio engineer. Nature [Internet]. 2024 Mar 14 [cited 2024 Mar 19]; Available from: https://www.nature.com/articles/d41586-024-00791-5
 2. https://mlaetsc.hcommons.org/2023/01/18/data-sonification-for-beginners/

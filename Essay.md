@@ -52,16 +52,14 @@ There are ways of artificially coercing data into rhythms and harmonies.
 - Click at the triggering of each clip, this is an artifact of all of the sineswave starting in sync, initially some big spikes in the waveform before they move out-of-phase.
 - How literal to be
 - (Not yet tested), it reflects technicalities of the aquisition method more than biological differences at this point
+- The balance in art between challenge and approachability.
 
 ## Wish-list
-- To combine multiple tones into a coherent piece
 - Deal with the clicking when clips are triggered
 - Use other header data to produce envelops for the sounds, attack, duration, decay etc.
+- I'd like to integrate processed data from PSMs in some way also - this with give more values to work with to form envelops for example.
 - Visual accompanyment
 - Invert m/z values? Heavier ions for lower tones?
-
-## Interpretation of produced sound
-The most obvious difference is in the spectra produced by MS1 and MS2.
 The MS2 scans show more variety, with the MS1 scans starting off with the machine droning of background noise before the peptides start to enter the mass spectrometer.
 At around the 18 minute mark the MS1 channel starts to sound more tonal, with tones waxing and waning as the corresponding peptides elute from the column.
 The rhythms in the MS1 scan are initially faster, then slow down as the cycles include progressively more MS2 spectra.
@@ -79,6 +77,7 @@ I think this is a good idea, especially as the same principles used to generate 
 Advice from Matthijs, the screen saver aesthetic has been done to death, and switch people off.
 I'm much better off making something mechanical, automaton like.
 
+### Automata
 Ideas for automata: 
 - 2D array of rods with adjustable height.
 Bin the peaks, and adjust heights as a histogram.
@@ -88,12 +87,109 @@ This way there?s far less movement in the system, as they only have to refresh o
 - The rods can be covered in a cloth to smooth the peaks, this would also add a screen for illumination if needed.
 - Bouncing light of the surface of a wave pool
 
+## Installation
+Another potential to develop this project is as an installation.
+
+### The shape of the space
+The outside of the space could be presented as a black box, both a literal representation of the black box of the mass spectrometer, and a representation of mysterious processes occuring inside.
+The entrance to the installation is like the ion source of the mass spectrometer.
+My intial idea was to have the space as a cone, at the smallest end where you cant even crawl into it I would have individual peaks on individual spectra playing individual sine waves.
+Subsequently there'd be a larger space where you can squeeze in a playing whole tones from individual spectra, then bigger space where you can play whole runs.
+A larger space would be about comparing runs and experimental groups.
+Realistically howver mass spectrometry is done in discrete stages and steps, so more like rooms bracnhing off into ever smaller rooms.
+This may also help flow through the exhibit, however then questions arrise as to how restrictive/claustrophobic the smallest of rooms should be. There will also be concerns for safety in the event of an emergency.
+The rooms can be floating on stils up orr the floor, with space to crawl out underneath.
+Every room can split into two smaller rooms with a binary decision, in fact the entry room can literally be named "0", dividing into "00" and "01", with "01" dividing into "010" and "011" for example.
+I imagine there being one entrance room, splitting up into 8 smallest rooms. Each of these smallest rooms will have their own diorama.
+After the smallest rooms, they could recombine sequentially till there is only one exit room.
+Personally, I'm struggling to make these binary decisions.
+Should I pursue science or medicine? Academia or research? Medicine or surgery?
+The exhibition rooms ultimately come back to a single room, and ultimately all of our decisions come to one conclusion - we die.
+
+I imagine the lighting starting off as either white or black, and splitting up into narrower and narrower ranges of the spectrum as yuo get into the smaller rooms.
+I imagine the smallest room being lit by a single lightblub of a single colour, each of the eight having their own portion of the light spectrum.
+
+The largest space where you can explore a taxonomy graphic representation of contexts of the project.
+Alternatively the context map could be on the outside of the space.
+
+The smallest space could also be represented by a diorama which only one person can peep into at a time, containing a collection of the smallest details.
+The dioramas can all be the same in each of the smallest rooms, however the fact that they are all lit by a single and different light means that each will have a different component of the diorama visible.
+
+### Diorama
+Things to represent in the diorama:
+- ions
+- magnetic fields
+- physics
+- stuff too small to see
+- stuff too small to understand
+- stuff I don't get
+- "censored values"
+- "below the limit of detection""
+
+### Printouts
+Another striking visual to potentially include in an installation would be to printout all of the thousands of spectra in the project.
+This is of course unrealistic and incredibly wasteful of paper, however if could still be represented by a handfull of spectra being printed out, with piles/boxes of unopened packets of printing paper.
+There could also be an option to print out a spectrum for yourself, and then to see how your own manual annotation contrasts to automated computer annotation.
+Comparing and contrasting human and machine elements could be an interesting topic to explore with this project.
+What can you do by hand?
+When do you have to resort to computers?
+the answer to this largely comes down to scale.
+
+### Hierachy of scale/context map/taxonomy
+biology/lung cancer >
+lung cancer biology >
+scc of lung >
+research of biology >
+basic science >
+my PhD (in an of itself a tiny sliver of information)>
+cell culture model >
+cells >
+proteomics >
+protein extract >
+purified peptides >
+mass spec experiment >
+run >
+protein >
+peptide >
+PSM >
+spectrum >
+peaks >
+ions
+
 ## Miscelaneous
 - Part of the code came to me in a dream, I woke up up the answer to something I'd been puzzeling over for weeks - namely how to combine multiple tones into a sonification of the entire run in R.
 In my mind the code was a simple 3 lines, however when I came to actually writing the code it ended up as about 30 lines.
 Goes to show that even code bends reality and expectations in dreams.
+- When is it artefact, and when is it signal?
+- The aspect that has most interested people less familiar with mass spectrometery that I've spoken to about this project has been sense of scale.
+What is big picture? what is detail?
+- Why did I change to writing the essay on github? Version control?
+- How much should the sounds in discrete sections be isolated from eachother?
+Should they be kept pure?
+Should they mingle together into a larger piece?
+
+## Acknowledgements
+- Margie
+- Matthijs
+- Charlie
+- Sanne
+- Hanne
+- Clara
 
 ## References and resources
 1.	Gulland A. The neuroscientist formerly known as Prince's audio engineer. Nature [Internet]. 2024 Mar 14 [cited 2024 Mar 19]; Available from: https://www.nature.com/articles/d41586-024-00791-5
 2. https://mlaetsc.hcommons.org/2023/01/18/data-sonification-for-beginners/
 3. 10.21785/icad2023.4039
+
+## Notes
+- What is the more universal message I'm trying to communicate with this work?
+- What new perspective do I want to bring? What assumption do I want to challenge?
+- What is my conversation with the data?
+- Scale and complexity, being engulfed by it, fractal nature, interactive and engaging
+- Big picture vs detail, my Phd is about tiny narrow specific field, detail gives information but big picture/context gives meaning.
+- Mass spectrometry takes a big biological question, breaks physical samples down to the point where they are pulled apart and distilled to nothing but numbers.
+These numbers are then used to build up a picture again. This is similar to the alchemical process, where a spygyric preparation breaks a plant apart and distills every constituent part, then combines every part again into a holistic preparation.
+- Analysis is an iterative process, would it be worthwhile circulating through the exhibit again?
+Taking the understanding from a previous cycle forward into understanding a new cycle?
+- The tendency is to go into a science experiment rational - head first, then to come out experiential - with empirical evidence.
+The reducing entrance chambers to the installation could have no sound in them, with the sound only building up from the smallest of chambers.

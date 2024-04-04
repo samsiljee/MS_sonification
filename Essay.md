@@ -29,6 +29,17 @@ The acquisition method was 90 minutes, and hence the complete piece is also 90 m
 In science, a commonly used term is background-to-noise ratio.
 Out of the signal intensity received, how much carries "useful" information as opposed to random noise or technical artifact.
 This is analogous to how turning up the volume on the stereo can increase the signal, but not improve the audio quality or improve the signal to noise ratio.
+One of the questions I often run into when explaining my work to non-scientists is why I discredit certain observations as "artefact".
+In my familiarity with techniques, I have developed the skills to recognise the difference between meaningful signal, and meaningless blotches on the microscope slide, or 'random' peaks in data.
+To me, I discard these observations without a second thought, but to someone observing without the same pattern recognition as myself, it seems like arbitray dismissal of valid data.
+Depending on the technique, making the call between artefact and signal can be straight forward, however I have run into a problem with this sonification project.
+A particular issue is the click heard at the start of every clip.
+The origin of this click is an artefact of the process of creating the tones, all of the sine waves initially start synchronised, before moving out-of-phase.
+This very brief period where all the waves are synchronised manifests as a high amplitude click.
+The problem with this, is that in the volume normalisation process, this high-amplitude lead-in compresses the rest of the waveform, loosing volume.
+On further reflection however, this click may serve a purpose.
+In the MS1 channel it helps to give a sense of rhythm to the piece.
+In the MS2 channel it gives a "gramaphone record" crackle, which is artificially added to give texture in certain electronic music genres.
 
 ## Process of interpretation
 13th of March - In discussion, I came to realise that this process represents an interpretation of my data.
@@ -158,15 +169,20 @@ ions
 
 ## Miscelaneous
 - Part of the code came to me in a dream, I woke up up the answer to something I'd been puzzeling over for weeks - namely how to combine multiple tones into a sonification of the entire run in R.
+I literally woke up one day with the solution in my mind.
 In my mind the code was a simple 3 lines, however when I came to actually writing the code it ended up as about 30 lines.
 Goes to show that even code bends reality and expectations in dreams.
-- When is it artefact, and when is it signal?
 - The aspect that has most interested people less familiar with mass spectrometery that I've spoken to about this project has been sense of scale.
 What is big picture? what is detail?
 - Why did I change to writing the essay on github? Version control?
-- How much should the sounds in discrete sections be isolated from eachother?
+- How much should the sounds in discrete sections be isolated from each other?
 Should they be kept pure?
 Should they mingle together into a larger piece?
+- Art and science have traditionally been seen as separate. (See NEB reference)
+However, this distinction is not naturally occurring.
+Young children do not see this difference, indeed it is only while progressing through school and university that areas of interest must be progressively narrowed.
+This is one of the things I value most from my Steiner education, holding art alongside science.
+Both are methods to explore and understand the world around us.
 
 ## Acknowledgements
 - Margie
@@ -180,6 +196,7 @@ Should they mingle together into a larger piece?
 1.	Gulland A. The neuroscientist formerly known as Prince's audio engineer. Nature [Internet]. 2024 Mar 14 [cited 2024 Mar 19]; Available from: https://www.nature.com/articles/d41586-024-00791-5
 2. https://mlaetsc.hcommons.org/2023/01/18/data-sonification-for-beginners/
 3. 10.21785/icad2023.4039
+4. Gibson, J. (2020, October 21). Bacterial Art - incubating creativity in the lab | NEB. NEBinspired Blog. https://www.neb.com/en-nz/nebinspired-blog/bacterial-art---incubating-creativity-in-the-lab
 
 ## Notes
 - What is the more universal message I'm trying to communicate with this work?

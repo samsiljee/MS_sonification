@@ -21,9 +21,11 @@ With this award, we recognize the creativity of our customers with the new, unpr
 
 Winners will be chosen by an impartial committee comprised of NEB and its subsidiary companies’ employees, providing equal weight of 33.33% to each of the following criteria:
 
-    Impact – Why is your project important to you and others? How does it contribute to making a difference in the world? Who or what will benefit from your project?
-    Initiative – Why did you decide to take this project on? What drives you to succeed?
-    Originality – Why is your project different or unique? How is this project different from other similar efforts?
+Impact – Why is your project important to you and others? How does it contribute to making a difference in the world? Who or what will benefit from your project?
+
+Initiative – Why did you decide to take this project on? What drives you to succeed?
+
+Originality – Why is your project different or unique? How is this project different from other similar efforts?
 	
 # Competition entry:
 Arts and Creativity Application
@@ -36,8 +38,8 @@ Arts and Creativity Application
 ### Please provide a high-level sentence description of your project.
 (200 characters)
 
-### Please upload an image that represents your project. The image does not have to be a photo, it can be a stock image or vector art that relates to your project. Square dimensions and a minimum resolution of 72dpi are preferred but not required.
-pdf,jpg,jpeg
+### Please upload an image that represents your project.
+The image does not have to be a photo, it can be a stock image or vector art that relates to your project. Square dimensions and a minimum resolution of 72dpi are preferred but not required.
 
 ### Please provide a more detailed overview of your project.
 (900 characters)
@@ -69,16 +71,15 @@ pdf,jpg,jpeg
 ### How is this project different from other similar efforts, if any?
 (900 characters)
 
-### Optional: Please add any relevant images that would help us understand your project better. These should be combined into one file.
+### Optional: Please add any relevant images that would help us understand your project better.
+These should be combined into one file.
 pdf,jpg,jpeg
 
-### Optional: Upload a video of your project below. You can choose to upload your video file or to place your file on YouTube and provide a link. If uploading a file, please follow the below instructions.
+### Optional: Upload a video of your project below.
+You can choose to upload your video file or to place your file on YouTube and provide a link. 
 Videos must be two minutes or less.
 
-### Optional: Link to your YouTube video
-​
 ## Reference
 This section will not be visible to judges or voters.
 
 ### Please provide a reference name to verify your work.
-​

@@ -49,18 +49,27 @@ The image does not have to be a photo, it can be a stock image or vector art tha
 ## Impact
 
 ### Why is your project important to you and to others? What is its significance?
-(900 characters)
+(762/900 characters)
+
+In the world of science where increasingly more intellectual work is outsourced to AI, I find it important to connect fundamentally with the raw data.
+Abstraction from the bulk of large scientific datasets is unfortunately a practical reality given the scale of modern mass spectrometry experiments, however this project helps to bring raw data back into human-interpretable form whilst honoring the underlying data.
+As I notice my life getting increasingly more complex, in parallel with the increasing complexity of the datasets I work with, I find it very refreshing to take a step back and approach my work differently once in a while. I find the soundscape unusually pleasant to listen to, and regularly have it playing in the background while I do my work.
 
 ### Who or what benefits from your project?
 (900 characters)
 
 ### Will you continue this project in the future and if so, what are the next steps?
-(900 characters)
+(300/900 characters)
+
+This project has certainly captured my imagination. I am currently making connections to develop this as a performance and/or interactive installation to bring this experience to a wider audience. Development involves securing funding to bring a complementary visual and physical element to the work.
 
 ## Initiative
 
 ### Why did you decide to take this project on?
-(900 characters)
+(244/900 characters)
+
+As the first scientist in an artistic family, the intersection fo art and science has always been dear to me.
+I also hold the philosophy that science and art naturally align, as both are methodologies to explore and explain the world around us.
 
 ### What drives you to succeed?
 (900 characters)
@@ -72,6 +81,8 @@ The image does not have to be a photo, it can be a stock image or vector art tha
 
 ### How is this project different from other similar efforts, if any?
 (900 characters)
+
+Data sonification is not new, but the use of sonification for proteomics data is novel. In addition, 
 
 ### Optional: Please add any relevant images that would help us understand your project better.
 These should be combined into one file.

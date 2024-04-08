@@ -37,8 +37,8 @@ Arts and Creativity Application
 The Sound of Science
 
 ### Please provide a high-level sentence description of your project.
-(139/200 characters)
-Large scientific datasets are commonly parsed using statistics and graphics, this project seeks to explore proteomics data as a soundscape.
+(131/200 characters)
+Large scientific datasets are commonly parsed using statistics and graphics, this project explores proteomics data as a soundscape.
 
 ### Please upload an image that represents your project.
 The image does not have to be a photo, it can be a stock image or vector art that relates to your project. Square dimensions and a minimum resolution of 72dpi are preferred but not required.

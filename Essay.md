@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Mass spectrometry sonification
 ### Sam Siljee - 18th March 2024
 I wanted to represent the data in a non-visual format.

@@ -2,6 +2,7 @@
 *.wav
 *.mzML
 waveforms/*
+Control_Day7_waveforms/*
 plots/*
 
 # Project files

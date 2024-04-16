@@ -36,7 +36,7 @@ Out of the signal intensity received, how much carries "useful" information as o
 This is analogous to how turning up the volume on the stereo can increase the signal, but not improve the audio quality or improve the signal to noise ratio.
 One of the questions I often run into when explaining my work to non-scientists is why I discredit certain observations as "artefact".
 In my familiarity with techniques, I have developed the skills to recognise the difference between meaningful signal, and meaningless blotches on the microscope slide, or 'random' peaks in data.
-To me, I discard these observations without a second thought, but to someone observing without the same pattern recognition as myself, it seems like arbitray dismissal of valid data.
+To me, I discard these observations without a second thought, but to someone observing without the same pattern recognition as myself, it seems like arbitrary dismissal of valid data.
 Depending on the technique, making the call between artefact and signal can be straight forward, however I have run into a problem with this sonification project.
 A particular issue is the click heard at the start of every clip.
 The origin of this click is an artefact of the process of creating the tones, all of the sine waves initially start synchronised, before moving out-of-phase.
@@ -44,7 +44,7 @@ This very brief period where all the waves are synchronised manifests as a high 
 The problem with this, is that in the volume normalisation process, this high-amplitude lead-in compresses the rest of the waveform, loosing volume.
 On further reflection however, this click may serve a purpose.
 In the MS1 channel it helps to give a sense of rhythm to the piece.
-In the MS2 channel it gives a "gramaphone record" crackle, which is artificially added to give texture in certain electronic music genres.
+In the MS2 channel it gives a "gramophone record" crackle, which is artificially added to give texture in certain electronic music genres.
 
 ## Process of interpretation
 13th of March - In discussion, I came to realise that this process represents an interpretation of my data.
@@ -192,6 +192,7 @@ Both are methods to explore and understand the world around us.
 ## Acknowledgements
 - Margie
 - Matthijs
+- Julia
 - Charlie
 - Sanne
 - Hanne

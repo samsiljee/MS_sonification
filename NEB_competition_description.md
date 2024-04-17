@@ -33,11 +33,11 @@ Arts and Creativity Application
 ## Project Overview
 
 ### Entry Title
-(20/40 characters)
+(40 characters)
 The Sound of Science
 
 ### Please provide a high-level sentence description of your project.
-(131/200 characters)
+(200 characters)
 Large scientific datasets are commonly parsed using statistics and graphics, this project explores proteomics data as a soundscape.
 
 ### Please upload an image that represents your project.
@@ -49,7 +49,7 @@ The image does not have to be a photo, it can be a stock image or vector art tha
 ## Impact
 
 ### Why is your project important to you and to others? What is its significance?
-(762/900 characters)
+(900 characters)
 
 In the world of science where increasingly more intellectual work is outsourced to AI, I find it important to connect fundamentally with the raw data.
 Abstraction from the bulk of large scientific datasets is unfortunately a practical reality given the scale of modern mass spectrometry experiments, however this project helps to bring raw data back into human-interpretable form whilst honoring the underlying data.
@@ -58,31 +58,61 @@ As I notice my life getting increasingly more complex, in parallel with the incr
 ### Who or what benefits from your project?
 (900 characters)
 
-### Will you continue this project in the future and if so, what are the next steps?
-(300/900 characters)
+Firstly, there is a significant disadvantage to vision-impaired scientist in engaging with the predominantly visual data presentation in science.
+This project allows them to engage with the raw data in a meaningful way.
+Secondly, in my experiences of teaching I have often found that every individual has a different approach and understanding of the concepts I'm presenting.
+The art of teaching involves finding the right analogy to present these concepts.
+Mass spectrometry is a complex technique to understand, and the audio in this project clearly presents several important concepts in mass spectrometery in a dramatically different way to ordinary text.
+The soundscape allows us to experience the clear differentiation between the MS1 and MS2 spectra, issues with dynamic range, noise and artifact, peak width of the peptides as they elute from the liquid chromatography, cycle-time, and acquisition methods.
+This will be a very useful resource for people wanting to learn the fundamental principles of mass spectrometry.
 
-This project has certainly captured my imagination. I am currently making connections to develop this as a performance and/or interactive installation to bring this experience to a wider audience. Development involves securing funding to bring a complementary visual and physical element to the work.
+### Will you continue this project in the future and if so, what are the next steps?
+(900 characters)
+
+This project has certainly captured my imagination.
+I am currently making connections to develop this as a performance and/or interactive installation to bring this experience to a wider audience.
+Development involves securing funding to bring a complementary visual and physical element to the work.
+I also wish to include this work in my PhD thesis, and disseminate it further in the scientific field through publication.
+It is also important to me that all of my code for this project is open-source, allowing others to audibly experience their own raw data.
 
 ## Initiative
 
 ### Why did you decide to take this project on?
-(244/900 characters)
+(900 characters)
 
 As the first scientist in an artistic family, the intersection fo art and science has always been dear to me.
 I also hold the philosophy that science and art naturally align, as both are methodologies to explore and explain the world around us.
+At this point in my PhD journey I am grappling with the analysis of my pilot proteomics data, and finding that there is a lot to discover.
+This project has really helped me understand my raw data at a much deeper level, which in turn helps me to troubleshoot and teach others.
+I have always been the sort of person who really wants to understand exactly what adn how things happen.
+In addition, I beleive that the structure and dimension of mass spectrometry data is particularly well suited to sonification.
 
 ### What drives you to succeed?
 (900 characters)
+
+Working as a clinician I saw the devastating effects of cancer and limitations of currently available treatment options first-hand.
+This prompted me to pursue full-time basic science research in order to develop more effective, equitable, and accessible treatment options for cancer through drug repurposing.
+I found myself becoming deeply fascinated by mass spectrometry, and want to take every possible opportunity to share this joy with others.
+While it's easy to discuss my work with scientists, my non-science friends and family find it a lot easier to engaging with something tangible to experience.
+These soundscapes provide exactly that in a more accessible manner.
 
 ## Originality
 
 ### Why is your project different or unique?
 (900 characters)
 
+The default method for analysing mass spectrometry data is through statistical summarisation and graphical visualisation.
+This project approaches the data in a radically new way, engaging new senses, and challenging the way we deal with mass spectrometry data.
+While it won't surpass traditional methods to analyse the data for biological insights, it has useful application in quality control of raw data.
+More importantly, it is a step towards briding the gap between art and science.
+
 ### How is this project different from other similar efforts, if any?
 (900 characters)
 
-Data sonification is not new, but the use of sonification for proteomics data is novel. In addition, 
+Although data sonification is rarely done, it is not new. However the use of sonification for proteomics data is novel. In addition, the method by which I achieve the sonifcation is also significantly different.
+Other sonification projects commonly use a sequence of numbers to modulate pitch or other parameters in audio synthesis software, often rendered as sounds such a simple piano note.
+I feel like this doesn't fairly honor the underlying nature of the data.
+This project makes use of the Fourier theorem to produce complex waveforms and hence tones which are fundamentally characteristic of the spectra used to generate them.
 
 ### Optional: Please add any relevant images that would help us understand your project better.
 These should be combined into one file.

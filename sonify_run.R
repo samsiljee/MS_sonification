@@ -3,6 +3,10 @@
 # 9 March 2024
 # MIT licence
 
+# Directories
+directory <- "C:/Users/sam.siljee/OneDrive - GMRI/Documents/Coding/MS_sonification"
+setwd(directory)
+
 # Libraries
 library(tuneR)
 library(mzR)
@@ -24,7 +28,7 @@ ms_header <- header(ms_data)
 ms1_indexes <- filter(ms_header, msLevel == 1) %>% .$seqNum
 ms2_indexes <- filter(ms_header, msLevel == 2) %>% .$seqNum
 
-# Synthesise waveforms, and write to .txt (so big runs can be interupted)
+# Synthesise waveforms, and write to .txt (so big runs can be interrupted)
 for (i in ms_header$seqNum) {
   write(
 spectrum_to_waveform(ms_peaks[[i]], duration = duration, sampling_rate = sample_rate),
@@ -61,6 +65,13 @@ for (i in ms1_indexes) {
 # Normalise the waveform
 ms1_waveform <- (ms1_waveform / max(abs(ms1_waveform))) * 32000
 
+# Write the MS1 compiled waveform to disk
+write(
+  ms1_waveform,
+  ncolumns = 1,
+  file = paste0("Control_Day7_waveforms/ms1_compiled_waveforms_", i, ".txt")
+)
+
 # Repeat for MS2 scans
 # Initialise blank waveform
 ms2_waveform <- rep(0, total_time + duration * sample_rate)
@@ -83,6 +94,13 @@ for (i in ms2_indexes) {
 
 # Normalise the waveform
 ms2_waveform <- (ms2_waveform / max(abs(ms2_waveform))) * 32000
+
+# Write the MS2 compiled waveform to disk
+write(
+  ms2_waveform,
+  ncolumns = 1,
+  file = paste0("Control_Day7_waveforms/ms2_compiled_waveforms_", i, ".txt")
+)
 
 # Create stereo wav object
 stereo_wave_obj <- Wave(

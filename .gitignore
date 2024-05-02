@@ -4,6 +4,7 @@
 waveforms/*
 Control_Day7_waveforms/*
 plots/*
+*desktop.ini
 
 # Project files
 MS_sonification.Rproj

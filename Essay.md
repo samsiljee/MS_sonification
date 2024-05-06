@@ -24,6 +24,23 @@ Tones are clipped to a default 1 second.
 There is an interesting symmetry in that one of the detectors used in the mass spectrometer for some acquisition methods, the orbitrap, does essentially the opposite process.
 The orbitrap takes a set of spinning ions in a magnetic field and detects a complex waveform from which the Fourier transformation is used to resolve groups of ions with very high resolution.
 
+### Tone synthesis variations
+Four things to play with with tone generation; 
+1. Filtering out low intensity peaks
+2. Scaling linearly (especially useful if the m/z values fall outside of the audible range).
+Human hearing generally falls between 100Hz and 15kHz.
+3. Log transformation of the m/z scale (human hearing over pitch is logarithmic, not linear)
+4. Revese m/z values - this is intuitive as this gives heavier ions a lower pitch.
+
+An observation I've made is that when setting the linear scaling values high, beyond human hearing, you can stil generate audible sound.
+Interestingly this sound stays audible and similar as you increase the scale values higher and higher.
+Note that this is only the case if the ratio of scaling minimum and maximum values stay consistant.
+This indicates the the sound that we are hearing is an emergent interference pattern, rather than the sine waves themselves.
+In science, an observation that stays consistant even under changing conditions is deemed to reflect an underlying truth.
+Does this mean that the audible interference patterns are what the data really, truely sounds like?
+Does this have implications for conventional mass-spectrometry data analysis?
+I suppose it's already in use, as at least in proteomics MS2 order scans we look at the intervals between peaks more-so than absolute m/z values.
+
 ## Piece synthesis
 The first test data, "1e6_phospho_converted.mzML" is from a test of sample extraction, phosphopeptide enrichment, and methods of running the mass spectrometer in July 2022.
 The orbitrap was used for acquiring this data, resulting in fewer total spectra, but higher-quality with higher accuracy and resolution. 

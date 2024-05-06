@@ -80,3 +80,60 @@ plot_spectrum <- function(spectrum) {
   # Return plot
   return(plot)
 }
+
+# Function to convert a spectrum into a tone, with extra options
+# Input: A table input of two columns, one column (m/z of the peak) determines the frequency of the sinewave, the second (intensity) determines the relative amplitude of that peak in the polyphonic signal
+# Output: An audio object of one second duration
+# This function requires the "tuneR" and "dplyr" packages
+
+# Generate the function to test different options
+advanced_spectrum_to_tone <- function(
+    spectrum,
+    duration = 1,
+    sampling_rate = 44100,
+    filter_mz = FALSE,
+    filter_threshold = 0.5,
+    scale = FALSE,
+    scale_min = 100,
+    scale_max = 15000,
+    log_transform = FALSE,
+    reverse_mz = FALSE) {
+  # Filter out peaks of 0 intensity
+  dat <- as.data.frame(spectrum) %>%
+    filter(intensity > 0)
+
+  # Filter more peaks if selected
+  if (filter_mz) {
+    # Arrange the data
+    dat <- arrange(dat, by = desc(mz))
+    # Take the top X peaks
+    dat <- dat[1:round(nrow(dat) * filter_threshold), ]
+  }
+
+  # Log2 transform if selected
+  if (log_transform) {
+    dat$mz <- log2(dat$mz)
+  }
+
+  # Scale m/z if selected
+  if (scale) {
+    dat$mz <- (dat$mz - min(dat$mz)) / max(dat$mz - min(dat$mz)) * (scale_max - scale_min) + scale_min
+  }
+
+  # Reverse mz values if selected
+  if (reverse_mz) {
+    dat$mz <- ((dat$mz - mean(c(max(dat$mz), min(dat$mz)))) * -1) + mean(c(max(dat$mz), min(dat$mz)))
+  }
+
+  # Create time sequence
+  time_seq <- seq(0, duration * 2 * pi, length = duration * sampling_rate)
+
+  # Create and add a sine wave for every peak
+  sound_signal <- (sin(outer(time_seq, dat$mz, "*")) %*% dat$intensity)
+
+  # Normalize the sound signal and return as numeric vector
+  sound_signal <- round((sound_signal / max(abs(sound_signal))) * 32000)
+
+  # Return audio object
+  return(Wave(round(sound_signal), samp.rate = 44100, bit = 16))
+}

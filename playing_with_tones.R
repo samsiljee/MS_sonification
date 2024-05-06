@@ -8,45 +8,12 @@ library(tuneR)
 library(mzR)
 library(dplyr)
 
+# Source functions
+source("functions.R")
+
 # Load test spectra
 spectrum_1 <- read.csv("test_spectra/spectrum_1.csv", header = TRUE)
 spectrum_2 <- read.csv("test_spectra/spectrum_2.csv", header = TRUE)
-
-# Generate the function to test different options
-advanced_spectrum_to_tone <- function(
-    spectrum,
-    duration = 1,
-    sampling_rate = 44100,
-    scale_min = 100,
-    scale_max = 15000,
-    scale = FALSE,
-    log_transform = FALSE) {
-  # Filter out peaks of 0 intensity
-  dat <- as.data.frame(spectrum) %>%
-    filter(intensity > 0)
-
-  # Log2 transform if selected
-  if (log_transform) {
-    dat$mz <- log2(dat$mz)
-  }
-  
-  # Scale m/z if selected
-  if (scale) {
-    dat$mz <- (dat$mz - min(dat$mz)) / max(dat$mz - min(dat$mz)) * (scale_max - scale_min) + scale_min
-  }
-
-  # Create time sequence
-  time_seq <- seq(0, duration * 2 * pi, length = duration * sampling_rate)
-
-  # Create and add a sine wave for every peak
-  sound_signal <- (sin(outer(time_seq, dat$mz, "*")) %*% dat$intensity)
-
-  # Normalize the sound signal and return as numeric vector
-  sound_signal <- round((sound_signal / max(abs(sound_signal))) * 32000)
-
-  # Return audio object
-  return(Wave(round(sound_signal), samp.rate = 44100, bit = 16))
-}
 
 # Testing out different options
 # Basic tone
@@ -64,7 +31,7 @@ scaled_tone_1 <- advanced_spectrum_to_tone(
 writeWave(scaled_tone_1, file = "Produced clips/scaled_tone_1.wav")
 
 # Log2 transform (with scale, till I sort that out again)
-log_transform_tone_1 <- advanced_spectrum_to_tone(
+log_transformed_tone_1 <- advanced_spectrum_to_tone(
   spectrum_1,
   duration = 2,
   scale = TRUE,
@@ -72,4 +39,23 @@ log_transform_tone_1 <- advanced_spectrum_to_tone(
   scale_max = 1336.602,
   log_transform = TRUE
 )
-writeWave(not_scaled_tone_1, file = "Produced clips/not_scaled_tone_1.wav")
+writeWave(log_transformed_tone_1, file = "Produced clips/log_transformed_tone_1.wav")
+
+# Filter
+for (i in seq(0.1, 0.9, by = 0.1)) {
+  filtered_tone_1 <- advanced_spectrum_to_tone(
+    spectrum_1,
+    duration = 2,
+    filter_mz = TRUE,
+    filter_thershold = i
+  )
+  writeWave(filtered_tone_1, file = paste0("Produced clips/", i, "_filtered_tone_1.wav"))
+}
+
+# Reverse m/z values
+reversed_tone_1 <- advanced_spectrum_to_tone(
+  spectrum_1,
+  duration = 2,
+  reverse_mz = TRUE
+)
+writeWave(reversed_tone_1, file = "Produced clips/reversed_tone_1.wav")

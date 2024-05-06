@@ -41,7 +41,7 @@ ui <- fluidPage(
   checkboxInput("log_transform", "Log transform", value = FALSE),
   checkboxInput("reverse_mz", "Reverse m/z values"),
   actionButton("tonify", "Tonify!"),
-  actionButton("write_wav", "Write to disk"),
+  downloadButton("download_wav", "Download .wav file"),
   verbatimTextOutput("test")
 )
 
@@ -68,10 +68,15 @@ server <- function(input, output) {
     )
   })
   
-  # Write the tone to disk. This will be replaced by a download button
-  observeEvent(input$write_wav, {
-    writeWave(tone(), file = "shiny_tone.wav")
-  })
+  # Download as a .wav file
+  output$download_wav <- downloadHandler(
+    filename = function() {
+      paste("tone_", Sys.Date(), ".wav", sep = "")
+    },
+    content = function(file) {
+      writeWave(tone(), file = file)
+    }
+  )
 }
 
 # Run the application

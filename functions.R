@@ -112,7 +112,15 @@ advanced_spectrum_to_tone <- function(
 
   # Log2 transform if selected
   if (log_transform) {
+    # Save old m/z values for re-scaling if needed
+    old_min <- min(dat$mz)
+    old_max <- max(dat$mz)
+    # Log transform
     dat$mz <- log2(dat$mz)
+    # Re-scale if not scaling separately
+    if(!scale) {
+      dat$mz <- (dat$mz - min(dat$mz)) / max(dat$mz - min(dat$mz)) * (old_max - old_min) + old_min
+    }
   }
 
   # Scale m/z if selected

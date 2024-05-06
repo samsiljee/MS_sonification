@@ -197,6 +197,7 @@ Both are methods to explore and understand the world around us.
 - Sanne
 - Hanne
 - Clara
+- Neil
 
 ## References and resources
 1.	Gulland A. The neuroscientist formerly known as Prince's audio engineer. Nature [Internet]. 2024 Mar 14 [cited 2024 Mar 19]; Available from: https://www.nature.com/articles/d41586-024-00791-5

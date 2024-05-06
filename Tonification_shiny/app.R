@@ -12,10 +12,34 @@ source("../functions.R", local = TRUE)
 
 # Define UI
 ui <- fluidPage(
-  fileInput("spectrum", "Specrtum upload",
+  fileInput("spectrum", "Spectrum upload",
     buttonLabel = "Browse",
     placeholder = "Upload spectrum file"
   ),
+  numericInput("duration", "Clip length (s)", value = 2),
+  numericInput("sampling_rate", "Sampling rate", value = 44100),
+  checkboxInput("filter_mz", "Filter peaks", value = FALSE),
+  conditionalPanel(
+    condition = "input.filter_mz == true",
+    numericInput(
+      "filter_threshold",
+      "Peak threshold (top proprotion)",
+      value = 0.5,
+      min = 0,
+      max = 1)),
+  checkboxInput("scale", "Scale (linear)"),
+  conditionalPanel(
+    condition = "input.scale == true",
+    numericInput(
+      "scale_min",
+      "Lower value",
+      value = 100),
+    numericInput(
+      "scale_max",
+      "Upper value",
+      value = 15000)),
+  checkboxInput("log_transform", "Log transform", value = FALSE),
+  checkboxInput("reverse_mz", "Reverse m/z values"),
   actionButton("tonify", "Tonify!"),
   actionButton("write_wav", "Write to disk"),
   verbatimTextOutput("test")

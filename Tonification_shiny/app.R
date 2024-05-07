@@ -70,6 +70,11 @@ advanced_spectrum_to_tone <- function(
 
 # Define UI
 ui <- fluidPage(
+  h1("Sam's tone generator"),
+  br(),
+  "Sorry this website is still bare-bones. In order to use it, upload your spectrum as a .csv file. It needs exactly two numeric columns named precisely \"mz\" and \"intensity\".",
+  br(),
+  "Next click \"Generate tone!\" before clicking the download button. It may take a while to compute, especially for long clips or spectra with many peaks.",
   fileInput("spectrum", "Spectrum upload",
     buttonLabel = "Browse",
     placeholder = "Upload spectrum file"

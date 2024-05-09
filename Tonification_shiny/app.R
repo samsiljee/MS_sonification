@@ -8,52 +8,32 @@ library(tuneR)
 library(dplyr)
 
 # Define functions
-# Generate the function to test different options
-advanced_spectrum_to_tone <- function(
-    spectrum,
-    duration = 1,
-    sampling_rate = 44100,
-    filter_mz = FALSE,
-    filter_threshold = 0.5,
-    scale = FALSE,
-    scale_min = 100,
-    scale_max = 15000,
-    log_transform = FALSE,
-    reverse_mz = FALSE) {
+# Function to convert a spectrum into a tone
+# Input: A table input of two columns, one column (m/z of the peak) determines the frequency of the sinewave, the second (intensity) determines the relative amplitude of that peak in the polyphonic signal
+# Output: An audio object of one second duration
+# This function requires the "tuneR" and "dplyr" packages
+
+tonify_spectrum <- function(spectrum, duration = 1, sampling_rate = 44100) {
+  # Call the spectrum_to_waveform function
+  sound_signal <- spectrum_to_waveform(spectrum = spectrum, duration = duration, sampling_rate = sampling_rate)
+  
+  # Create an audio object
+  return(Wave(round(sound_signal), samp.rate = 44100, bit = 16))
+}
+
+
+# Function to take a spectrum and return a waveform as a numeric vector
+# Input: A table input of two columns, one column (m/z of the peak) determines the frequency of the sinewave, the second (intensity) determines the relative amplitude of that peak in the polyphonic signal
+# Output: An audio object of one second duration
+# This function requires the "tuneR" and "dplyr" packages
+
+spectrum_to_waveform <- function(spectrum, duration = 1, sampling_rate = 44100) {
+  # Start time for optimisation
+  # start_time <- Sys.time()
+  
   # Filter out peaks of 0 intensity
   dat <- as.data.frame(spectrum) %>%
     filter(intensity > 0)
-  
-  # Filter more peaks if selected
-  if (filter_mz) {
-    # Arrange the data
-    dat <- arrange(dat, by = desc(mz))
-    # Take the top X peaks
-    dat <- dat[1:round(nrow(dat) * filter_threshold), ]
-  }
-  
-  # Log2 transform if selected
-  if (log_transform) {
-    # Save old m/z values for re-scaling if needed
-    old_min <- min(dat$mz)
-    old_max <- max(dat$mz)
-    # Log transform
-    dat$mz <- log2(dat$mz)
-    # Re-scale if not scaling separately
-    if(!scale) {
-      dat$mz <- (dat$mz - min(dat$mz)) / max(dat$mz - min(dat$mz)) * (old_max - old_min) + old_min
-    }
-  }
-  
-  # Scale m/z if selected
-  if (scale) {
-    dat$mz <- (dat$mz - min(dat$mz)) / max(dat$mz - min(dat$mz)) * (scale_max - scale_min) + scale_min
-  }
-  
-  # Reverse mz values if selected
-  if (reverse_mz) {
-    dat$mz <- ((dat$mz - mean(c(max(dat$mz), min(dat$mz)))) * -1) + mean(c(max(dat$mz), min(dat$mz)))
-  }
   
   # Create time sequence
   time_seq <- seq(0, duration * 2 * pi, length = duration * sampling_rate)
@@ -61,11 +41,12 @@ advanced_spectrum_to_tone <- function(
   # Create and add a sine wave for every peak
   sound_signal <- (sin(outer(time_seq, dat$mz, "*")) %*% dat$intensity)
   
-  # Normalize the sound signal and return as numeric vector
-  sound_signal <- round((sound_signal / max(abs(sound_signal))) * 32000)
+  # Normalize the sound signal
+  sound_signal <- (sound_signal / max(abs(sound_signal))) * 32000
   
-  # Return audio object
-  return(Wave(round(sound_signal), samp.rate = 44100, bit = 16))
+  # Return the waveform as a numeric vector
+  return(round(sound_signal))
+  # return(Sys.time() - start_time)
 }
 
 # Define UI
@@ -74,7 +55,9 @@ ui <- fluidPage(
   br(),
   "Sorry this website is still bare-bones. In order to use it, upload your spectrum as a .csv file. It needs exactly two numeric columns named precisely \"mz\" and \"intensity\".",
   br(),
-  "Next click \"Generate tone!\" before clicking the download button. It may take a while to compute, especially for long clips or spectra with many peaks.",
+  "Next make mdifications as desired before clicking the download button. It may take a while to compute, especially for long clips or spectra with many peaks.",
+  br(),
+  "You can also just use it to generate a tone from an uploaded spectrum without modification.",
   fileInput("spectrum", "Spectrum upload",
     buttonLabel = "Browse",
     placeholder = "Upload spectrum file"
@@ -103,32 +86,69 @@ ui <- fluidPage(
       value = 15000)),
   checkboxInput("log_transform", "Log transform", value = FALSE),
   checkboxInput("reverse_mz", "Reverse m/z values"),
-  actionButton("tonify", "Generate tone!"),
   downloadButton("download_wav", "Download .wav file"),
-  verbatimTextOutput("test")
+  h3("Original spectrum"),
+  br(),
+  plotOutput("original_spectrum"),
+  h3("Modified spectrum"),
+  br(),
+  plotOutput("modified_spectrum")
 )
 
 # Define server logic
 server <- function(input, output) {
+  
   # Get the spectrum input - supports .csv files with specific headers
   spectrum_input <- reactive({
-    read.table(input$spectrum$datapath, header = TRUE, sep = ",")
+      read.table(input$spectrum$datapath, header = TRUE, sep = ",") 
   })
   
-  # Run code to generate the tone
-  tone <- eventReactive(input$tonify, {
-    advanced_spectrum_to_tone(
-      spectrum = spectrum_input(),
+  # Modify the spectrum using input settings
+  modified_spectrum <- reactive({
+    # Load in data and filter out peaks of 0 intensity
+    dat <- as.data.frame(spectrum_input()) %>%
+      filter(intensity > 0)
+    
+    # Filter more peaks if selected
+    if (input$filter_mz) {
+      # Arrange the data
+      dat <- arrange(dat, by = desc(mz))
+      # Take the top X peaks
+      dat <- dat[1:round(nrow(dat) * input$filter_threshold), ]
+    }
+    
+    # Log2 transform if selected
+    if (input$log_transform) {
+      # Save old m/z values for re-scaling if needed
+      old_min <- min(dat$mz)
+      old_max <- max(dat$mz)
+      # Log transform
+      dat$mz <- log2(dat$mz)
+      # Re-scale if not scaling separately
+      if(!input$scale) {
+        dat$mz <- (dat$mz - min(dat$mz)) / max(dat$mz - min(dat$mz)) * (old_max - old_min) + old_min
+      }
+    }
+    
+    # Scale m/z if selected
+    if (input$scale) {
+      dat$mz <- (dat$mz - min(dat$mz)) / max(dat$mz - min(dat$mz)) * (input$scale_max - input$scale_min) + input$scale_min
+    }
+    
+    # Reverse mz values if selected
+    if (input$reverse_mz) {
+      dat$mz <- ((dat$mz - mean(c(max(dat$mz), min(dat$mz)))) * -1) + mean(c(max(dat$mz), min(dat$mz)))
+    }
+    
+    return(dat)
+  })
+  
+  # Generate the tone from the modified spectrum
+  tone <- reactive({
+    tonify_spectrum(
+      spectrum = modified_spectrum(),
       duration = input$duration,
-      sampling_rate = input$sampling_rate,
-      filter_mz = input$filter_mz,
-      filter_threshold = input$filter_threshold,
-      scale = input$scale,
-      scale_min = input$scale_min,
-      scale_max = input$scale_max,
-      log_transform = input$log_transform,
-      reverse_mz = input$reverse_mz
-    )
+      sampling_rate = input$sampling_rate)
   })
   
   # Download as a .wav file
@@ -140,6 +160,19 @@ server <- function(input, output) {
       writeWave(tone(), file = file)
     }
   )
+  
+  # Create some plots of the spectra
+  output$original_spectrum <- renderPlot({
+    if(!is.null(input$spectrum$datapath)){
+      spectrum_input() %>% ggplot(aes(x = mz, y = intensity)) + geom_col(width = 0.5, col = "black") + theme_bw()
+    }
+  })
+  
+  output$modified_spectrum <- renderPlot({
+    if(!is.null(input$spectrum$datapath)){
+      modified_spectrum() %>% ggplot(aes(x = mz, y = intensity)) + geom_col(width = 0.5, col = "black") + theme_bw()
+    }
+    })
 }
 
 # Run the application

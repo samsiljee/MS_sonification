@@ -6,6 +6,7 @@
 library(shiny)
 library(tuneR)
 library(dplyr)
+library(ggplot2)
 
 # Define functions
 # Function to convert a spectrum into a tone

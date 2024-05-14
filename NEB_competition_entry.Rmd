@@ -1,0 +1,51 @@
+---
+title: "NEB competition code"
+author: "Sam Siljee"
+date: "2024-05-14"
+output: html_document
+---
+
+## NEB competiton code
+
+This R markdown document contains the code to produce the 2 minute video clip used for the NEB passion in science competition entry.
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Libraries
+library(tuneR)
+library(mzR)
+library(dplyr)
+library(ggplot2)
+
+# Source functions
+source("functions.R")
+```
+
+## Subset data
+First I need to trim out the 2 minutes of interest from the whole 90 minute test run. The time limit on the submitted video is two minutes, and it will significantly speed up computation.
+
+```{r Subset data, inclue = FALSE}
+
+```
+
+## Load data
+After the data has been subset and saved as an RDS file, it can be loaded more quickly for future work.
+
+```{r Load data, include = FALSE}
+
+```
+
+## Generate the waveforms
+Next the waveforms should be generate for each spectrum, and saved as .txt files.
+
+```{r Generate waveforms, include = FALSE}
+
+```
+
+## Generate soundscape
+Once the waveforms have been saved, they can be added together to form the soundscape.
+
+```{r Generate soundscape, include = FALSE}
+
+```

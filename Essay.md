@@ -61,7 +61,7 @@ This very brief period where all the waves are synchronised manifests as a high 
 The problem with this, is that in the volume normalisation process, this high-amplitude lead-in compresses the rest of the waveform, loosing volume.
 On further reflection however, this click may serve a purpose.
 In the MS1 channel it helps to give a sense of rhythm to the piece.
-In the MS2 channel it gives a "gramophone record" crackle, which is artificially added to give texture in certain electronic music genres.
+In the MS2 channel it gives a "gramophone record" crackle, which is artificially added to give texture in certain electronic music genres, although this is generally not to my liking.
 
 ## Process of interpretation
 13th of March - In discussion, I came to realise that this process represents an interpretation of my data.
@@ -73,6 +73,15 @@ Firstly the spectra are matched to protein fragments (peptides) from a reference
 These matched spectra are summarised to those that match the same peptides (protein fragments), these are then further summarised into peptides from the same proteins.
 Further interpretation is all about providing context, where samples from different groups are contrasted to look at relative differences.
 These proteins which are identified to be different are then referenced against known biological pathways to get biological meaning.
+
+One lesson which has become apparent to me during my PhD study is that science can be limited by the tools available to us.
+A classic example is the thought that sequencing the human genome would unlock the mysteries of life, and cure all diseases.
+We now know better.
+Part of the challenge of this process has been when people ask me why I did this. The easy answer is that I did this for fun, which is true.
+However, when I first started on this project I felt an enormous drive to progress with this project.
+Perhaps what this project represents is an early attempt to push the boundaries of how we understand mass spectrometry data.
+Of course it's very difficult to extract any biologically useful information from the produced soundscapes, and therefore very challenging to demonstrate any practical usefulness of this project.
+The main exception to this is that with practice, the soundscapes could arguably be used for quality control of the raw data, and of course it opens the raw data up to visually impaired researchers.
 
 ## Challenges
 - Coding process
@@ -103,6 +112,26 @@ The diversity of the MS2 tones, tinkling away, is what differentiates the peptid
 Where the MS1 sounds are repeated as the same peptides are sampled over the course of the run, the MS2 sounds are not repeated - this is a feature of the acquisition method, the dynamic exclusion list, where peaks from the MS1 spectra are excluded from further MS2 analysis after the firs analysis.
 This is to free up time for other less intense peaks to be selected for analysis.
 In summary I suspect that the sounds heard reflect acquisition methods more so than biological features of the data.
+
+## Tonification web tool
+In discussion with Neil, we came up with a variety of data manipulations to explore the data further.
+Namely:
+1. Reverse the m/z values, currently heavier ions, counter-intuitively, give rise to higher-pitched frequencies
+2. Scale the values to the range heard by human hearing.
+Currently the m/z values are the same as the scan range set during in the mass spectrometer method, roughly 200 to 2000 m/z.
+These can be scaled from 100Hz to 15kHz for example.
+3. Log scale transformation of the m/z values.
+Human hearing is logarithmic, the data is collected on a linear scale.
+4. Filtering out the low intensity peaks.
+
+One solution in R to "trying lots of things out" is to develop an interactive Shiny application.
+Accessibility is also important to me, and most people I discuss this project with have no coding experience.
+They are missing out on the fun of playing around with the data and seeing what happens.
+A Shiny application can also be easily published as a website, allowing greater access to the process.
+One interesting discovery I made during this process, is that when the data is scaled well beyond the range of human hearing, there is still sigficant audio signal produced in the range of human hearing.
+I believe this to be due to the fact that there are so many peaks in my spectra, many of which have very similar m/z values, that interference patterns are a significant source of the produced audio.
+These interference patterns will of course persist even when the frequencies of the underlying sine waves are too high to be heard.
+This is one of the benefits of interactive coding!
 
 ## Visualisation
 I?ve had several people ask me about adding a visual component to the work.

@@ -250,6 +250,7 @@ Both are methods to explore and understand the world around us.
 2. https://mlaetsc.hcommons.org/2023/01/18/data-sonification-for-beginners/
 3. 10.21785/icad2023.4039
 4. Gibson, J. (2020, October 21). Bacterial Art - incubating creativity in the lab | NEB. NEBinspired Blog. https://www.neb.com/en-nz/nebinspired-blog/bacterial-art---incubating-creativity-in-the-lab
+5. https://koenderks.github.io/aRtsy/
 
 ## Notes
 - What is the more universal message I'm trying to communicate with this work?
@@ -263,3 +264,4 @@ These numbers are then used to build up a picture again. This is similar to the 
 Taking the understanding from a previous cycle forward into understanding a new cycle?
 - The tendency is to go into a science experiment rational - head first, then to come out experiential - with empirical evidence.
 The reducing entrance chambers to the installation could have no sound in them, with the sound only building up from the smallest of chambers.
+- I'm not the first to use R for art, art from various geneartive algorithms has been implemented in the aRtsy package.

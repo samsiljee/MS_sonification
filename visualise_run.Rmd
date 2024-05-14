@@ -1,0 +1,106 @@
+---
+title: "Untitled"
+author: "Sam Siljee"
+date: "2024-05-14"
+output: html_document
+---
+
+Markdown document for accompanying visualisation to sonification
+Sam Siljee
+19 March 2024
+MIT licence
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Libraries
+library(mzR)
+library(dplyr)
+library(ggplot2)
+
+# Source functions
+source("functions.R")
+```
+
+```{r load data, include = FALSE}
+# Load and extract data
+ms_data <- openMSfile("test.mzML")
+ms_peaks <- peaks(ms_data)
+ms_header <- header(ms_data)
+
+# Get list of MS1 and MS2 spectrum indexes and rows
+ms1_indexes <- filter(ms_header, msLevel == 1) %>% .$seqNum
+ms2_indexes <- filter(ms_header, msLevel == 2) %>% .$seqNum
+
+# Load the test spectra
+spectrum_1 <- read.csv("test_spectra/spectrum_1.csv", header = TRUE)
+spectrum_2 <- read.csv("test_spectra/spectrum_2.csv", header = TRUE)
+```
+
+```{r single plots}
+# Write the plots to the plot folder
+for (i in 1:10) {
+  ms_peaks[[i]] %>%
+    plot_spectrum()
+  ggsave(
+    filename = paste0("plots/plot_", i, ".png"),
+    width = 4000,
+    height = 4000,
+    units = "px",
+    dpi = 600
+  )
+  print(i)
+}
+```
+
+```{r double plot test}
+# Plot the spectrum sideways
+spectrum_1 %>%
+  ggplot(aes(x = mz, y = intensity)) +
+  geom_col(width = 0.5, col = "black", position = "jitter") +
+  coord_flip() +
+  theme_void()
+
+# And plot the other spectrum in reverse
+spectrum_2 %>%
+  ggplot(aes(x = mz, y = -intensity)) +
+  geom_col(width = 0.5, col = "black", position = "jitter") +
+  coord_flip() +
+  theme_void()
+
+# Plot the two together
+rbind(
+  spectrum_1 %>% mutate(type = "MS1", intensity = intensity/max(intensity)),
+  spectrum_2 %>% mutate(type = "MS2", intensity = intensity/max(intensity))
+) %>%
+  ggplot(
+    aes(
+      x = mz,
+      y = ifelse(type == "MS1", -intensity, intensity),
+      fill = type)) +
+  scale_color_manual(
+    values = c("black", "white"),
+    aesthetics = "fill") +
+  annotate(
+    geom = "rect", 
+    ymin = 0, 
+    ymax = Inf, 
+    xmin = -Inf, 
+    xmax = Inf, 
+    colour = NA, 
+    fill = "black") + 
+  geom_col(
+    width = 5,
+    position = "jitter", 
+    show.legend = FALSE) +
+  coord_flip() +
+  theme_void()
+```
+
+
+
+
+
+
+
+

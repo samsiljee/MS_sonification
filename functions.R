@@ -59,9 +59,9 @@ tonify_chromatogram <- function(TIC) {
 
 
 # Function to convert a spectrum into a plot
-# Input: a vector of TIC from a chromatogram
-# Output: An audio object of variable duration
-# This function requires the "tuneR" and "dplyr" packages
+# Input: One spectrum, with columns "mz" and "intensity"
+# Output: A plot object
+# This function requires the "dplyr" and "ggplot2" packages
 
 plot_spectrum <- function(spectrum) {
   # Filter out peaks of 0 intensity
@@ -118,7 +118,7 @@ advanced_spectrum_to_tone <- function(
     # Log transform
     dat$mz <- log2(dat$mz)
     # Re-scale if not scaling separately
-    if(!scale) {
+    if (!scale) {
       dat$mz <- (dat$mz - min(dat$mz)) / max(dat$mz - min(dat$mz)) * (old_max - old_min) + old_min
     }
   }
@@ -144,4 +144,45 @@ advanced_spectrum_to_tone <- function(
 
   # Return audio object
   return(Wave(round(sound_signal), samp.rate = 44100, bit = 16))
+}
+
+# Function to plot two spectra back-to-back for visualisation purposes
+# Input: Two spectra, with columns "mz" and "intensity"
+# Output: A plot object
+# This function requires the "dplyr" and "ggplot2" packages
+
+double_plot <- function(spectrum_1, spectrum_2) {
+  plot <- rbind(
+    spectrum_1 %>% mutate(type = "MS1", intensity = intensity / max(intensity)),
+    spectrum_2 %>% mutate(type = "MS2", intensity = intensity / max(intensity))
+  ) %>%
+    ggplot(
+      aes(
+        x = mz,
+        y = ifelse(type == "MS1", -intensity, intensity),
+        fill = type
+      )
+    ) +
+    scale_color_manual(
+      values = c("black", "white"),
+      aesthetics = "fill"
+    ) +
+    annotate(
+      geom = "rect",
+      ymin = 0,
+      ymax = Inf,
+      xmin = -Inf,
+      xmax = Inf,
+      colour = NA,
+      fill = "black"
+    ) +
+    geom_col(
+      width = 5,
+      position = "jitter",
+      show.legend = FALSE
+    ) +
+    coord_flip() +
+    theme_void()
+
+  return(plot)
 }

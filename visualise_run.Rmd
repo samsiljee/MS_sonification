@@ -79,7 +79,7 @@ rbind(
       y = ifelse(type == "MS1", -intensity, intensity),
       fill = type)) +
   scale_color_manual(
-    values = c("black", "white"),
+    values = c("darkblue", "white"),
     aesthetics = "fill") +
   annotate(
     geom = "rect", 
@@ -88,7 +88,7 @@ rbind(
     xmin = -Inf, 
     xmax = Inf, 
     colour = NA, 
-    fill = "black") + 
+    fill = "darkblue") + 
   geom_col(
     width = 5,
     position = "jitter", 

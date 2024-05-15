@@ -20,32 +20,137 @@ library(ggplot2)
 
 # Source functions
 source("functions.R")
+
+# Set some variables
+sample_rate <- 44100
+duration <- 1
+start_time <- 20
+end_time <- 21
 ```
 
-## Subset data
+## Load and process the data
 First I need to trim out the 2 minutes of interest from the whole 90 minute test run. The time limit on the submitted video is two minutes, and it will significantly speed up computation.
+Retention time of clip start:
 
-```{r Subset data, inclue = FALSE}
+```{r Load and process the data, inclue = FALSE}
+# Open test MS file
+ms_data <- openMSfile("test.mzML")
 
-```
+# Extract all the peaks
+ms_peaks <- peaks(ms_data)
 
-## Load data
-After the data has been subset and saved as an RDS file, it can be loaded more quickly for future work.
+# Extract corresponding header information
+ms_header <- header(ms_data) %>%
+  filter(retentionTime > start_time &
+    retentionTime < end_time)
 
-```{r Load data, include = FALSE}
-
+# Get list of MS1 and MS2 spectrum indexes, and filter for rention times in the 2 minute segment
+ms_1_indexes <- filter(ms_header, msLevel == 1) %>% .$seqNum
+ms_2_indexes <- filter(ms_header, msLevel == 2) %>% .$seqNum
 ```
 
 ## Generate the waveforms
 Next the waveforms should be generate for each spectrum, and saved as .txt files.
 
 ```{r Generate waveforms, include = FALSE}
-
+# Synthesise waveforms, and write to .txt (so big runs can be interrupted)
+for (i in ms_header$seqNum) {
+  write(
+    spectrum_to_waveform(ms_peaks[[i]], duration = duration, sampling_rate = sample_rate),
+    ncolumns = 1,
+    file = paste0("NEB_competition_waveforms/waveform_", i, ".txt")
+  )
+}
 ```
 
 ## Generate soundscape
 Once the waveforms have been saved, they can be added together to form the soundscape.
 
 ```{r Generate soundscape, include = FALSE}
+# Total time of the clip, at set sample rate
+max_RT <- max(ms_header$retentionTime)
+min_RT <- min(ms_header$retentionTime)
+total_time <- round(sample_rate * (max_RT - min_RT + 1))
+
+# Make a stereo compilation, Left channel for MS1 spectra, Right channel for MS2 spectra
+# Initialise blank waveform
+ms1_waveform <- rep(0, total_time + duration * sample_rate)
+
+# Read in the .txt files and add to the waveform
+for (i in ms_1_indexes) {
+  # Generate blank time before and after the waveform
+  RT_pre <- rep(0, round(sample_rate * (ms_header$retentionTime[ms_header$seqNum == i] - min_RT)))
+  RT_post <- rep(0, total_time - length(RT_pre))
+
+  # read in the waveform and account for intensity
+  waveform <- read.delim(paste0("NEB_competition_waveforms/waveform_", i, ".txt"), header = FALSE)[, 1] * ms_header$totIonCurrent[ms_header$seqNum == i]
+
+  # Add to the waveform with blank RT sound
+  ms1_waveform <- ms1_waveform + c(RT_pre, waveform, RT_post)
+
+  # Monitor progress
+  print(i)
+}
+
+# Normalise the waveform
+ms1_waveform <- (ms1_waveform / max(abs(ms1_waveform))) * 32000
+
+# Write the MS1 compiled waveform to disk
+write(
+  ms1_waveform,
+  ncolumns = 1,
+  file = "NEB_competition_waveforms/ms1_compiled_waveforms_.txt"
+)
+
+# Repeat for MS2 scans
+# Initialise blank waveform
+ms2_waveform <- rep(0, total_time + duration * sample_rate)
+
+# Read in the .txt files
+for (i in ms_2_indexes) {
+  # Generate blank time before and after the waveform
+  RT_pre <- rep(0, round(sample_rate * (ms_header$retentionTime[ms_header$seqNum == i] - min_RT)))
+  RT_post <- rep(0, total_time - length(RT_pre))
+
+  # read in the waveform and account for intensity
+  waveform <- read.delim(paste0("NEB_competition_waveforms/waveform_", i, ".txt"), header = FALSE)[, 1] * ms_header$totIonCurrent[ms_header$seqNum == i]
+
+  # Add to the waveform with blank RT sound
+  ms2_waveform <- ms2_waveform + c(RT_pre, waveform, RT_post)
+
+  # Monitor progress
+  print(i)
+}
+
+# Normalise the waveform
+ms2_waveform <- (ms2_waveform / max(abs(ms2_waveform))) * 32000
+
+# Write the MS2 compiled waveform to disk
+write(
+  ms2_waveform,
+  ncolumns = 1,
+  file = "NEB_competition_waveforms/ms2_compiled_waveforms_.txt"
+)
+
+# Create stereo wav object
+stereo_wave_obj <- Wave(
+  left = round(ms1_waveform),
+  right = round(ms2_waveform),
+  samp.rate = sample_rate,
+  bit = 16
+)
+
+# Save as .wav
+writeWave(stereo_wave_obj, file = "NEB_competition_whole_run_stereo.wav")
+```
+
+## Visualisation
+This section is where the frames for the visualisation will be made
+
+```{r Visualisation, include = FALSE}
+double_plot(
+  spectrum_1 = as.data.frame(ms_peaks[[151]]),
+  spectrum_2 = as.data.frame(ms_peaks[[152]]))
 
 ```
+

@@ -153,34 +153,29 @@ advanced_spectrum_to_tone <- function(
 
 double_plot <- function(spectrum_1, spectrum_2) {
   plot <- rbind(
-    spectrum_1 %>% mutate(type = "MS1", intensity = intensity / max(intensity)),
-    spectrum_2 %>% mutate(type = "MS2", intensity = intensity / max(intensity))
-  ) %>%
+      spectrum_1 %>% mutate(type = "MS1", intensity = intensity/max(intensity)),
+      spectrum_2 %>% mutate(type = "MS2", intensity = intensity/max(intensity))
+    ) %>%
     ggplot(
       aes(
         x = mz,
         y = ifelse(type == "MS1", -intensity, intensity),
-        fill = type
-      )
-    ) +
+        fill = type)) +
     scale_color_manual(
-      values = c("black", "white"),
-      aesthetics = "fill"
-    ) +
+      values = c("darkblue", "white"),
+      aesthetics = "fill") +
     annotate(
-      geom = "rect",
-      ymin = 0,
-      ymax = Inf,
-      xmin = -Inf,
-      xmax = Inf,
-      colour = NA,
-      fill = "black"
-    ) +
+      geom = "rect", 
+      ymin = 0, 
+      ymax = Inf, 
+      xmin = -Inf, 
+      xmax = Inf, 
+      colour = NA, 
+      fill = "darkblue") + 
     geom_col(
       width = 5,
-      position = "jitter",
-      show.legend = FALSE
-    ) +
+      position = "jitter", 
+      show.legend = FALSE) +
     coord_flip() +
     theme_void()
 

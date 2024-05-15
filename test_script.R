@@ -6,6 +6,7 @@
 library(tuneR)
 library(mzR)
 library(dplyr)
+library(ggplot2)
 
 # Source the tonification function
 source("functions.R")
@@ -75,6 +76,15 @@ chr <- ProtGenerics::chromatogram(ms_data) %>% .[[1]]
 # Create audio from chromatogram
 chromatogram_audio <- tonify_chromatogram(chr$TIC)
 
-# Playand save
+# Play and save
 play(chromatogram_audio)
 writeWave(chromatogram_audio, file = "chromatogram.wav")
+
+# Explore the number of MS2 spectra associated with each MS1 scan
+ms_2_scan_numbers <- ms_header %>%
+  filter(msLevel == 2) %>%
+  group_by(precursorScanNum) %>%
+  summarise(number_of_scans = n())
+ms_2_scan_numbers %>%
+  ggplot(aes(x = number_of_scans)) +
+  geom_histogram(bins = 20)

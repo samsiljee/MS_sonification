@@ -151,33 +151,64 @@ advanced_spectrum_to_tone <- function(
 # Output: A plot object
 # This function requires the "dplyr" and "ggplot2" packages
 
-double_plot <- function(spectrum_1, spectrum_2) {
+double_plot <- function(
+    spectrum_left,
+    spectrum_right,
+    colour_1 = "darkblue",
+    colour_2 = "white",
+    colour_3 = "salmon",
+    precursor_mz = 0,
+    precursor_intensity = 0) {
+  # Combine the two spectra into the same dataset and normalise the intensities
   plot <- rbind(
-      spectrum_1 %>% mutate(type = "MS1", intensity = intensity/max(intensity)),
-      spectrum_2 %>% mutate(type = "MS2", intensity = intensity/max(intensity))
-    ) %>%
+    spectrum_left %>%
+      mutate(
+        side = "left",
+        intensity = intensity / max(intensity)
+      ),
+    spectrum_right %>%
+      mutate(
+        side = "right",
+        intensity = intensity / max(intensity)
+      ),
+    data.frame(
+      mz = precursor_mz,
+      intensity = precursor_intensity / max(spectrum_left$intensity),
+      side = "precursor"
+    )
+  ) %>%
+    # Create the plot
     ggplot(
       aes(
         x = mz,
-        y = ifelse(type == "MS1", -intensity, intensity),
-        fill = type)) +
+        y = ifelse(side == "right", intensity, -intensity),
+        fill = side
+      )
+    ) +
+    # Colours for the plotted spectra
     scale_color_manual(
-      values = c("darkblue", "white"),
-      aesthetics = "fill") +
+      values = c(colour_1, colour_3, colour_2),
+      aesthetics = "fill"
+    ) +
+    # Background for the right side
     annotate(
-      geom = "rect", 
-      ymin = 0, 
-      ymax = Inf, 
-      xmin = -Inf, 
-      xmax = Inf, 
-      colour = NA, 
-      fill = "darkblue") + 
+      geom = "rect",
+      ymin = 0,
+      ymax = Inf,
+      xmin = -Inf,
+      xmax = Inf,
+      colour = NA,
+      fill = colour_1
+    ) +
+    # Plot the spectra
     geom_col(
       width = 5,
-      position = "jitter", 
-      show.legend = FALSE) +
+      position = "jitter",
+      show.legend = FALSE
+    ) +
+    # Rotate and apply theme
     coord_flip() +
-    theme_void()
-
+    theme_void() +
+    theme(panel.background = element_rect(fill = colour_2, color = NULL))
   return(plot)
 }

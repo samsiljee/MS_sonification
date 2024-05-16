@@ -148,9 +148,22 @@ writeWave(stereo_wave_obj, file = "NEB_competition_whole_run_stereo.wav")
 This section is where the frames for the visualisation will be made
 
 ```{r Visualisation, include = FALSE}
-double_plot(
-  spectrum_1 = as.data.frame(ms_peaks[[151]]),
-  spectrum_2 = as.data.frame(ms_peaks[[152]]))
-
+# For MS1 scans, plot a single line, otherwise plot the spectra back-to-back, MS1 on the left, MS2 on the right
+for(i in ms_header$seqNum) {
+  if(ms_header$msOrder == "ms1") {
+    double_plot(
+  spectrum_left = as.data.frame(ms_peaks[[i]]),
+  spectrum_right = data.frame(mz = min(ms_peaks[[i]]$mz), intensity = 1))
+  } else {
+   double_plot(
+  spectrum_left = as.data.frame(ms_peaks[[ms_header$precursorScanNum[ms_header$seqNum == i]]]),
+  spectrum_right = as.data.frame(ms_peaks[[i]]),
+  precursor_mz = ms_header$percusormz[ms_header$seqNum == i],
+  precursor_intensity = ms_header$percusorIntensity[ms_header$seqNum == i])
+  }
+  
+# Save the plot  
+ggsave(paste0("NEB_competition_plots/Plot_", i, ".png"), width = 1920, height = 1080, units = "px")
+}
 ```
 

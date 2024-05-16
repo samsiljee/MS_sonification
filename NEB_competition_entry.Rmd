@@ -24,13 +24,13 @@ source("functions.R")
 # Set some variables
 sample_rate <- 44100
 duration <- 1
-start_time <- 120
-end_time <- 125
+start_time <- 1528.560
+end_time <- 1645.594
 ```
 
 ## Load and process the data
 First I need to trim out the 2 minutes of interest from the whole 90 minute test run. The time limit on the submitted video is two minutes, and it will significantly speed up computation.
-Retention time of clip start:
+Retention time of clip start: 25 min ?
 
 ```{r Load and process the data, inclue = FALSE}
 # Open test MS file

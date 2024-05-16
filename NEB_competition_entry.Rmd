@@ -24,8 +24,8 @@ source("functions.R")
 # Set some variables
 sample_rate <- 44100
 duration <- 1
-start_time <- 20
-end_time <- 21
+start_time <- 120
+end_time <- 125
 ```
 
 ## Load and process the data
@@ -150,16 +150,16 @@ This section is where the frames for the visualisation will be made
 ```{r Visualisation, include = FALSE}
 # For MS1 scans, plot a single line, otherwise plot the spectra back-to-back, MS1 on the left, MS2 on the right
 for(i in ms_header$seqNum) {
-  if(ms_header$msOrder == "ms1") {
+  if(ms_header$msLevel[ms_header$seqNum == i] == 1) {
     double_plot(
   spectrum_left = as.data.frame(ms_peaks[[i]]),
-  spectrum_right = data.frame(mz = min(ms_peaks[[i]]$mz), intensity = 1))
+  spectrum_right = data.frame(mz = min(ms_peaks[[i]][,1]), intensity = 1))
   } else {
    double_plot(
   spectrum_left = as.data.frame(ms_peaks[[ms_header$precursorScanNum[ms_header$seqNum == i]]]),
   spectrum_right = as.data.frame(ms_peaks[[i]]),
-  precursor_mz = ms_header$percusormz[ms_header$seqNum == i],
-  precursor_intensity = ms_header$percusorIntensity[ms_header$seqNum == i])
+  precursor_mz = ms_header$precursorMZ[ms_header$seqNum == i],
+  precursor_intensity = ms_header$precursorIntensity[ms_header$seqNum == i])
   }
   
 # Save the plot  

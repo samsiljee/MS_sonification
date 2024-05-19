@@ -81,6 +81,7 @@ plot_spectrum <- function(spectrum) {
   return(plot)
 }
 
+
 # Function to convert a spectrum into a tone, with extra options
 # Input: A table input of two columns, one column (m/z of the peak) determines the frequency of the sinewave, the second (intensity) determines the relative amplitude of that peak in the polyphonic signal
 # Output: An audio object of one second duration
@@ -145,6 +146,7 @@ advanced_spectrum_to_tone <- function(
   # Return audio object
   return(Wave(round(sound_signal), samp.rate = 44100, bit = 16))
 }
+
 
 # Function to plot two spectra back-to-back for visualisation purposes
 # Input: Two spectra, with columns "mz" and "intensity"
@@ -211,4 +213,65 @@ double_plot <- function(
     theme_void() +
     theme(panel.background = element_rect(fill = colour_2, color = NULL))
   return(plot)
+}
+
+
+# Function to image two spectra as crossing lines
+# Input: Two spectra, with columns "mz" and "intensity"
+# Output: An image object
+# This function requires the "data.table" package
+
+double_image <- function(
+    spectrum_1,
+    spectrum_2,
+    colour_1 = "white",
+    colour_2 = "darkblue",
+    x_dim = 1920,
+    y_dim = 1080) {
+  # Set some variables
+  color_palette <- colorRampPalette(c(colour_1, colour_2))
+  x_min <- min(spectrum_1$mz)
+  x_max <- max(spectrum_1$mz)
+  x_bin_size <- (max(spectrum_1$mz) - min(spectrum_1$mz)) / x_dim
+  x_vect <- numeric(x_dim)
+  y_min <- min(spectrum_2$mz)
+  y_max <- max(spectrum_2$mz)
+  y_bin_size <- (max(spectrum_2$mz) - min(spectrum_2$mz)) / y_dim
+  y_vect <- numeric(y_dim)
+
+  # Convert the spectra to datatables
+  setDT(spectrum_1)
+  setDT(spectrum_2)
+
+  # Create bins for mz values
+  spectrum_1[, bin := cut(mz, breaks = seq(x_min, x_max, length.out = x_dim + 1), include.lowest = TRUE, labels = FALSE)]
+  spectrum_2[, bin := cut(mz, breaks = seq(y_min, y_max, length.out = y_dim + 1), include.lowest = TRUE, labels = FALSE)]
+
+  # Sum intensities within each bin
+  x_binned_intensities <- spectrum_1[, .(total_intensity = sum(intensity, na.rm = TRUE)), by = bin]
+  y_binned_intensities <- spectrum_2[, .(total_intensity = sum(intensity, na.rm = TRUE)), by = bin]
+
+  # Fill in the vectors
+  x_vect[x_binned_intensities$bin] <- x_binned_intensities$total_intensity
+  y_vect[y_binned_intensities$bin] <- y_binned_intensities$total_intensity
+
+  # Normalise the vectors
+  x_vect <- x_vect / max(x_vect)
+  y_vect <- y_vect / max(y_vect)
+
+  # Add the two vectors together to create a matrix
+  image_matrix <- outer(y_vect, x_vect, "+")
+
+  # Scale the matrix from 0 to 1
+  image_matrix <- image_matrix / max(image_matrix)
+
+  # Create the image
+  par(mar = c(0, 0, 0, 0)) # Remove margins
+  return(
+    image(
+      1:x_dim, 1:y_dim,
+      t(image_matrix[y_dim:1, ]),
+      col = color_palette(256), axes = FALSE, xlab = "", ylab = ""
+    )
+  )
 }

@@ -210,7 +210,7 @@ for (i in ms_header$seqNum) {
 }
 
 # Put the plots together in video format
-png_files <- paste0("NEB_competition_iamges/Image_", ms_header$seqNum, ".png")
+png_files <- paste0("NEB_competition_images/Image_", ms_header$seqNum, ".png")
 av_encode_video(
   png_files,
   "NEB_competition_video_image_method.mp4",

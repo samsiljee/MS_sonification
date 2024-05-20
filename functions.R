@@ -260,10 +260,7 @@ double_image <- function(
   y_vect <- y_vect / max(y_vect)
 
   # Add the two vectors together to create a matrix
-  image_matrix <- outer(y_vect, x_vect, "+")
-
-  # Scale the matrix from 0 to 1
-  image_matrix <- image_matrix / max(image_matrix)
+  image_matrix <- outer(y_vect, x_vect, pmax)
 
   # Create the image
   par(mar = c(0, 0, 0, 0)) # Remove margins

@@ -46,6 +46,24 @@ The image does not have to be a photo, it can be a stock image or vector art tha
 ### Please provide a more detailed overview of your project.
 (900 characters)
 
+For my PhD in lung cancer biology, I work with a mass spectrometer for proteomics, producing large, complex datasets.
+While some are content to send samples of and have core facilities produce their data, I wanted to intimately get to know the mass spectrometer and my data.
+My datasets were initially rather overwhelming, too large to even fit in an Excel spreadsheet, I taught myself R in order tog rapple with the data.
+Very much in a flash of inspiration it occured to me that I had been assuming that statistical summarisation and graphical representation is the only way to inspect mass spectrometry data.
+We have other senses, so why not make use of them?
+I did a bit of research on others ding sonification of scientific data, and while interesting, I found some efforts a little dissapointing.
+Most sonifications made use of computer synthesisers to generate the tones, often with a disappointing default piano sound.
+I wanted to properly honour the origin of my data, and have the raw data be the fundamental source of the sound.
+I knew I was onto something when I thought back to what I'd learnt about complex waveforms, that a characteristic waveform is what gives a sound its tone, and that any complex waveform can be broken down into the addition of multiple simpler waveforms.
+My process simply involves generating a tone every individual spectrum in my data, a spectrum consisting of tens to thousands of individual peaks, each with their own mass value and intensity.
+I assign the mass value to the frequency, and intensity to the amplitude of a sine wave for every peak, which I then add together to produce the characteristic tone for each spectrum.
+These spectra however have been observed in a particular sequence during the experiment, along with an overall intensity of the spectrum.
+Next I compiled all of the tones to play back at the time they were observed, at a loudness mapped to the overall intensity of the spectrum.
+I have also discovered that the data naturally falls into a two channel audio format, I have assigned the overview spectra (called MS1) to the left audio channel, and the spectra which drill-down into more detail (MS2) to the right audio channel.
+The two-minute excerpt presented in the submitted video captures the moment when the proteins first start entering the machine.
+The loudness starts to increase as the signal starts to be detected.
+The left channel, representing the overview spectra can be heard to gradually change over time as different proteins enter the mass spectrometer, and in the right audio channel we can hear the seeming chaos as different peaks are isolated for individual identification.
+
 ## Impact
 
 ### Why is your project important to you and to others? What is its significance?
@@ -54,6 +72,7 @@ The image does not have to be a photo, it can be a stock image or vector art tha
 In the world of science where increasingly more intellectual work is outsourced to AI, I find it important to connect fundamentally with the raw data.
 Abstraction from the bulk of large scientific datasets is unfortunately a practical reality given the scale of modern mass spectrometry experiments, however this project helps to bring raw data back into human-interpretable form whilst honoring the underlying data.
 As I notice my life getting increasingly more complex, in parallel with the increasing complexity of the datasets I work with, I find it very refreshing to take a step back and approach my work differently once in a while. I find the soundscape unusually pleasant to listen to, and regularly have it playing in the background while I do my work.
+Throughout this project I have felt an incredibly strong drive to pursue this project, and share this unique work with others.
 
 ### Who or what benefits from your project?
 (900 characters)
@@ -65,6 +84,8 @@ The art of teaching involves finding the right analogy to present these concepts
 Mass spectrometry is a complex technique to understand, and the audio in this project clearly presents several important concepts in mass spectrometery in a dramatically different way to ordinary text.
 The soundscape allows us to experience the clear differentiation between the MS1 and MS2 spectra, issues with dynamic range, noise and artifact, peak width of the peptides as they elute from the liquid chromatography, cycle-time, and acquisition methods.
 This will be a very useful resource for people wanting to learn the fundamental principles of mass spectrometry.
+While science can seem daunting to those not in the field, I find that this project has opened up many interesting converstaions with friends and family members, many of which wouldn't usually engage with science.
+I have found that this music prompts discussions with others on important current challenges in science; dealing with complexity, scale, and making sense of large datasets.
 
 ### Will you continue this project in the future and if so, what are the next steps?
 (900 characters)
@@ -74,6 +95,8 @@ I am currently making connections to develop this as a performance and/or intera
 Development involves securing funding to bring a complementary visual and physical element to the work.
 I also wish to include this work in my PhD thesis, and disseminate it further in the scientific field through publication.
 It is also important to me that all of my code for this project is open-source, allowing others to audibly experience their own raw data.
+I have had a lot of interest in this project from potential collaborators in the arts, and we are preparing this work to present at the Australasian Computer Music Conference.
+This organisation also runs a publication which I hope to publish this work in.
 
 ## Initiative
 
@@ -84,8 +107,12 @@ As the first scientist in an artistic family, the intersection fo art and scienc
 I also hold the philosophy that science and art naturally align, as both are methodologies to explore and explain the world around us.
 At this point in my PhD journey I am grappling with the analysis of my pilot proteomics data, and finding that there is a lot to discover.
 This project has really helped me understand my raw data at a much deeper level, which in turn helps me to troubleshoot and teach others.
-I have always been the sort of person who really wants to understand exactly what adn how things happen.
-In addition, I beleive that the structure and dimension of mass spectrometry data is particularly well suited to sonification.
+I have always been the sort of person who really wants to understand exactly what and how things happen.
+In addition, I believe that the structure and dimension of mass spectrometry data is particularly well suited to sonification.
+I was educated at a Steiner school, with a firm philosophy of taking the holistic approach.
+Any project we completed at school, whether scientific or otherwise had to include a creative response as part of the project.
+I grew up writing short plays about chemical reactions, and baking Fibonacci sequence shortbreads.
+This sonfication project forms my creative response to my biology project, and I feel this is an essential component of my PhD journey.
 
 ### What drives you to succeed?
 (900 characters)
@@ -105,6 +132,7 @@ The default method for analysing mass spectrometry data is through statistical s
 This project approaches the data in a radically new way, engaging new senses, and challenging the way we deal with mass spectrometry data.
 While it won't surpass traditional methods to analyse the data for biological insights, it has useful application in quality control of raw data.
 More importantly, it is a step towards briding the gap between art and science.
+Seeing the surprise and joy in the people I share this work with is testimony to its uniqueness.
 
 ### How is this project different from other similar efforts, if any?
 (900 characters)

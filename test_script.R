@@ -88,3 +88,9 @@ ms_2_scan_numbers <- ms_header %>%
 ms_2_scan_numbers %>%
   ggplot(aes(x = number_of_scans)) +
   geom_histogram(bins = 20)
+
+# Testing the image function
+png("Image_max_method.png", width = 1920, height = 1080)
+double_image(spectrum_3, spectrum_4)
+# Close the device
+dev.off()

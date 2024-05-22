@@ -3,6 +3,7 @@
 *.mzML
 *.mp4
 *.png
+*.docx
 waveforms/*
 Control_Day7_waveforms/*
 NEB_competition_waveforms/*

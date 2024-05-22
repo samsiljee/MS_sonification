@@ -189,7 +189,7 @@ Another disconnect is the scaling of the plots - there is no reflection of an in
 This method plots the spectra as crossing lines of various intensity as an alternative to back-to-back plotting
 
 ```{r Visualisation - image method, include = FALSE}
-for (i in ms_header$seqNum) {
+for (i in ms_header$seqNum[ms_header$seqNum > 7950]) {
   # Open png device
   png(paste0("NEB_competition_images/Image_", i, ".png"), width = 1920, height = 1080)
   # If MS1, create an image with MS1 for both

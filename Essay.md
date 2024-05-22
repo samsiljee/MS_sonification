@@ -63,6 +63,14 @@ On further reflection however, this click may serve a purpose.
 In the MS1 channel it helps to give a sense of rhythm to the piece.
 In the MS2 channel it gives a "gramophone record" crackle, which is artificially added to give texture in certain electronic music genres, although this is generally not to my liking.
 
+## Artefact, artifact, artifice
+In science, artefact is somethign which is meaningless, in fact it is outright unwanted as it obscures the truth that scientists are searching for.
+It is interesting therefore that in art, artifact (note the different spelling) is described as something of value.
+This is an interesting exploration in this project.
+For example, the click at the start of the sonification (mentioned elsewhere in the essay also), which I have chosen to leave in (for now).
+This mirrors the artifice I was describing in some electronic music of an artificially added vinyl crackle.
+Other artefacts are genuinely less helpful however, when computing images for the image method visualisation, spectrum number 7950 in the test dataset has only one peak - thus causing my code to crash during the synthesis of the images.
+
 ## Process of interpretation
 13th of March - In discussion, I came to realise that this process represents an interpretation of my data.
 It is a process of taking machine-intelligible sets of millions of datapoints, and transforming it into something that a human can grasp. 

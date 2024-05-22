@@ -159,6 +159,7 @@ double_plot <- function(
     colour_1 = "darkblue",
     colour_2 = "white",
     colour_3 = "salmon",
+    contrast = 1,
     precursor_mz = 0,
     precursor_intensity = 0) {
   # Combine the two spectra into the same dataset and normalise the intensities
@@ -192,6 +193,17 @@ double_plot <- function(
       values = c(colour_1, colour_3, colour_2),
       aesthetics = "fill"
     ) +
+    # Half/half background - to reduce the contrast
+    annotate(
+      geom = "rect",
+      ymin = -Inf,
+      ymax = Inf,
+      xmin = -Inf,
+      xmax = Inf,
+      colour = NA,
+      fill = colour_2,
+      alpha = 0.5
+    ) +
     # Background for the right side
     annotate(
       geom = "rect",
@@ -200,18 +212,31 @@ double_plot <- function(
       xmin = -Inf,
       xmax = Inf,
       colour = NA,
-      fill = colour_1
+      fill = colour_1,
+      alpha = contrast
+    ) +
+    # Background for the left side
+    annotate(
+      geom = "rect",
+      ymin = -Inf,
+      ymax = 0,
+      xmin = -Inf,
+      xmax = Inf,
+      colour = NA,
+      fill = colour_2,
+      alpha = contrast
     ) +
     # Plot the spectra
     geom_col(
       width = 5,
       position = "jitter",
-      show.legend = FALSE
+      show.legend = FALSE,
+      alpha = contrast
     ) +
     # Rotate and apply theme
     coord_flip() +
     theme_void() +
-    theme(panel.background = element_rect(fill = colour_2, color = NULL))
+    theme(panel.background = element_rect(fill = colour_1, color = NULL))
   return(plot)
 }
 

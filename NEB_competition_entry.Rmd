@@ -149,14 +149,18 @@ writeWave(stereo_wave_obj, file = "NEB_competition_2_minute_audio.wav")
 ## Visualisation
 This section is where the frames for the visualisation will be made
 
-```{r Visualisation, include = FALSE}
+```{r Visualisation plot method, include = FALSE}
 # For MS1 scans, plot a single line, otherwise plot the spectra back-to-back, MS1 on the left, MS2 on the right
+# Set a value to scale the contrast vector by
+max_contrast <- log(max(ms_header$totIonCurrent))
+
 for (i in ms_header$seqNum) {
   # Plot with a blank right side if MS1 spectrum
   if (ms_header$msLevel[ms_header$seqNum == i] == 1) {
     double_plot(
       spectrum_left = as.data.frame(ms_peaks[[i]]),
-      spectrum_right = data.frame(mz = min(ms_peaks[[i]][, 1]), intensity = 1)
+      spectrum_right = data.frame(mz = min(ms_peaks[[i]][, 1]), intensity = 1),
+      contrast = log(ms_header$totIonCurrent[ms_header$seqNum == i]) / max_contrast
     )
     # Otherwise plot the corresponding MS1 spectrum to the left, and the MS2 plot to the right
   } else {
@@ -164,7 +168,8 @@ for (i in ms_header$seqNum) {
       spectrum_left = as.data.frame(ms_peaks[[ms_header$precursorScanNum[ms_header$seqNum == i]]]),
       spectrum_right = as.data.frame(ms_peaks[[i]]),
       precursor_mz = ms_header$precursorMZ[ms_header$seqNum == i],
-      precursor_intensity = ms_header$precursorIntensity[ms_header$seqNum == i]
+      precursor_intensity = ms_header$precursorIntensity[ms_header$seqNum == i],
+      contrast = log(ms_header$totIonCurrent[ms_header$seqNum == i]) / max_contrast
     )
   }
 

@@ -260,6 +260,8 @@ Both are methods to explore and understand the world around us.
 4. Gibson, J. (2020, October 21). Bacterial Art - incubating creativity in the lab | NEB. NEBinspired Blog. https://www.neb.com/en-nz/nebinspired-blog/bacterial-art---incubating-creativity-in-the-lab
 5. https://koenderks.github.io/aRtsy/
 6. https://journals.sagepub.com/doi/full/10.1177/20592043221080965
+7. https://doi.org/10.1121/10.0011549
+8. https://doi.org/10.1016/j.proeng.2012.04.095
 
 ## Notes
 - What is the more universal message I'm trying to communicate with this work?

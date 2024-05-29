@@ -190,6 +190,63 @@ av_encode_video(
 This seems to produce a servicable video, although one thing lacking is a strong connection between the audio and the video. I suspect that the timing will be somewhat off, ideally I'd use the retention times to trigger the video frame - but I'm not sure if this is possible with the `av` package as is.
 Another disconnect is the scaling of the plots - there is no reflection of an increase in loudness, perhaps I should scale over the whole video rather than each individual plot.
 
+I was not completely satisfied with the contrast effect, so I manually scaled and trimmed the contrast vector to get slightly more range.
+```{r Visualisation plot method 2 scaled contrast, include = FALSE}
+# For MS1 scans, plot a single line, otherwise plot the spectra back-to-back, MS1 on the left, MS2 on the right
+
+# Create a vector of contrasts
+con_v <- log(ms_header$totIonCurrent)
+
+# Trim out the top and bottom 10% of spectra to spread more evenly
+con_max <- sort(con_v)[length(con_v) * 0.9]
+con_min <- sort(con_v)[length(con_v) * 0.1]
+con_v[con_v > con_max] <- con_max
+con_v[con_v < con_min] <- con_min
+
+# Scale from 0.01 to 1
+con_v <- (con_v - min(con_v)) / max(con_v - min(con_v)) * (1 - 0.01) + 0.01
+# Assign to a vector that matches the `ms_header$seqNum` vector
+contrast_vector <- NULL
+index <- 1
+for (i in ms_header$seqNum) {
+  contrast_vector[i] <- con_v[index]
+  index <- index + 1
+}
+
+for (i in ms_header$seqNum) {
+  # Plot with a blank right side if MS1 spectrum
+  if (ms_header$msLevel[ms_header$seqNum == i] == 1) {
+    double_plot(
+      spectrum_left = as.data.frame(ms_peaks[[i]]),
+      spectrum_right = data.frame(mz = min(ms_peaks[[i]][, 1]), intensity = 1),
+      contrast = contrast_vector[i]
+    )
+    # Otherwise plot the corresponding MS1 spectrum to the left, and the MS2 plot to the right
+  } else {
+    double_plot(
+      spectrum_left = as.data.frame(ms_peaks[[ms_header$precursorScanNum[ms_header$seqNum == i]]]),
+      spectrum_right = as.data.frame(ms_peaks[[i]]),
+      precursor_mz = ms_header$precursorMZ[ms_header$seqNum == i],
+      precursor_intensity = ms_header$precursorIntensity[ms_header$seqNum == i],
+      contrast = contrast_vector[i]
+    )
+  }
+
+  # Save the plots
+  ggsave(paste0("NEB_competition_plots_contrast/Plot_", i, ".png"), width = 1920, height = 1080, units = "px")
+}
+
+# Put the plots together in video format
+png_files <- paste0("NEB_competition_plots_contrast/Plot_", ms_header$seqNum, ".png")
+av_encode_video(
+  png_files,
+  "NEB_competition_video_scaled_contrast_plots_2.mp4",
+  framerate = length(ms_header$seqNum) / (end_time - start_time),
+  audio = "NEB_competition_2_minute_audio.wav"
+)
+```
+
+
 ## Image as visualistaion
 This method plots the spectra as crossing lines of various intensity as an alternative to back-to-back plotting
 

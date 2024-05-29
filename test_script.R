@@ -94,3 +94,14 @@ png("Image_max_method.png", width = 1920, height = 1080)
 double_image(spectrum_3, spectrum_4)
 # Close the device
 dev.off()
+
+# Testing ranges of ion current to scale the contrast
+max_TI <- max(ms_header$totIonCurrent)
+max_log_TI <- log(max(ms_header$totIonCurrent))
+
+
+# Set min to 0.01, max to 1. Log transformation
+hist(ms_header$totIonCurrent/max_TI, breaks = 100)
+test_vector <- log(ms_header$totIonCurrent)/max_log_TI
+test_vector[test_vector>0.8] <- 0.8
+hist(test_vector/0.8, breaks = 100)

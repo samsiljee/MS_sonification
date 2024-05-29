@@ -280,3 +280,20 @@ av_encode_video(
   audio = "NEB_competition_2_minute_audio.wav"
 )
 ```
+
+## Thumbnail image
+Generating the thumbnail image to go with the entry
+
+```{r Thumbnail image, include = FALSE}
+double_plot(
+  spectrum_left = as.data.frame(ms_peaks[[ms_header$seqNum[1]]]),
+  spectrum_right = as.data.frame(ms_peaks[[ms_header$seqNum[2]]]),
+  precursor_mz = ms_header$precursorMZ[ms_header$seqNum == ms_header$seqNum[2]],
+  precursor_intensity = ms_header$precursorIntensity[ms_header$seqNum == ms_header$seqNum[2]],
+  contrast = 0.7
+)
+
+# Save the plots
+  ggsave(paste0("NEB_competition_thumbnail_image.jpg"), width = 10000, height = 10000, units = "px")
+```
+

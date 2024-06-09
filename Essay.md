@@ -263,6 +263,7 @@ Both are methods to explore and understand the world around us.
 7. https://doi.org/10.1121/10.0011549
 8. https://doi.org/10.1016/j.proeng.2012.04.095
 9. Hermann, T., Hunt, A., & Neuhoff, J. (2011). The Sonification Handbook (Thomas Hermann, A. Hunt, & J. G. Neuhoff (eds.)). Logos Verlag. http://sonification.de/handbook
+10. Sturm, B. L. (2005). Pulse of an Ocean: Sonification of Ocean Buoy Data. Leonardo, 38(2), 143–149. https://doi.org/10.1162/0024094053722453 - Paper using similar sonifcation methodology to my own. Also, Leonardo may be a suitable journal for publication of this work.
 
 ## Notes
 - What is the more universal message I'm trying to communicate with this work?

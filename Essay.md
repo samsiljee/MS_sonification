@@ -262,6 +262,7 @@ Both are methods to explore and understand the world around us.
 6. https://journals.sagepub.com/doi/full/10.1177/20592043221080965
 7. https://doi.org/10.1121/10.0011549
 8. https://doi.org/10.1016/j.proeng.2012.04.095
+9. Hermann, T., Hunt, A., & Neuhoff, J. (2011). The Sonification Handbook (Thomas Hermann, A. Hunt, & J. G. Neuhoff (eds.)). Logos Verlag. http://sonification.de/handbook
 
 ## Notes
 - What is the more universal message I'm trying to communicate with this work?

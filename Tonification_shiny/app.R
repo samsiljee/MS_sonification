@@ -54,14 +54,32 @@ spectrum_to_waveform <- function(spectrum, duration = 1, sampling_rate = 44100) 
 ui <- fluidPage(
   h1("Sam's tone generator"),
   br(),
-  "Sorry this website is still bare-bones. In order to use it, upload your spectrum as a .csv file. It needs exactly two numeric columns named precisely \"mz\" and \"intensity\".",
+  "Sorry this website is still bare-bones. In order to use it, upload your spectrum as a .csv file. It needs exactly two numeric columns named precisely \"mz\" and \"intensity\". You can also load the demo spectra.",
   br(),
   "Next make mdifications as desired before clicking the download button. It may take a while to compute, especially for long clips or spectra with many peaks.",
   br(),
   "You can also just use it to generate a tone from an uploaded spectrum without modification.",
+  br(),
+  "You can contact me at samsiljee@gmail.com for questions, feedback, just to get excited, or anything else!",
   fileInput("spectrum", "Spectrum upload",
     buttonLabel = "Browse",
     placeholder = "Upload spectrum file"
+  ),
+  fluidRow(
+    column(
+      2,
+      actionButton(
+        "demo_1",
+        "Load demo 1"
+      )
+    ),
+    column(
+      2,
+      actionButton(
+        "demo_2",
+        "Load demo 2"
+      )
+    )
   ),
   numericInput("duration", "Clip length (s)", value = 2),
   numericInput("sampling_rate", "Sampling rate", value = 44100),
@@ -99,9 +117,26 @@ ui <- fluidPage(
 # Define server logic
 server <- function(input, output) {
   
+  # Initialise reactive variable
+  spectrum_input <- reactiveVal(NULL)
+  
+  # Load the demo data
+  observeEvent(input$demo_1, {
+    spectrum_input(
+      read.table("spectrum_1.csv", header = TRUE, sep = ",")
+    )
+  })
+  observeEvent(input$demo_2, {
+    spectrum_input(
+      read.table("spectrum_2.csv", header = TRUE, sep = ",")
+    )
+  })
+  
   # Get the spectrum input - supports .csv files with specific headers
-  spectrum_input <- reactive({
+  observeEvent(input$spectrum, {
+    spectrum_input(
       read.table(input$spectrum$datapath, header = TRUE, sep = ",") 
+    )  
   })
   
   # Modify the spectrum using input settings
@@ -164,16 +199,14 @@ server <- function(input, output) {
   
   # Create some plots of the spectra
   output$original_spectrum <- renderPlot({
-    if(!is.null(input$spectrum$datapath)){
-      spectrum_input() %>% ggplot(aes(x = mz, y = intensity)) + geom_col(width = 0.5, col = "black") + theme_bw()
-    }
+    req(spectrum_input())
+    spectrum_input() %>% ggplot(aes(x = mz, y = intensity)) + geom_col(width = 0.5, col = "black") + theme_bw()
   })
   
   output$modified_spectrum <- renderPlot({
-    if(!is.null(input$spectrum$datapath)){
-      modified_spectrum() %>% ggplot(aes(x = mz, y = intensity)) + geom_col(width = 0.5, col = "black") + theme_bw()
-    }
-    })
+    req(spectrum_input())
+    modified_spectrum() %>% ggplot(aes(x = mz, y = intensity)) + geom_col(width = 0.5, col = "black") + theme_bw()
+  })
 }
 
 # Run the application

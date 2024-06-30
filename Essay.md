@@ -147,6 +147,12 @@ I think this is a good idea, especially as the same principles used to generate 
 Advice from Matthijs, the screen saver aesthetic has been done to death, and switch people off.
 I'm much better off making something mechanical, automaton like.
 
+I have generated two different (basic) visualisations for the NEB competiton entry. In the "plot method" I have plotted the MS2 scans and corresponding MS1 scan back-to-back, with the axis rotated 90 degrees. I've also mapped the total ion current of the spectra to the contrast of the plots. The second method, the "image method" has the MS2 spectra scaled as horizontal lines, and the corresponding MS1 spectrum mapped as vertical lines. The intensity of the peaks is presented as intensity.
+
+In my attempt to decide which of the two methods to present for the competition, I circulated the two videos amoungst my friends and family. There were some interesting observations. Firstly, a lot of people were convinced that the sounds were different (I used the same 2 minute audio clip for both), this was echoed in my discussion with Darrell who works as a VJ, and he agrees that visual accompaniment can significantly alter the perception of sound. He also warned me strong visualisations can easily distract and draw the attention away from the audio, which is the real aim of this project.
+
+Another interesting obersvation is that my scientific friends gravitated towards the plotting method, which is graphically more striking, but also much easier to interpret as a literal graphic representation of the data. SOme criticism of this method include that it was too obvious. The image method was generally preferred by my aquaintances in the arts, who preferred the increased abstraction, and found it more elegant.
+
 ### Automata
 Ideas for automata: 
 - 2D array of rods with adjustable height.
@@ -155,7 +161,7 @@ Have the retention time scroll across the other dimension of the array.
 - 2D array of rods with the first row representing MS1 spectrum, and the 20 other rows representing the top 20 MS2 associated with that MS1.
 This way there?s far less movement in the system, as they only have to refresh once per cycle time period.
 - The rods can be covered in a cloth to smooth the peaks, this would also add a screen for illumination if needed.
-- Bouncing light of the surface of a wave pool
+- Bouncing light of the surface of a wave pool, or two mirrors mounted to two speakers - MS1 for x, and MS2 for y
 
 ## Installation
 Another potential to develop this project is as an installation.
@@ -262,6 +268,8 @@ Both are methods to explore and understand the world around us.
 6. https://journals.sagepub.com/doi/full/10.1177/20592043221080965
 7. https://doi.org/10.1121/10.0011549
 8. https://doi.org/10.1016/j.proeng.2012.04.095
+9. Hermann, T., Hunt, A., & Neuhoff, J. (2011). The Sonification Handbook (Thomas Hermann, A. Hunt, & J. G. Neuhoff (eds.)). Logos Verlag. http://sonification.de/handbook
+10. Sturm, B. L. (2005). Pulse of an Ocean: Sonification of Ocean Buoy Data. Leonardo, 38(2), 143–149. https://doi.org/10.1162/0024094053722453 - Paper using similar sonifcation methodology to my own. Also, Leonardo may be a suitable journal for publication of this work.
 
 ## Notes
 - What is the more universal message I'm trying to communicate with this work?

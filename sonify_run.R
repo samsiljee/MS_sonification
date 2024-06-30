@@ -20,7 +20,7 @@ sample_rate <- 44100
 duration <- 1
 
 # Load and extract data
-ms_data <- openMSfile("Control_Day7.mzML")
+ms_data <- openMSfile("test.mzML")
 ms_peaks <- peaks(ms_data)
 ms_header <- header(ms_data)
 
@@ -33,7 +33,7 @@ for (i in ms_header$seqNum) {
   write(
 spectrum_to_waveform(ms_peaks[[i]], duration = duration, sampling_rate = sample_rate),
     ncolumns = 1,
-    file = paste0("Control_Day7_waveforms/waveform_", i, ".txt")
+    file = paste0("waveforms/waveform_", i, ".txt")
   )
 }
 
@@ -53,7 +53,7 @@ for (i in ms1_indexes) {
   RT_post <- rep(0, total_time - length(RT_pre))
 
   # read in the waveform and account for intensity
-  waveform <- read.delim(paste0("Control_Day7_waveforms/waveform_", i , ".txt"), header = FALSE)[, 1] * ms_header$totIonCurrent[i]
+  waveform <- read.delim(paste0("waveforms/waveform_", i , ".txt"), header = FALSE)[, 1] * log(ms_header$totIonCurrent[i])
 
   # Add to the waveform with blank RT sound
   ms1_waveform <- ms1_waveform + c(RT_pre, waveform, RT_post)
@@ -69,7 +69,7 @@ ms1_waveform <- (ms1_waveform / max(abs(ms1_waveform))) * 32000
 write(
   ms1_waveform,
   ncolumns = 1,
-  file = paste0("Control_Day7_waveforms/ms1_compiled_waveforms_", i, ".txt")
+  file = paste0("waveforms/ms1_compiled_log_waveforms_", i, ".txt")
 )
 
 # Repeat for MS2 scans
@@ -83,7 +83,7 @@ for (i in ms2_indexes) {
   RT_post <- rep(0, total_time - length(RT_pre))
 
   # read in the waveform and account for intensity
-  waveform <- read.delim(paste0("Control_Day7_waveforms/waveform_", i, ".txt"), header = FALSE)[, 1] * ms_header$totIonCurrent[i]
+  waveform <- read.delim(paste0("waveforms/waveform_", i, ".txt"), header = FALSE)[, 1] * log(ms_header$totIonCurrent[i])
 
   # Add to the waveform with blank RT sound
   ms2_waveform <- ms2_waveform + c(RT_pre, waveform, RT_post)
@@ -99,7 +99,7 @@ ms2_waveform <- (ms2_waveform / max(abs(ms2_waveform))) * 32000
 write(
   ms2_waveform,
   ncolumns = 1,
-  file = paste0("Control_Day7_waveforms/ms2_compiled_waveforms_", i, ".txt")
+  file = paste0("waveforms/ms2_compiled_log_waveforms_", i, ".txt")
 )
 
 # Create stereo wav object
@@ -111,4 +111,4 @@ stereo_wave_obj <- Wave(
 )
 
 # Save as .wav
-writeWave(stereo_wave_obj, file = "Control_Day7_whole_run_stereo.wav")
+writeWave(stereo_wave_obj, file = "Produced clips/good/Log_test_whole_stereo.wav")

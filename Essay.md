@@ -272,6 +272,7 @@ Both are methods to explore and understand the world around us.
 10. Sturm, B. L. (2005). Pulse of an Ocean: Sonification of Ocean Buoy Data. Leonardo, 38(2), 143–149. https://doi.org/10.1162/0024094053722453 - Paper using similar sonifcation methodology to my own. Also, Leonardo may be a suitable journal for publication of this work.
 11. https://www.watershed.co.uk/studio/
 12. https://www.nature.com/articles/d41586-024-02197-9
+13. https://complexity.wgtn.ac.nz/
 
 ## Notes
 - What is the more universal message I'm trying to communicate with this work?

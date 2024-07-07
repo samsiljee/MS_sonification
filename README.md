@@ -13,7 +13,6 @@ I would like to extend this project so that an entire MS run can be sonified usi
 
 ## Things to try out
 - Using a dedicated package to reverse fourier transform, this will probably be faster
-- Scale to the audible range 100 - 15k Hz
-- Invert the masses - heaviest ions lowest frequencies
-- Filter out noise
-- log scale the frequencies, human hearing is in log scale
+- Formulate as a stand-alone program, like a synthesiser plugin almost
+- Collect mass spectra from breathing into the mass spectrometer
+- Generate tones from publically available metabolite spectra

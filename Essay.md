@@ -287,3 +287,4 @@ Taking the understanding from a previous cycle forward into understanding a new 
 - The tendency is to go into a science experiment rational - head first, then to come out experiential - with empirical evidence.
 The reducing entrance chambers to the installation could have no sound in them, with the sound only building up from the smallest of chambers.
 - I'm not the first to use R for art, art from various geneartive algorithms has been implemented in the aRtsy package.
+- People are most interested in the story behind the data, where does the data come from, why this data, what it the process of transformation. People want to see how the magic is done!

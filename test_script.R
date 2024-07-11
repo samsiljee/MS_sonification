@@ -108,7 +108,7 @@ hist(test_vector/0.8, breaks = 100)
 
 # Create some long test tones
 long_tone_1 <- tonify_spectrum(spectrum_3, duration = 60)
-long_tone_2 <- tonify_spectrum(spectrum_4, duration = 60)
+long_tone_2 <- tonify_spectrum(spectrum_4, duration = 30)
 
 # Save the files
 writeWave(long_tone_1, file = "Produced clips/long_tone_1.wav")

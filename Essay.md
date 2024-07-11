@@ -40,6 +40,10 @@ In science, an observation that stays consistant even under changing conditions 
 Does this mean that the audible interference patterns are what the data really, truely sounds like?
 Does this have implications for conventional mass-spectrometry data analysis?
 I suppose it's already in use, as at least in proteomics MS2 order scans we look at the intervals between peaks more-so than absolute m/z values.
+Another interesting observation is that the tones very very slowly change in dynamics over time.
+Unfortunately the computation memory and time required with my current code is very large, so I haven't been able to generate tones longer than a minute or so, but there are subtle shifts in the beats.
+This is more apparent in the more complex spectra, but unfortunately those are also more complex to synthesise!
+It may well be worth working out a new method, perhaps by writing every sinewave to a .txt file before combining in order to compute longer tones for more complex spectra.
 
 ## Piece synthesis
 The first test data, "1e6_phospho_converted.mzML" is from a test of sample extraction, phosphopeptide enrichment, and methods of running the mass spectrometer in July 2022.

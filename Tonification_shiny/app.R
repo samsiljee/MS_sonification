@@ -103,7 +103,8 @@ ui <- fluidPage(
       "scale_max",
       "Upper value",
       value = 15000)),
-  checkboxInput("log_transform", "Log transform", value = FALSE),
+  checkboxInput("log_transform", "Log transform m/z values", value = FALSE),
+  checkboxInput("log_transform_intensity", "Log transform intensities", value = FALSE),
   checkboxInput("reverse_mz", "Reverse m/z values"),
   downloadButton("download_wav", "Download .wav file"),
   h3("Original spectrum"),
@@ -153,7 +154,7 @@ server <- function(input, output) {
       dat <- dat[1:round(nrow(dat) * input$filter_threshold), ]
     }
     
-    # Log2 transform if selected
+    # Log2 transform m/z if selected
     if (input$log_transform) {
       # Save old m/z values for re-scaling if needed
       old_min <- min(dat$mz)
@@ -164,6 +165,17 @@ server <- function(input, output) {
       if(!input$scale) {
         dat$mz <- (dat$mz - min(dat$mz)) / max(dat$mz - min(dat$mz)) * (old_max - old_min) + old_min
       }
+    }
+    
+    # Log2 transform intensities if selected
+    if (input$log_transform_intensity) {
+      # Save old m/z values for re-scaling if needed
+      old_min_int <- min(dat$intensity)
+      old_max_int <- max(dat$intensity)
+      # Log transform
+      dat$intensity <- log2(dat$intensity)
+      # Re-scale if not scaling separately
+        dat$intensity <- (dat$intensity - min(dat$intensity)) / max(dat$intensity - min(dat$intensity)) * (old_max_int - old_min_int) + old_min_int
     }
     
     # Scale m/z if selected

@@ -97,7 +97,8 @@ advanced_spectrum_to_tone <- function(
     scale = FALSE,
     scale_min = 100,
     scale_max = 15000,
-    log_transform = FALSE,
+    log_transform_mz = FALSE,
+    log_transform_intensity = FALSE,
     reverse_mz = FALSE) {
   # Filter out peaks of 0 intensity
   dat <- as.data.frame(spectrum) %>%
@@ -111,8 +112,8 @@ advanced_spectrum_to_tone <- function(
     dat <- dat[1:round(nrow(dat) * filter_threshold), ]
   }
 
-  # Log2 transform if selected
-  if (log_transform) {
+  # Log2 transform m/z values if selected
+  if (log_transform_mz) {
     # Save old m/z values for re-scaling if needed
     old_min <- min(dat$mz)
     old_max <- max(dat$mz)
@@ -122,6 +123,11 @@ advanced_spectrum_to_tone <- function(
     if (!scale) {
       dat$mz <- (dat$mz - min(dat$mz)) / max(dat$mz - min(dat$mz)) * (old_max - old_min) + old_min
     }
+  }
+  
+  # Log transform intensity values if selected
+  if (log_transform_intensity) {
+    dat$intensity <- log2(dat$intensity)
   }
 
   # Scale m/z if selected

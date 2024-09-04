@@ -6,6 +6,8 @@
 *.docx
 *.jpg
 *.pptx
+*.html
+Passion_in_Science_Sam_Siljee_files/*
 waveforms/*
 Control_Day7_waveforms/*
 NEB_competition_waveforms/*

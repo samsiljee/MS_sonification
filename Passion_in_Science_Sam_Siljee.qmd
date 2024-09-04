@@ -1,0 +1,122 @@
+---
+title: "The Sound of Science"
+author: "Sam Siljee"
+date: 9 Oct 2024
+format:
+  revealjs:
+    transition: slide
+  # pptx
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+source("functions.R")
+spectrum <- read.csv("test_spectra/spectrum_1.csv")
+theme_set(theme_void())
+```
+
+## Introduction to Mass Spectrometry
+
+```{r}
+spectrum %>%
+  ggplot(aes(x = mz, y = intensity)) +
+  geom_col() +
+  theme_bw()
+```
+
+## Sonification process
+
+As scientists we are always curious to understand how something works.
+
+Here is the magic
+
+. . .
+
+```{r}
+#| width: "100%"
+
+data.frame(
+  x = 1:1000,
+  y_1 = sin(0.1 * 1:1000),
+  y_2 = cos(0.02 * 1:1000)
+) %>%
+  ggplot() +
+  geom_line(aes(x = x, y = y_1)) +
+  geom_line(aes(x = x, y = y_2 + 1*2), col = "blue")
+```
+
+## Sonification process
+
+```{r waves 2}
+data.frame(
+  x = 1:1000,
+  y_1 = sin(0.1 * 1:1000),
+  y_2 = cos(0.02 * 1:1000)
+) %>%
+  mutate(y_3 = (y_1 + y_2) / max(abs(y_1 + y_2))) %>%
+  ggplot() +
+  geom_line(aes(x = x, y = y_1)) +
+  geom_line(aes(x = x, y = y_2 + 1*2), col = "blue") +
+  geom_line(aes(x = x, y = y_3 + 2*2), col = "red") +
+  theme_void()
+```
+
+## Sonification process
+
+```{r waves 3}
+data.frame(
+  x = 1:1000,
+  y_1 = sin(0.1 * 1:1000),
+  y_2 = sin(0.07 * 1:1000) * 0.6,
+  y_3 = sin(0.23 * 1:1000) * 1.3,
+  y_4 = sin(0.234 * 1:1000) * 0.3,
+  y_5 = sin(0.017 * 1:1000)
+) %>%
+  mutate(y_6 = (y_1+y_2+y_3+y_4+y_5) / max(abs(y_1+y_2+y_3+y_4+y_5))) %>%
+  ggplot() +
+  geom_line(aes(x = x, y = y_1)) +
+  geom_line(aes(x = x, y = y_2 + 1*2), col = "blue") +
+  geom_line(aes(x = x, y = y_3 + 2*2), col = "orange") +
+  geom_line(aes(x = x, y = y_4 + 3*2), col = "green") +
+  geom_line(aes(x = x, y = y_5 + 4*2), col = "yellow") +
+  geom_line(aes(x = x, y = y_6 + 5*2), col = "red")
+```
+
+## Sonification process
+
+```{r spectrum repeat}
+spectrum %>%
+  ggplot(aes(x = mz, y = intensity)) +
+  geom_col() +
+  theme_bw()
+```
+
+## Sonification process
+
+```{r spectrum waveform}
+data.frame(
+  x = 1:10000,
+  y = spectrum_to_waveform(spectrum)[34101:44100]
+) %>%
+  ggplot() +
+  geom_line(aes(x = x, y = y))
+```
+
+## Assumptions
+
+## Complexity
+
+## Interpretation
+
+-   AI and directly engaging with the data
+
+## Practical Implications
+
+## Where to Next
+
+-   Develop methodology further - reintegrating processed data (bringing the biology back)
+-   Present at ACMC and Leonardo
+-   Working with artists
+
+## Acknowledgements

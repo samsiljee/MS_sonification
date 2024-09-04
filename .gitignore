@@ -5,6 +5,7 @@
 *.png
 *.docx
 *.jpg
+*.pptx
 waveforms/*
 Control_Day7_waveforms/*
 NEB_competition_waveforms/*

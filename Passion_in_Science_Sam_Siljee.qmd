@@ -9,7 +9,7 @@ format:
 editor: visual
 ---
 
-```{r}
+```{r, echo = FALSE}
 library(tidyverse)
 source("functions.R")
 spectrum <- read.csv("test_spectra/spectrum_1.csv")
@@ -24,12 +24,20 @@ spectrum %>%
   geom_col() +
   theme_bw()
 ```
+But there's a third dimension...
+
+## Coersion
+- Tone
+- Pitch
+- Quantisation
+
+. . .
+
+- Honour the original data
 
 ## Sonification process
 
-As scientists we are always curious to understand how something works.
-
-Here is the magic
+Fourier theorem: any complex waveform can be made up from the addition of simpler waveforms of different frequencies
 
 . . .
 
@@ -43,10 +51,10 @@ data.frame(
 ) %>%
   ggplot() +
   geom_line(aes(x = x, y = y_1)) +
-  geom_line(aes(x = x, y = y_2 + 1*2), col = "blue")
+  geom_line(aes(x = x, y = y_2 + 1*2))
 ```
 
-## Sonification process
+##
 
 ```{r waves 2}
 data.frame(
@@ -57,33 +65,33 @@ data.frame(
   mutate(y_3 = (y_1 + y_2) / max(abs(y_1 + y_2))) %>%
   ggplot() +
   geom_line(aes(x = x, y = y_1)) +
-  geom_line(aes(x = x, y = y_2 + 1*2), col = "blue") +
-  geom_line(aes(x = x, y = y_3 + 2*2), col = "red") +
+  geom_line(aes(x = x, y = y_2 + 1*2)) +
+  geom_line(aes(x = x, y = y_3 + 2*2), col = "darkgreen") +
   theme_void()
 ```
 
-## Sonification process
+##
 
 ```{r waves 3}
 data.frame(
   x = 1:1000,
-  y_1 = sin(0.1 * 1:1000),
-  y_2 = sin(0.07 * 1:1000) * 0.6,
-  y_3 = sin(0.23 * 1:1000) * 1.3,
-  y_4 = sin(0.234 * 1:1000) * 0.3,
-  y_5 = sin(0.017 * 1:1000)
+  y_1 = sin(0.2 * 1:1000),
+  y_2 = sin(0.4 * 1:1000) * 0.6,
+  y_3 = sin(0.8 * 1:1000) * 1.3,
+  y_4 = sin(1.6 * 1:1000) * 0.3,
+  y_5 = sin(3.2 * 1:1000)
 ) %>%
   mutate(y_6 = (y_1+y_2+y_3+y_4+y_5) / max(abs(y_1+y_2+y_3+y_4+y_5))) %>%
   ggplot() +
   geom_line(aes(x = x, y = y_1)) +
-  geom_line(aes(x = x, y = y_2 + 1*2), col = "blue") +
-  geom_line(aes(x = x, y = y_3 + 2*2), col = "orange") +
-  geom_line(aes(x = x, y = y_4 + 3*2), col = "green") +
-  geom_line(aes(x = x, y = y_5 + 4*2), col = "yellow") +
-  geom_line(aes(x = x, y = y_6 + 5*2), col = "red")
+  geom_line(aes(x = x, y = y_2 + 1*2)) +
+  geom_line(aes(x = x, y = y_3 + 2*2)) +
+  geom_line(aes(x = x, y = y_4 + 3*2)) +
+  geom_line(aes(x = x, y = y_5 + 4*2)) +
+  geom_line(aes(x = x, y = y_6 + 5*2), col = "darkgreen")
 ```
 
-## Sonification process
+##
 
 ```{r spectrum repeat}
 spectrum %>%
@@ -92,7 +100,7 @@ spectrum %>%
   theme_bw()
 ```
 
-## Sonification process
+##
 
 ```{r spectrum waveform}
 data.frame(
@@ -103,20 +111,24 @@ data.frame(
   geom_line(aes(x = x, y = y))
 ```
 
-## Assumptions
-
 ## Complexity
+- Emergent properties
 
 ## Interpretation
-
--   AI and directly engaging with the data
+- AI and directly engaging with the data
+- Methodology vs biology
 
 ## Practical Implications
+- Learning about MS
+- Vision impaired
+- Accessibility
 
 ## Where to Next
-
--   Develop methodology further - reintegrating processed data (bringing the biology back)
--   Present at ACMC and Leonardo
--   Working with artists
+- Develop methodology further - reintegrating processed data (bringing the biology back)
+- Present at ACMC and Leonardo
+- Working with artists
 
 ## Acknowledgements
+- Gillies McIndoe Research Institute
+- Te Herenga Waka - Victoria University of Wellington
+- Wellington Doctoral Scholarship

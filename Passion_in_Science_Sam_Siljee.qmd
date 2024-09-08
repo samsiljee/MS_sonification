@@ -122,6 +122,7 @@ data.frame(
 - Learning about MS
 - Vision impaired
 - Accessibility
+- While this won't replace conventional analysis any time soon, our ability to understand data is outstripped by our ability to generate data. New ideas have to start somewhere
 
 ## Where to Next
 - Develop methodology further - reintegrating processed data (bringing the biology back)

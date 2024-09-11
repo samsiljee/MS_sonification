@@ -34,7 +34,7 @@ for (i in ms_header$seqNum) {
   write(
     spectrum_to_waveform(ms_peaks[[i]], duration = duration, sampling_rate = sample_rate),
     ncolumns = 1,
-    file = paste0("waveforms/waveform_", i, ".txt")
+    file = paste0("TMT_waveforms/waveform_", i, ".txt")
   )
 }
 
@@ -54,7 +54,7 @@ for (i in ms1_indexes) {
   RT_post <- rep(0, total_time - length(RT_pre))
 
   # read in the waveform and account for intensity
-  waveform <- read.delim(paste0("waveforms/waveform_", i, ".txt"), header = FALSE)[, 1] * log(ms_header$totIonCurrent[i])
+  waveform <- read.delim(paste0("TMT_waveforms/waveform_", i, ".txt"), header = FALSE)[, 1] * log(ms_header$totIonCurrent[i])
 
   # Add to the waveform with blank RT sound
   ms1_waveform <- ms1_waveform + c(RT_pre, waveform, RT_post)
@@ -70,7 +70,7 @@ ms1_waveform <- (ms1_waveform / max(abs(ms1_waveform))) * 32000
 write(
   ms1_waveform,
   ncolumns = 1,
-  file = paste0("waveforms/ms1_compiled_log_waveforms.txt")
+  file = paste0("TMT_waveforms/ms1_compiled_log_waveforms.txt")
 )
 
 # Repeat for MS2 scans
@@ -84,7 +84,7 @@ for (i in ms2_indexes) {
   RT_post <- rep(0, total_time - length(RT_pre))
 
   # read in the waveform and account for intensity
-  waveform <- read.delim(paste0("waveforms/waveform_", i, ".txt"), header = FALSE)[, 1] * log(ms_header$totIonCurrent[i])
+  waveform <- read.delim(paste0("TMT_waveforms/waveform_", i, ".txt"), header = FALSE)[, 1] * log(ms_header$totIonCurrent[i])
 
   # Add to the waveform with blank RT sound
   ms2_waveform <- ms2_waveform + c(RT_pre, waveform, RT_post)
@@ -100,7 +100,7 @@ ms2_waveform <- (ms2_waveform / max(abs(ms2_waveform))) * 32000
 write(
   ms2_waveform,
   ncolumns = 1,
-  file = paste0("waveforms/ms2_compiled_log_waveforms.txt")
+  file = paste0("TMT_waveforms/ms2_compiled_log_waveforms.txt")
 )
 
 # Repeat for MS3 scans
@@ -114,7 +114,7 @@ for (i in ms3_indexes) {
   RT_post <- rep(0, total_time - length(RT_pre))
   
   # read in the waveform and account for intensity
-  waveform <- read.delim(paste0("waveforms/waveform_", i, ".txt"), header = FALSE)[, 1] * log(ms_header$totIonCurrent[i])
+  waveform <- read.delim(paste0("TMT_waveforms/waveform_", i, ".txt"), header = FALSE)[, 1] * log(ms_header$totIonCurrent[i])
   
   # Add to the waveform with blank RT sound
   ms3_waveform <- ms3_waveform + c(RT_pre, waveform, RT_post)
@@ -130,7 +130,7 @@ ms3_waveform <- (ms3_waveform / max(abs(ms3_waveform))) * 32000
 write(
   ms3_waveform,
   ncolumns = 1,
-  file = paste0("waveforms/ms3_compiled_log_waveforms.txt")
+  file = paste0("TMT_waveforms/ms3_compiled_log_waveforms.txt")
 )
 
 # Create multi-channel wav object

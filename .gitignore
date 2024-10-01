@@ -16,6 +16,7 @@ Control_Day7_waveforms/*
 NEB_competition_waveforms/*
 NEB_competition_plots/*
 plots/*
+Tree_data/*
 *desktop.ini
 # Project files
 MS_sonification.Rproj

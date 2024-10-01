@@ -113,3 +113,14 @@ long_tone_2 <- tonify_spectrum(spectrum_4, duration = 30)
 # Save the files
 writeWave(long_tone_1, file = "Produced clips/long_tone_1.wav")
 writeWave(long_tone_2, file = "Produced clips/long_tone_2.wav")
+
+# Testing out the speed by tone duration
+durations <- seq(0.1, 5, by = 0.5)
+are_we_there_yet <- function(duration){
+  start_time <- Sys.time()
+  advanced_spectrum_to_tone(spectrum_3, duration = duration)
+  return(as.numeric(Sys.time() - start_time))
+}
+duration_data <- sapply(durations, are_we_there_yet)
+data.frame(x = durations, y = duration_data) %>%
+  ggplot(aes(x=x,y=y)) + geom_line()

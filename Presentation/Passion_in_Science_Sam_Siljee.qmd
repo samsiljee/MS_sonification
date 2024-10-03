@@ -36,7 +36,7 @@ theme_set(theme_void())
 
 -   Picture of obscure plots looking at MS stuff
 
-## Spectrum
+## Light spectrum
 
 ![](Dispersive_prism.png){width=100%}
 
@@ -44,7 +44,7 @@ theme_set(theme_void())
 
 ![](Basic_Mass_Spectrometer.jpg){width=100%}
 
-## Mass spectrum
+## What does the data look like
 
 ```{r}
 spectrum %>%
@@ -67,24 +67,10 @@ But there's a third dimension...
 
 ## Sonification process
 
--   Picutres of waveforms of different instruments
+![](instruments.jpg)
+
 
 Fourier theorem: any complex waveform can be made up from the addition of simpler waveforms of different frequencies
-
-. . .
-
-```{r}
-#| width: "100%"
-
-data.frame(
-  x = 1:1000,
-  y_1 = sin(0.1 * 1:1000),
-  y_2 = cos(0.02 * 1:1000)
-) %>%
-  ggplot() +
-  geom_line(aes(x = x, y = y_1)) +
-  geom_line(aes(x = x, y = y_2 + 1*2))
-```
 
 ## 
 
@@ -96,34 +82,13 @@ data.frame(
 ) %>%
   mutate(y_3 = (y_1 + y_2) / max(abs(y_1 + y_2))) %>%
   ggplot() +
-  geom_line(aes(x = x, y = y_1)) +
-  geom_line(aes(x = x, y = y_2 + 1*2)) +
-  geom_line(aes(x = x, y = y_3 + 2*2), col = "darkgreen") +
+  geom_line(aes(x = x, y = y_1 + -0.6), linewidth = 2) +
+  geom_line(aes(x = x, y = y_2 + 0.8*2), linewidth = 2) +
+  geom_line(aes(x = x, y = y_3 + 2*2), col = "darkgreen", linewidth = 2) +
   theme_void()
 ```
 
-## 
-
-```{r waves 3}
-data.frame(
-  x = 1:1000,
-  y_1 = sin(0.2 * 1:1000),
-  y_2 = sin(0.4 * 1:1000) * 0.6,
-  y_3 = sin(0.8 * 1:1000) * 1.3,
-  y_4 = sin(1.6 * 1:1000) * 0.3,
-  y_5 = sin(3.2 * 1:1000)
-) %>%
-  mutate(y_6 = (y_1+y_2+y_3+y_4+y_5) / max(abs(y_1+y_2+y_3+y_4+y_5))) %>%
-  ggplot() +
-  geom_line(aes(x = x, y = y_1)) +
-  geom_line(aes(x = x, y = y_2 + 1*2)) +
-  geom_line(aes(x = x, y = y_3 + 2*2)) +
-  geom_line(aes(x = x, y = y_4 + 3*2)) +
-  geom_line(aes(x = x, y = y_5 + 4*2)) +
-  geom_line(aes(x = x, y = y_6 + 5*2), col = "darkgreen")
-```
-
-## 
+##
 
 ```{r spectrum repeat}
 spectrum %>%
@@ -136,14 +101,12 @@ spectrum %>%
 
 ```{r spectrum waveform}
 data.frame(
-  x = 1:10000,
-  y = spectrum_to_waveform(spectrum)[34101:44100]
+  x = 1:2000,
+  y = spectrum_to_waveform(spectrum)[34601:36600]
 ) %>%
   ggplot() +
-  geom_line(aes(x = x, y = y))
+  geom_line(aes(x = x, y = y), linewidth = 2)
 ```
-
-## But what does it sound like?
 
 ![Spectrum tone](long_tone_1.wav)
 
@@ -162,15 +125,16 @@ data.frame(
 
 ## Practical Implications
 
--   Learning about MS
--   Vision impaired
--   Accessibility
--   While this won't replace conventional analysis any time soon, our ability to understand data is outstripped by our ability to generate data. New ideas have to start somewhere
+-   Vision impaired scientists
+-   Teaching mass spectrometry
+-   Approachability
+-   New ideas have to start somewhere
 
 ## Where to Next
 
--   Develop methodology further - reintegrating processed data (bringing the biology back)
--   Present at ACMC and Leonardo
+-   Bringing the biology back
+-   Present at the Australasian computer music conference
+-   Publication in Leonardo
 -   Working with artists
 
 ## Acknowledgements

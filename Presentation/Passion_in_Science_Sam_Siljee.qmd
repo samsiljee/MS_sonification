@@ -6,7 +6,6 @@ format:
   revealjs:
     transition: slide
     logo: Gillies McIndoe Horizantal Colour Logo RGB Transparent.png
-  # pptx
 editor: visual
 ---
 
@@ -37,9 +36,13 @@ theme_set(theme_void())
 
 -   Picture of obscure plots looking at MS stuff
 
-## Introduction to Mass Spectrometry - light spectrum
+## Spectrum
 
-![Prism](Dispersive_prism.png){width=100%}
+![](Dispersive_prism.png){width=100%}
+
+## Mass spectrum
+
+![](Basic_Mass_Spectrometer.jpg){width=100%}
 
 ## Mass spectrum
 
@@ -139,6 +142,14 @@ data.frame(
   ggplot() +
   geom_line(aes(x = x, y = y))
 ```
+
+## But what does it sound like?
+
+![Spectrum tone](long_tone_1.wav)
+
+## Putting it all together
+
+![](video.mp4)
 
 ## Complexity
 

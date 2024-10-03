@@ -18,14 +18,16 @@ theme_set(theme_void())
 
 ## Outline
 
--   Why
--   Introduction to mass spectrometry
+-   Background and why
 -   How
 -   Implications
 
 ## Big data
 
 -   Picture here of boring data, overwhelming
+
+. . .
+
 -   Too big for excel
 
 . . .
@@ -35,6 +37,10 @@ theme_set(theme_void())
 . . .
 
 -   Picture of obscure plots looking at MS stuff
+
+. . .
+
+- The creative response
 
 ## Light spectrum
 
@@ -69,12 +75,27 @@ But there's a third dimension...
 
 ![](instruments.jpg)
 
-
 Fourier theorem: any complex waveform can be made up from the addition of simpler waveforms of different frequencies
 
-## 
+## {auto-animate=true}
 
 ```{r waves 2}
+data.frame(
+  x = 1:1000,
+  y_1 = sin(0.1 * 1:1000),
+  y_2 = cos(0.02 * 1:1000)
+) %>%
+  mutate(y_3 = (y_1 + y_2) / max(abs(y_1 + y_2))) %>%
+  ggplot() +
+  geom_line(aes(x = x, y = y_1 + -0.6), linewidth = 2) +
+  geom_line(aes(x = x, y = y_2 + 0.8*2), linewidth = 2) +
+  # geom_line(aes(x = x, y = y_3 + 2*2), col = "darkgreen", linewidth = 2) +
+  theme_void()
+```
+
+## {auto-animate=true}
+
+```{r waves 3}
 data.frame(
   x = 1:1000,
   y_1 = sin(0.1 * 1:1000),
@@ -88,7 +109,7 @@ data.frame(
   theme_void()
 ```
 
-##
+## {auto-animate=true}
 
 ```{r spectrum repeat}
 spectrum %>%
@@ -97,7 +118,7 @@ spectrum %>%
   theme_bw()
 ```
 
-## 
+## {auto-animate=true}
 
 ```{r spectrum waveform}
 data.frame(
@@ -105,7 +126,7 @@ data.frame(
   y = spectrum_to_waveform(spectrum)[34601:36600]
 ) %>%
   ggplot() +
-  geom_line(aes(x = x, y = y), linewidth = 2)
+  geom_line(aes(x = x, y = y), linewidth = 2, col = "darkgreen")
 ```
 
 ![Spectrum tone](long_tone_1.wav)
@@ -142,3 +163,11 @@ data.frame(
 -   Gillies McIndoe Research Institute
 -   Te Herenga Waka - Victoria University of Wellington
 -   Wellington Doctoral Scholarship
+
+. . .
+
+Contact: samsiljee@gmail.com
+
+Code: github.com/samsiljee/MS_sonification
+
+Make your own tones: samsiljee.shinyapps.io/Tonification_shiny/

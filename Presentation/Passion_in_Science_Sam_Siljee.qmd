@@ -24,11 +24,7 @@ theme_set(theme_void())
 
 ## Big data
 
--   Picture here of boring data, overwhelming
-
-. . .
-
--   Too big for excel
+![](Excel.png)
 
 . . .
 

@@ -1,7 +1,8 @@
 ---
 title: "The Sound of Science"
+subtitle: "What is a biologist doing at a music conference"
 author: "Sam Siljee"
-date: 9 Oct 2024
+date: 24 October 2024
 format:
   revealjs:
     transition: slide
@@ -58,6 +59,8 @@ spectrum %>%
   geom_col() +
   theme_bw()
 ```
+
+. . .
 
 But there's a third dimension...
 

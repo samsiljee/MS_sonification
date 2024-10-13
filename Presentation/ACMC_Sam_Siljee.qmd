@@ -83,10 +83,6 @@ But there's a third dimension...
 
 ![](instruments.jpg)
 
-![](sine_note.wav)
-![](guitar_note.wav)
-![](Piano_note_long.wav)
-
 ## Sonification process {auto-animate="true"}
 
 ![](instruments.jpg)
@@ -162,7 +158,7 @@ data.frame(
 ## Variations
 
 ```{=html}
-<iframe width="2000" height="2000" src="https://samsiljee.shinyapps.io/Tonification_shiny/" title="Webpage example"></iframe>
+<iframe width="2000" height="2000" src="https://samsiljee.shinyapps.io/Demo_shiny/" title="Webpage example"></iframe>
 ```
 
 ## Observations

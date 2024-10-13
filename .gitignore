@@ -9,6 +9,7 @@
 *.pptx
 *.html
 *.raw
+*.tex
 Presentation/Passion_in_Science_Sam_Siljee_files/*
 waveforms/*
 DIA_waveforms/*

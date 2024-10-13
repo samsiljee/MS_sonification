@@ -67,7 +67,7 @@ But there's a third dimension...
 
 ##  {auto-animate="true"}
 
-<div style="display: flex; justify-content: center; align-items: center; height: 200vh;">
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
 
 **Honour the original data**
 

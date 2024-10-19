@@ -177,7 +177,6 @@ data.frame(
 ## Where to Next
 
 -   Bringing the biology back
--   Present at the Australasian computer music conference
 -   Publication in Leonardo
 -   Working with artists and scientists
 

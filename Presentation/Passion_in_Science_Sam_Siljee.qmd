@@ -1,50 +1,55 @@
 ---
 title: "The Sound of Science"
+subtitle: "What is a biologist doing at a music conference"
 author: "Sam Siljee"
-date: 9 Oct 2024
+date: 24 October 2024
 format:
   revealjs:
     transition: slide
     logo: Gillies McIndoe Horizantal Colour Logo RGB Transparent.png
-editor: visual
+editor: source
 ---
 
-```{r, echo = FALSE}
+## Outline
+
+```{r setup, echo = FALSE}
 library(tidyverse)
 source("../functions.R")
 spectrum <- read.csv("spectrum_1.csv")
 theme_set(theme_void())
 ```
 
-## Outline
-
 -   Background and why
 -   How
 -   Implications
 
-## Big data
+## Where it started
+
+![](Project%20overview.png)
+
+## Big data {auto-animate="true"}
 
 ![](Excel.png)
 
-. . .
+## Big data {auto-animate="true"}
 
--   Picture of me trying to wrestle data into a suitcase
+![](maxquant.png)
 
-. . .
+## Baking
 
--   Picture of obscure plots looking at MS stuff
-
-. . .
-
-- The creative response
+![](baking.jpg)
 
 ## Light spectrum
 
-![](Dispersive_prism.png){width=100%}
+![](Dispersive_prism.png){width="100%"}
+
+## Mass spectrometer
+
+![](selfie.JPG){width="100%"}
 
 ## Mass spectrum
 
-![](Basic_Mass_Spectrometer.jpg){width=100%}
+![](Basic_Mass_Spectrometer.jpg){width="100%"}
 
 ## What does the data look like
 
@@ -55,25 +60,37 @@ spectrum %>%
   theme_bw()
 ```
 
-But there's a third dimension...
-
-## Coersion
-
--   Tone
--   Pitch
--   Quantisation
-
 . . .
 
--   Honour the original data
+But there's a third dimension...
 
-## Sonification process
+## Coersion  {auto-animate="true"}
+
+![](MIDI-Notes.jpg)
+
+##  {auto-animate="true"}
+
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+
+**Honour the original data**
+
+</div>
+
+## Sonification process {auto-animate="true"}
+
+![](instruments.jpg)
+
+![](sine_note.wav)
+![](guitar_note.wav)
+![](Piano_note_long.wav)
+
+## Sonification process {auto-animate="true"}
 
 ![](instruments.jpg)
 
 Fourier theorem: any complex waveform can be made up from the addition of simpler waveforms of different frequencies
 
-## {auto-animate=true}
+## Sonification process {auto-animate="true"}
 
 ```{r waves 2}
 data.frame(
@@ -89,7 +106,7 @@ data.frame(
   theme_void()
 ```
 
-## {auto-animate=true}
+## Sonification process {auto-animate="true"}
 
 ```{r waves 3}
 data.frame(
@@ -105,7 +122,7 @@ data.frame(
   theme_void()
 ```
 
-## {auto-animate=true}
+## Sonification process {auto-animate="true"}
 
 ```{r spectrum repeat}
 spectrum %>%
@@ -114,9 +131,11 @@ spectrum %>%
   theme_bw()
 ```
 
-## {auto-animate=true}
+## Sonification process {auto-animate="true"}
 
 ```{r spectrum waveform}
+#| fig-height: 5
+
 data.frame(
   x = 1:2000,
   y = spectrum_to_waveform(spectrum)[34601:36600]
@@ -125,18 +144,19 @@ data.frame(
   geom_line(aes(x = x, y = y), linewidth = 2, col = "darkgreen")
 ```
 
-![Spectrum tone](long_tone_1.wav)
+![](long_tone_2.wav)
 
-## Putting it all together
+## Putting it all together {auto-animate="true"}
 
 ![](video.mp4)
 
-## Complexity
+## Putting it all together {auto-animate="true"}
+
+![](DIA_video.mp4)
+
+## Observations
 
 -   Emergent properties
-
-## Interpretation
-
 -   AI and directly engaging with the data
 -   Methodology vs biology
 
@@ -152,18 +172,24 @@ data.frame(
 -   Bringing the biology back
 -   Present at the Australasian computer music conference
 -   Publication in Leonardo
--   Working with artists
-
-## Acknowledgements
-
--   Gillies McIndoe Research Institute
--   Te Herenga Waka - Victoria University of Wellington
--   Wellington Doctoral Scholarship
+-   Working with artists and scientists
 
 . . .
 
-Contact: samsiljee@gmail.com
+Make your own tones: samsiljee.shinyapps.io/Tonification_shiny/
 
 Code: github.com/samsiljee/MS_sonification
 
-Make your own tones: samsiljee.shinyapps.io/Tonification_shiny/
+. . .
+
+Contact: samsiljee\@gmail.com
+
+## Acknowledgements
+
+![](Gillies%20McIndoe%20Horizantal%20Colour%20Logo%20RGB%20Transparent.png){fig-align="center" height="100"}
+
+![](VUW%20Logo%20Standard%20Landscape%20RGB.png){fig-align="center" height="100"}
+
+![](te_whatu_ora.png){fig-align="center" height="55"}
+
+![](NEB_logo.png){fig-align="center" height="130"}

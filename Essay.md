@@ -279,6 +279,11 @@ Both are methods to explore and understand the world around us.
 13. https://complexity.wgtn.ac.nz/
 14. https://pubs.aip.org/asa/jasa/article/151/6/3685/2838268/A-method-to-convert-neural-signals-into-sound
 15. https://icad.org/
+16. https://www.youtube.com/watch?v=6Tc7XI0iUYU
+17. https://www.youtube.com/watch?v=3JzpLsLCaog
+18. https://www.youtube.com/watch?v=9IdVyArDlZ4
+19. https://www.youtube.com/watch?v=yT7K4MaOBDA
+20. https://www.youtube.com/watch?v=aOA_wAoh5go
 
 ## Notes
 - What is the more universal message I'm trying to communicate with this work?

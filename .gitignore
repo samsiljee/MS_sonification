@@ -10,6 +10,7 @@
 *.html
 *.raw
 *.tex
+*.zip
 Presentation/Passion_in_Science_Sam_Siljee_files/*
 Presentation/ACMC_Sam_Siljee_files/*
 waveforms/*

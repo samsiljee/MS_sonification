@@ -2,7 +2,17 @@
 # Sam Siljee
 # 12th July 2025
 
-library(dplyr)
+# Libraries
+library(tuneR) # Audio processing
+library(mzR) # MS data handling
+library(dplyr) # Data manipulation
+
+# Source functions
+source("MS_sonification/functions.R")
+
+# Set some variables
+sample_rate <- 44100
+duration <- 1
 
 Interesting_proteins <- c(
   "P25705",
@@ -19,7 +29,7 @@ Interesting_proteins <- c(
 )
 
 # Load the PSM data
-load("~/Documents/Coding/MSstats_workflow/TMT_input/PSMs.rda")
+load("MS_sonification/PSMs.rda")
 
 data <- PSMs %>%
   filter(Master.Protein.Accessions %in% Interesting_proteins)
@@ -38,4 +48,34 @@ data %>% filter(
   .$Master.Protein.Accessions %>%
   unique
 
+# Filter PSM data to just those we're interested in getting tones from
+selected_PSMs <- data %>% filter(
+  Spectrum.File == "Mix_TMT_F5_20241219181938.raw" &
+    Master.Protein.Accessions %in% Interesting_proteins
+)
 
+# Load raw MS data
+ms_data <- openMSfile("MS_sonification/Mix_TMT_F5_20241219181938.mzML")
+ms_peaks <- peaks(ms_data)
+
+# Generate tones
+for (i in 1:length(selected_PSMs)) {
+    # Generate tone
+    tone <- advanced_spectrum_to_tone(
+      spectrum = ms_peaks[[selected_PSMs$First.Scan[i]]],
+      duration = 5
+    )
+    file_name <- paste0("MS_sonification/tones/", selected_PSMs$Master.Protein.Accessions[i], "_", selected_PSMs$First.Scan[i], ".wav")
+    
+    # Save as audio clip
+    writeWave(tone, file = file_name)
+  }
+
+# extract the chromatogram
+chr <- ProtGenerics::chromatogram(ms_data) %>% .[[1]]
+
+# Create audio from chromatogram
+chromatogram_audio <- tonify_chromatogram(chr$intensity)
+
+# Save chromatogram audio
+writeWave(chromatogram_audio, file = "MS_sonification/tones/chromatogram.wav")

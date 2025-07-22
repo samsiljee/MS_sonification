@@ -25,7 +25,7 @@ Interesting_proteins <- c(
   "P48047", # ATP synthase subunits
   "P14780", # MMP-9
   "Q05397", # Focal adhesion kinase
-  "P16104" # H2AX
+  "P16104" # H2AX - particularly good sounding!
 )
 
 # Load the PSM data

@@ -27,7 +27,7 @@ spectrum_to_waveform <- function(spectrum, duration = 1, sampling_rate = 44100) 
 
   # Filter out peaks of 0 intensity
   dat <- as.data.frame(spectrum) %>%
-    filter(intensity > 0)
+    dplyr::filter(intensity > 0)
 
   # Create time sequence
   time_seq <- seq(0, duration * 2 * pi, length = duration * sampling_rate)
@@ -66,7 +66,7 @@ tonify_chromatogram <- function(TIC) {
 plot_spectrum <- function(spectrum) {
   # Filter out peaks of 0 intensity
   dat <- as.data.frame(spectrum) %>%
-    filter(intensity > 0)
+    dplyr::filter(intensity > 0)
 
   # Create plot
   plot <- dat %>%
@@ -102,7 +102,7 @@ advanced_spectrum_to_tone <- function(
     reverse_mz = FALSE) {
   # Filter out peaks of 0 intensity
   dat <- as.data.frame(spectrum) %>%
-    filter(intensity > 0)
+    dplyr::filter(intensity > 0)
 
   # Filter more peaks if selected
   if (filter_mz) {

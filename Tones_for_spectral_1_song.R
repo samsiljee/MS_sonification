@@ -25,14 +25,13 @@ Interesting_proteins <- c(
   "P48047", # ATP synthase subunits
   "P14780", # MMP-9
   "Q05397", # Focal adhesion kinase
-  "P16104" # H2AX - particularly good sounding!
+  "P16104" # H2AX
 )
 
 # Load the PSM data
 load("MS_sonification/PSMs.rda")
 
-data <- PSMs %>%
-  filter(Master.Protein.Accessions %in% Interesting_proteins)
+data <- dplyr::filter(PSMs, Master.Protein.Accessions %in% Interesting_proteins)
 
 # Find the run with the most IDs
 data %>%
@@ -41,15 +40,15 @@ data %>%
   arrange(desc(count))
 
 # Identified "Mix_TMT_F5_20241219181938.raw" as having the most PSMs matching. Check which proteins are identified in this run
-data %>% filter(
+data %>% dplyr::filter(
   Spectrum.File == "Mix_TMT_F5_20241219181938.raw" &
-  Master.Protein.Accessions %in% Interesting_proteins
+    Master.Protein.Accessions %in% Interesting_proteins
 ) %>%
   .$Master.Protein.Accessions %>%
   unique
 
 # Filter PSM data to just those we're interested in getting tones from
-selected_PSMs <- data %>% filter(
+selected_PSMs <- data %>% dplyr::filter(
   Spectrum.File == "Mix_TMT_F5_20241219181938.raw" &
     Master.Protein.Accessions %in% Interesting_proteins
 )
@@ -60,16 +59,16 @@ ms_peaks <- peaks(ms_data)
 
 # Generate tones
 for (i in 1:length(selected_PSMs)) {
-    # Generate tone
-    tone <- advanced_spectrum_to_tone(
-      spectrum = ms_peaks[[selected_PSMs$First.Scan[i]]],
-      duration = 5
-    )
-    file_name <- paste0("MS_sonification/tones/", selected_PSMs$Master.Protein.Accessions[i], "_", selected_PSMs$First.Scan[i], ".wav")
-    
-    # Save as audio clip
-    writeWave(tone, file = file_name)
-  }
+  # Generate tone
+  tone <- advanced_spectrum_to_tone(
+    spectrum = ms_peaks[[selected_PSMs$First.Scan[i]]],
+    duration = 5
+  )
+  file_name <- paste0("MS_sonification/tones/", selected_PSMs$Master.Protein.Accessions[i], "_", selected_PSMs$First.Scan[i], ".wav")
+  
+  # Save as audio clip
+  writeWave(tone, file = file_name)
+}
 
 # extract the chromatogram
 chr <- ProtGenerics::chromatogram(ms_data) %>% .[[1]]
@@ -79,3 +78,33 @@ chromatogram_audio <- tonify_chromatogram(chr$intensity)
 
 # Save chromatogram audio
 writeWave(chromatogram_audio, file = "MS_sonification/tones/chromatogram.wav")
+
+# Select favourite tones
+favourite_scans <- c(
+  "59432",
+  "42149",
+  "30242",
+  "47617",
+  "61399",
+  "45744",
+  "16733",
+  "52773"
+)
+
+# Filter for favourite PSMs
+favourite_PSMs <- selected_PSMs %>% dplyr::filter(
+  First.Scan %in% favourite_scans
+)
+
+# Generate longer tones for favourites
+for (i in 1:length(favourite_PSMs)) {
+  # Generate tone
+  tone <- advanced_spectrum_to_tone(
+    spectrum = ms_peaks[[favourite_PSMs$First.Scan[i]]],
+    duration = 60
+  )
+  file_name <- paste0("MS_sonification/tones/long_", favourite_PSMs$Master.Protein.Accessions[i], "_", favourite_PSMs$First.Scan[i], ".wav")
+  
+  # Save as audio clip
+  writeWave(tone, file = file_name)
+}

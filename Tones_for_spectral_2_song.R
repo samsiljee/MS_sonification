@@ -14,7 +14,7 @@ source("functions.R")
 sample_rate <- 44100
 
 # Load raw MS data
-ms_data <- openMSfile("test.mzML")
+ms_data <- openMSfile("Mix_TMT_F5_20241219181938.mzML")
 
 # Get metadata to identify spectrum with the most peaks
 ms_header <- header(ms_data)

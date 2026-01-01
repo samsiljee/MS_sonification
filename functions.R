@@ -10,7 +10,7 @@
 tonify_spectrum <- function(spectrum, duration = 1, sampling_rate = 44100) {
   # Call the spectrum_to_waveform function
   sound_signal <- spectrum_to_waveform(spectrum = spectrum, duration = duration, sampling_rate = sampling_rate)
-
+  
   # Create an audio object
   return(Wave(round(sound_signal), samp.rate = 44100, bit = 16))
 }
@@ -24,20 +24,20 @@ tonify_spectrum <- function(spectrum, duration = 1, sampling_rate = 44100) {
 spectrum_to_waveform <- function(spectrum, duration = 1, sampling_rate = 44100) {
   # Start time for optimisation
   # start_time <- Sys.time()
-
+  
   # Filter out peaks of 0 intensity
   dat <- as.data.frame(spectrum) %>%
     dplyr::filter(intensity > 0)
-
+  
   # Create time sequence
   time_seq <- seq(0, duration * 2 * pi, length = duration * sampling_rate)
-
+  
   # Create and add a sine wave for every peak
   sound_signal <- (sin(outer(time_seq, dat$mz, "*")) %*% dat$intensity)
-
+  
   # Normalize the sound signal
   sound_signal <- (sound_signal / max(abs(sound_signal))) * 32000
-
+  
   # Return the waveform as a numeric vector
   return(round(sound_signal))
   # return(Sys.time() - start_time)
@@ -52,7 +52,7 @@ spectrum_to_waveform <- function(spectrum, duration = 1, sampling_rate = 44100) 
 tonify_chromatogram <- function(TIC) {
   # Normalize the TIC vector
   sound_signal <- (TIC / max(abs(TIC))) * 32000
-
+  
   # Create an audio object
   return(Wave(round(sound_signal), samp.rate = 44100, bit = 16))
 }
@@ -67,7 +67,7 @@ plot_spectrum <- function(spectrum) {
   # Filter out peaks of 0 intensity
   dat <- as.data.frame(spectrum) %>%
     dplyr::filter(intensity > 0)
-
+  
   # Create plot
   plot <- dat %>%
     ggplot(aes(x = mz, y = intensity)) +
@@ -76,7 +76,7 @@ plot_spectrum <- function(spectrum) {
     theme(
       plot.background = element_rect(fill = "black")
     )
-
+  
   # Return plot
   return(plot)
 }
@@ -92,6 +92,7 @@ advanced_spectrum_to_tone <- function(
     spectrum,
     duration = 1,
     sampling_rate = 44100,
+    segment_duration = 10,
     filter_mz = FALSE,
     filter_threshold = 0.5,
     scale = FALSE,
@@ -102,7 +103,6 @@ advanced_spectrum_to_tone <- function(
     log_transform_intensity = FALSE,
     log_base_intensity = 2,
     reverse_mz = FALSE,
-    segment_duration = 10,
     waveform = "sine"
 ) {
   # Define waveform generation function
@@ -200,7 +200,7 @@ advanced_spectrum_to_tone <- function(
   }
   
   # Normalize sound signal
-  sound_signal <- round((sound_signal / max(abs(sound_signal))) * 32767)
+  sound_signal <- round((sound_signal / max(abs(sound_signal))) * 32760)
   
   # Return audio object
   return(Wave(sound_signal, samp.rate = sampling_rate, bit = 16))
@@ -213,14 +213,14 @@ advanced_spectrum_to_tone <- function(
 # This function requires the "dplyr" and "ggplot2" packages
 
 double_plot <- function(
-  spectrum_left,
-  spectrum_right,
-  colour_1 = "darkblue",
-  colour_2 = "white",
-  colour_3 = "salmon",
-  contrast = 1,
-  precursor_mz = 0,
-  precursor_intensity = 0
+    spectrum_left,
+    spectrum_right,
+    colour_1 = "darkblue",
+    colour_2 = "white",
+    colour_3 = "salmon",
+    contrast = 1,
+    precursor_mz = 0,
+    precursor_intensity = 0
 ) {
   # Combine the two spectra into the same dataset and normalise the intensities
   plot <- rbind(
@@ -307,12 +307,12 @@ double_plot <- function(
 # This function requires the "data.table" package
 
 double_image <- function(
-  spectrum_1,
-  spectrum_2,
-  colour_1 = "white",
-  colour_2 = "darkblue",
-  x_dim = 1920,
-  y_dim = 1080
+    spectrum_1,
+    spectrum_2,
+    colour_1 = "white",
+    colour_2 = "darkblue",
+    x_dim = 1920,
+    y_dim = 1080
 ) {
   # Set some variables
   color_palette <- colorRampPalette(c(colour_1, colour_2))
@@ -324,30 +324,30 @@ double_image <- function(
   y_max <- max(spectrum_2$mz)
   y_bin_size <- (max(spectrum_2$mz) - min(spectrum_2$mz)) / y_dim
   y_vect <- numeric(y_dim)
-
+  
   # Convert the spectra to datatables
   setDT(spectrum_1)
   setDT(spectrum_2)
-
+  
   # Create bins for mz values
   spectrum_1[, bin := cut(mz, breaks = seq(x_min, x_max, length.out = x_dim + 1), include.lowest = TRUE, labels = FALSE)]
   spectrum_2[, bin := cut(mz, breaks = seq(y_min, y_max, length.out = y_dim + 1), include.lowest = TRUE, labels = FALSE)]
-
+  
   # Sum intensities within each bin
   x_binned_intensities <- spectrum_1[, .(total_intensity = sum(intensity, na.rm = TRUE)), by = bin]
   y_binned_intensities <- spectrum_2[, .(total_intensity = sum(intensity, na.rm = TRUE)), by = bin]
-
+  
   # Fill in the vectors
   x_vect[x_binned_intensities$bin] <- x_binned_intensities$total_intensity
   y_vect[y_binned_intensities$bin] <- y_binned_intensities$total_intensity
-
+  
   # Normalise the vectors
   x_vect <- x_vect / max(x_vect)
   y_vect <- y_vect / max(y_vect)
-
+  
   # Add the two vectors together to create a matrix
   image_matrix <- outer(y_vect, x_vect, pmax)
-
+  
   # Create the image
   par(mar = c(0, 0, 0, 0)) # Remove margins
   return(

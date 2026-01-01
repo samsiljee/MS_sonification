@@ -98,59 +98,112 @@ advanced_spectrum_to_tone <- function(
     scale_min = 100,
     scale_max = 15000,
     log_transform_mz = FALSE,
+    log_base_mz = 2,
     log_transform_intensity = FALSE,
-    reverse_mz = FALSE) {
+    log_base_intensity = 2,
+    reverse_mz = FALSE,
+    segment_duration = 10,
+    waveform = "sine"
+) {
+  # Define waveform generation function
+  generate_waveform <- function(phase_matrix, type) {
+    switch(type,
+           "sine" = sin(phase_matrix),
+           "square" = sign(sin(phase_matrix)),
+           "sawtooth" = {
+             2 * ((phase_matrix / (2 * pi)) - floor(phase_matrix / (2 * pi))) - 1
+           },
+           "triangle" = {
+             normalized <- (phase_matrix / (2 * pi)) - floor(phase_matrix / (2 * pi))
+             ifelse(normalized < 0.5, 4 * normalized - 1, -4 * normalized + 3)
+           }
+    )
+  }
+  
+  # Extract data to vectors
+  
   # Filter out peaks of 0 intensity
   dat <- as.data.frame(spectrum) %>%
     dplyr::filter(intensity > 0)
-
+  
   # Filter more peaks if selected
   if (filter_mz) {
-    # Arrange the data
     dat <- arrange(dat, by = desc(mz))
-    # Take the top X peaks
     dat <- dat[1:round(nrow(dat) * filter_threshold), ]
   }
-
+  
+  # Create vectors of mz and intensity for faster access
+  mz <- dat$mz
+  intensity <- dat$intensity
+  
   # Log2 transform m/z values if selected
   if (log_transform_mz) {
-    # Save old m/z values for re-scaling if needed
-    old_min <- min(dat$mz)
-    old_max <- max(dat$mz)
-    # Log transform
-    dat$mz <- log2(dat$mz)
-    # Re-scale if not scaling separately
+    old_min <- min(mz)
+    old_max <- max(mz)
+    mz <- log(mz, base = log_base_mz)
     if (!scale) {
-      dat$mz <- (dat$mz - min(dat$mz)) / max(dat$mz - min(dat$mz)) * (old_max - old_min) + old_min
+      mz <- (mz - min(mz)) / max(mz - min(mz)) * (old_max - old_min) + old_min
     }
   }
   
   # Log transform intensity values if selected
   if (log_transform_intensity) {
-    dat$intensity <- log2(dat$intensity)
+    intensity <- log(intensity, base = log_base_intensity)
   }
-
+  
   # Scale m/z if selected
   if (scale) {
-    dat$mz <- (dat$mz - min(dat$mz)) / max(dat$mz - min(dat$mz)) * (scale_max - scale_min) + scale_min
+    mz <- (mz - min(mz)) / max(mz - min(mz)) * (scale_max - scale_min) + scale_min
   }
-
+  
   # Reverse mz values if selected
   if (reverse_mz) {
-    dat$mz <- ((dat$mz - mean(c(max(dat$mz), min(dat$mz)))) * -1) + mean(c(max(dat$mz), min(dat$mz)))
+    mz <- ((mz - mean(c(max(mz), min(mz)))) * -1) + mean(c(max(mz), min(mz)))
   }
-
+  
   # Create time sequence
-  time_seq <- seq(0, duration * 2 * pi, length = duration * sampling_rate)
-
-  # Create and add a sine wave for every peak
-  sound_signal <- (sin(outer(time_seq, dat$mz, "*")) %*% dat$intensity)
-
-  # Normalize the sound signal and return as numeric vector
-  sound_signal <- round((sound_signal / max(abs(sound_signal))) * 32000)
-
+  total_samples <- duration * sampling_rate
+  full_time_seq <- seq(0, duration * 2 * pi, length = total_samples)
+  
+  # Calculate number of segments needed
+  segment_samples <- segment_duration * sampling_rate
+  num_segments <- ceiling(total_samples / segment_samples)
+  
+  # Initialise vector for sound signal
+  sound_signal <- numeric(total_samples)
+  
+  # Process each segment
+  for (i in 1:num_segments) {
+    # Calculate sample indices for this segment
+    sample_start <- (i - 1) * segment_samples + 1
+    sample_end <- min(i * segment_samples, total_samples)
+    
+    # Extract the time sequence for segment from the full sequence
+    time_seq <- full_time_seq[sample_start:sample_end]
+    
+    # Create phase matrix
+    phase_matrix <- outer(time_seq, mz, "*")
+    
+    # Generate sound for this segment
+    segment_signal <- (generate_waveform(phase_matrix, waveform) %*% intensity)
+    
+    # Store in the main vector
+    sound_signal[sample_start:sample_end] <- segment_signal
+    
+    # Optional: print progress for long durations
+    if (duration > 30) {
+      cat(sprintf(
+        "Processed segment %d of %d (%.1f%%)\n",
+        i, num_segments, (i / num_segments) * 100
+      ))
+    }
+  }
+  
+  # Normalize sound signal
+  sound_signal <- round((sound_signal / max(abs(sound_signal))) * 32767)
+  
   # Return audio object
-  return(Wave(round(sound_signal), samp.rate = 44100, bit = 16))
+  return(Wave(sound_signal, samp.rate = sampling_rate, bit = 16))
 }
 
 
@@ -160,14 +213,15 @@ advanced_spectrum_to_tone <- function(
 # This function requires the "dplyr" and "ggplot2" packages
 
 double_plot <- function(
-    spectrum_left,
-    spectrum_right,
-    colour_1 = "darkblue",
-    colour_2 = "white",
-    colour_3 = "salmon",
-    contrast = 1,
-    precursor_mz = 0,
-    precursor_intensity = 0) {
+  spectrum_left,
+  spectrum_right,
+  colour_1 = "darkblue",
+  colour_2 = "white",
+  colour_3 = "salmon",
+  contrast = 1,
+  precursor_mz = 0,
+  precursor_intensity = 0
+) {
   # Combine the two spectra into the same dataset and normalise the intensities
   plot <- rbind(
     spectrum_left %>%
@@ -253,12 +307,13 @@ double_plot <- function(
 # This function requires the "data.table" package
 
 double_image <- function(
-    spectrum_1,
-    spectrum_2,
-    colour_1 = "white",
-    colour_2 = "darkblue",
-    x_dim = 1920,
-    y_dim = 1080) {
+  spectrum_1,
+  spectrum_2,
+  colour_1 = "white",
+  colour_2 = "darkblue",
+  x_dim = 1920,
+  y_dim = 1080
+) {
   # Set some variables
   color_palette <- colorRampPalette(c(colour_1, colour_2))
   x_min <- min(spectrum_1$mz)

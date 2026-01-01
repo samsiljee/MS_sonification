@@ -14,11 +14,7 @@ I would like to extend this project so that an entire MS run can be sonified usi
 ## Things to try out
 - Using a dedicated package to reverse fourier transform, this will probably be faster
 - Formulate as a stand-alone program, like a synthesiser plugin almost
-- Collect mass spectra from breathing into the mass spectrometer
-- Generate tones from publically available metabolite spectra
-- Add support for longer tone generation, memory runs out with long tones or complex spectra. This could potentially be done by concatenating segments from different time points
-- Add additional wave forms for synthesis, squarewave for more overtones etc.
+- Generate tones from publicly available metabolite spectra
 - Ability to sum synthesis from different wave forms, perhaps even subtraction, or other mathematical operations
-- Support log transformation of both the m/z and intensity ranges
-- Support for log transformations of different numeric bases
+- Add support for phase input of some kind, could also be used to remove the transient at the start of the tone
 

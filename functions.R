@@ -367,7 +367,7 @@ double_image <- function(
 # Write the function
 make_wavecycle <- function(dat) {
   # Interpolate data
-  wavecycle <- approx(x = dat$intensity, n = 2048, method = "constant")$y
+  wavecycle <- spline(x = dat$intensity, n = 2048)$y
   
   # Centre around 0
   wavecycle <- wavecycle - min(wavecycle)

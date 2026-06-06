@@ -3,16 +3,27 @@
 # 4th June 2026
 
 # Libraries
-library(tuneR)
+library(tuneR) # Audio files
+library(mzR) # MS data handling
 
 # Load custom functions
 source("functions.R")
 
-# Make some fake data
-fake_data <- data.frame(intensity = rnorm(20000))
+# Load raw MS data
+#ms_data <- openMSfile("Mix_TMT_F5_20241219181938.mzML")
+ms_data <- openMSfile("test.mzML")
+
+# Get metadata to identify spectrum with the most peaks
+ms_header <- header(ms_data)
+
+# Extract spectrum with the most peaks
+top_spectrum <- peaks(ms_data, which(ms_header$peaksCount == max(ms_header$peaksCount)))
+
+# Pick spectrum with 200 peaks
+spectrum <- peaks(ms_data, 10672)
 
 # Run function to make wavetable
-wavetable_vector <- make_wavecycle(fake_data)
+wavetable_vector <- make_wavecycle(as.data.frame(spectrum))
 
 # Plot to check waveform
 plot(1:length(wavetable_vector), wavetable_vector, type = "l")

@@ -4,6 +4,7 @@
 
 # Libraries
 library(tuneR) # Audio files
+library(dplyr) # Data manipulation and piping
 library(mzR) # MS data handling
 
 # Load custom functions
@@ -33,3 +34,34 @@ wavetable <- Wave(round(wavetable_vector), samp.rate = 44100, bit = 16)
 
 # Export directly to Vital directory
 writeWave(wavetable, file = "C:/Users/Sam/Documents/Vital/User/Wavetables/wavetable.wav")
+
+
+# Use tone to make complete wavetable
+# Use the first 256 frames of 2048 samples
+
+# Make a tone
+tone <- advanced_spectrum_to_tone(
+  spectrum = top_spectrum,
+  duration = 12, # sufficient for 256 * 2048 samples at 44,100 Hz
+  scale = TRUE,
+  scale_min = 100,
+  scale_max = 15000,
+  waveform = "sine"
+)
+
+# Initialise wavetable vector
+wavetable_2 <- numeric()
+
+# Loop through vector for each frame
+for(i in 0:255) {
+  wavetable_2 <- c(
+    wavetable_2,
+    make_wavecycle(data.frame(intensity = tone[(i*2048)+1:(i*2048)+2049]))
+  )
+}
+
+# Export to wavetable
+wavetable_2 <- Wave(round(wavetable_2), samp.rate = 44100, bit = 16)
+
+# Export directly to Vital directory
+writeWave(wavetable_2, file = "full_tone_wavetable.wav")

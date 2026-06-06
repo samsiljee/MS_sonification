@@ -1,4 +1,4 @@
-# Function to create polyphonic sounds from a raw mass-spectrometry spectrum
+# Function to create soundscapes and tones from a raw mass-spectrometry data
 # Sam Siljee
 # Created 5th March 2024
 
@@ -357,4 +357,25 @@ double_image <- function(
       col = color_palette(256), axes = FALSE, xlab = "", ylab = ""
     )
   )
+}
+
+
+# Takes two dimensional data and literally plots it as wave cycles - using interpolation for data with uneven x axis points
+# Input: Raw mass spectrum, data frame with two columns, m/z and intensity
+# Output: 
+
+# Write the function
+make_wavecycle <- function(dat) {
+  # Interpolate data
+  wavecycle <- approx(x = dat$intensity, n = 2048, method = "constant")$y
+  
+  # Centre around 0
+  wavecycle <- wavecycle - min(wavecycle)
+  wavecycle <- wavecycle - (max(wavecycle) / 2)
+  
+  # Normalise
+  wavecycle <- (wavecycle / max(abs(wavecycle))) * 32000
+  
+  # Return wavecycle
+  return(wavecycle)
 }

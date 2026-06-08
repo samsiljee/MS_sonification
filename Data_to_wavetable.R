@@ -37,26 +37,30 @@ writeWave(wavetable, file = "C:/Users/Sam/Documents/Vital/User/Wavetables/waveta
 
 
 # Use tone to make complete wavetable
-# Use the first 256 frames of 2048 samples
+# Read in 7 minutes wide tone
+tone <- readWave("wide_drone_7min.wav")
+tone <- tone@left
 
-# Make a tone
-tone <- advanced_spectrum_to_tone(
-  spectrum = top_spectrum,
-  duration = 12, # sufficient for 256 * 2048 samples at 44,100 Hz
-  scale = TRUE,
-  scale_min = 100,
-  scale_max = 15000,
-  waveform = "sine"
-)
+# # Make a tone
+# tone <- advanced_spectrum_to_tone(
+#   spectrum = top_spectrum,
+#   duration = 12, # sufficient for 256 * 2048 samples at 44,100 Hz
+#   scale = TRUE,
+#   scale_min = 100,
+#   scale_max = 15000,
+#   waveform = "sine"
+# )
 
 # Initialise wavetable vector
 wavetable_2 <- numeric()
 
 # Loop through vector for each frame
-for(i in 0:255) {
+for(i in 1:256) {
+  start_point <- (i*2048)-2047
+  end_point <- start_point + 2047
   wavetable_2 <- c(
     wavetable_2,
-    make_wavecycle(data.frame(intensity = tone[(i*2048)+1:(i*2048)+2049]))
+    make_wavecycle(data.frame(intensity = tone[start_point:end_point]))
   )
 }
 

@@ -45,3 +45,26 @@ wavetable <- Wave(round(wavetable_vector), samp.rate = 44100, bit = 16)
 
 # Export directly to Vital directory
 writeWave(wavetable, file = "C:/Users/Sam/Documents/Vital/User/Wavetables/wavetable_smooth_3.wav")
+
+# Test for different kernel methods
+kernel_methods <- c("gaussian", "epanechnikov", "rectangular",
+                    "triangular", "biweight",
+                    "cosine", "optcosine")
+
+# Loop through different kernels
+for(k in kernel_methods) {
+  # Run function to make wavetable
+  wavetable_vector <- make_wavetable(
+    as.data.frame(top_spectrum),
+    bw_range = c(1, 1000),
+    data_points = 2048,
+    frames = 256,
+    pad = 4,
+    kernel_method = k) 
+  
+  # Export to wavetable
+  wavetable <- Wave(round(wavetable_vector), samp.rate = 44100, bit = 16)
+  
+  # Export directly to Vital directory
+  writeWave(wavetable, file = paste0("C:/Users/Sam/Documents/Vital/User/Wavetables/", k, ".wav"))
+}

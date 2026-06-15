@@ -360,22 +360,65 @@ double_image <- function(
 }
 
 
-# Takes two dimensional data and literally plots it as wave cycles - using interpolation for data with uneven x axis points
-# Input: Raw mass spectrum, data frame with two columns, m/z and intensity
-# Output: 
+# Takes two dimensional data and literally plots it as wave cycles - using kernel density estimation to smooth data
+# Input: Raw mass spectrum, data frame with two columns, "mz" and "intensity"
+# Output: Numeric vector to be used as a wavetable if exported as .wav format
 
 # Write the function
-make_wavecycle <- function(dat) {
-  # Interpolate data
-  wavecycle <- spline(x = dat$intensity, n = 2048)$y
+make_wavetable <- function(
+    spectrum,
+    bw_range = c(1, 1000),
+    data_points = 2048,
+    frames = 256,
+    pad = 4,
+    kernel_method = "gaussian") {
+  # Make log vector of bin widths to use
+  bw_vector <- exp(1:frames)
+  # Scale bin widths using bw_range
+  bw_vector <- bw_vector - min(bw_vector)
+  bw_vector <- bw_vector / max(bw_vector)
+  bw_vector <- bw_vector * (bw_range[2] - bw_range[1])
+  bw_vector <- bw_vector + bw_range[1]
   
-  # Centre around 0
-  wavecycle <- wavecycle - min(wavecycle)
-  wavecycle <- wavecycle - (max(wavecycle) / 2)
+  # Normalise intensities to use as weights for kernel density estimation
+  weights <- spectrum$intensity / sum(spectrum$intensity)
   
-  # Normalise
-  wavecycle <- (wavecycle / max(abs(wavecycle))) * 32000
+  # Extract m/z values
+  mz_values <- spectrum$mz
+  
+  # Initialise wavetable vector
+  wavetable <- numeric()
+  
+  # Loop through bin widths
+  for(i in 1:frames){
+    # Set bin width
+    bw <- bw_vector[i]
+    
+    # Set padding
+    padding <- bw * pad
+    
+    # Run kernel density estimate
+    kde <- density(
+      x = mz_values,
+      weights = weights,
+      bw = bw,
+      n = data_points,
+      from = min(mz_values) - padding,
+      to = max(mz_values) + padding,
+      kernel = kernel_method
+    )
+    
+    # Extract the waveform and centre around 0
+    wavecycle <- kde$y - min(kde$y)
+    wavecycle <- wavecycle - (max(wavecycle) / 2)
+    
+    # Normalise
+    wavecycle <- (wavecycle / max(abs(wavecycle))) * 32000
+    
+    # Add to vector
+    wavetable <- c(wavetable, wavecycle)
+  }
   
   # Return wavecycle
-  return(wavecycle)
+  return(wavetable)
 }

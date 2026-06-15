@@ -24,48 +24,24 @@ top_spectrum <- peaks(ms_data, which(ms_header$peaksCount == max(ms_header$peaks
 spectrum <- peaks(ms_data, 10672)
 
 # Run function to make wavetable
-wavetable_vector <- make_wavecycle(as.data.frame(spectrum))
+wavetable_vector <- make_wavetable(
+  as.data.frame(top_spectrum),
+  bw_range = c(1, 1000),
+  data_points = 2048,
+  frames = 256,
+  pad = 4,
+  kernel_method = "gaussian") 
 
 # Plot to check waveform
 plot(1:length(wavetable_vector), wavetable_vector, type = "l")
+
+# Check some individual wavecycles
+plot(1:2048, wavetable_vector[1:2048], type = "l")
+plot(1:2048, wavetable_vector[((255*2048)+1):((255*2048)+2048)], type = "l")
+plot(1:2048, wavetable_vector[((100*2048)+1):((100*2048)+2048)], type = "l")
 
 # Export to wavetable
 wavetable <- Wave(round(wavetable_vector), samp.rate = 44100, bit = 16)
 
 # Export directly to Vital directory
-writeWave(wavetable, file = "C:/Users/Sam/Documents/Vital/User/Wavetables/wavetable.wav")
-
-
-# Use tone to make complete wavetable
-# Read in 7 minutes wide tone
-tone <- readWave("wide_drone_7min.wav")
-tone <- tone@left
-
-# # Make a tone
-# tone <- advanced_spectrum_to_tone(
-#   spectrum = top_spectrum,
-#   duration = 12, # sufficient for 256 * 2048 samples at 44,100 Hz
-#   scale = TRUE,
-#   scale_min = 100,
-#   scale_max = 15000,
-#   waveform = "sine"
-# )
-
-# Initialise wavetable vector
-wavetable_2 <- numeric()
-
-# Loop through vector for each frame
-for(i in 1:256) {
-  start_point <- (i*2048)-2047
-  end_point <- start_point + 2047
-  wavetable_2 <- c(
-    wavetable_2,
-    make_wavecycle(data.frame(intensity = tone[start_point:end_point]))
-  )
-}
-
-# Export to wavetable
-wavetable_2 <- Wave(round(wavetable_2), samp.rate = 44100, bit = 16)
-
-# Export directly to Vital directory
-writeWave(wavetable_2, file = "full_tone_wavetable.wav")
+writeWave(wavetable, file = "C:/Users/Sam/Documents/Vital/User/Wavetables/wavetable_smooth_3.wav")

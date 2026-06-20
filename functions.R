@@ -422,3 +422,52 @@ make_wavetable <- function(
   # Return wavecycle
   return(wavetable)
 }
+
+# Takes An image and plots row-wise or column-wise pixel intensities as wavecycles
+# Input: SIngle channel image as a 2D numeric matrix
+# Output: Numeric vector to be used as a wavetable if exported as .wav format
+
+make_image_wavetable <- function(
+    image_matrix,
+    data_points = 2048,
+    frames = 256,
+    row_wise = TRUE) {
+  # re-orient if column-wise
+  if(!row_wise){
+    image_matrix <- t(image_matrix)
+  }
+  
+  # Interpolate columns
+  image_matrix_2 <- matrix(NA, ncol = ncol(image_matrix), nrow = frames)
+  for(i in 1:ncol(image_matrix)){
+    col_i <- image_matrix[, i]
+    image_matrix_2[, i] <- approx(x = seq_along(col_i), y = col_i, n = frames)$y
+  }
+  
+  # Initialise vector for wavetable
+  wavetable <- numeric()
+  
+  # Loop through rows
+  for(i in 1:frames){
+    pixels <- image_matrix_2[i, ]
+    
+    # Interpolate values
+    wavecycle <- approx(x = seq_along(pixels), y = pixels, n = data_points)$y
+    
+    # Subtract half to centre around zero
+    wavecycle <- wavecycle - (max(abs(wavecycle)) / 2)
+    
+    # Normalise - guard against silent division by zero
+    max_val <- max(abs(wavecycle))
+    
+    if(max_val == 0){
+      wavecycle <- rep(0, data_points)
+    } else {
+      wavecycle <- (wavecycle / max_val) * 32000
+    }
+    
+    wavetable <- c(wavetable, wavecycle)
+  }
+  
+  return(wavetable)
+}

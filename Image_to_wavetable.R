@@ -34,3 +34,27 @@ wavetable <- Wave(round(wavetable_vector), samp.rate = 44100, bit = 16)
 
 # Export directly to Vital directory
 writeWave(wavetable, file = "C:/Users/Sam/Documents/Vital/User/Wavetables/image_wavetable.wav")
+
+# Convert three-channel IF image to three wavetables
+# Read in image
+image_data_IF <- readPNG("IF_RGB.png")
+
+# Reduce to 2D greyscale, mean RGB channels
+IF_R <- image_data_IF[, , 1]
+IF_G <- image_data_IF[, , 2]
+IF_B <- image_data_IF[, , 3]
+
+# Call function to turn image into a wavetable
+wavetable_IF_R <- make_image_wavetable(IF_R)
+wavetable_IF_G <- make_image_wavetable(IF_G)
+wavetable_IF_B <- make_image_wavetable(IF_B)
+
+# Export to wavetable
+wavetable_R <- Wave(round(wavetable_IF_R), samp.rate = 44100, bit = 16)
+wavetable_G <- Wave(round(wavetable_IF_G), samp.rate = 44100, bit = 16)
+wavetable_B <- Wave(round(wavetable_IF_B), samp.rate = 44100, bit = 16)
+
+# Export directly to Vital directory
+writeWave(wavetable_R, file = "C:/Users/Sam/Documents/Vital/User/Wavetables/IF_R.wav")
+writeWave(wavetable_G, file = "C:/Users/Sam/Documents/Vital/User/Wavetables/IF_G.wav")
+writeWave(wavetable_B, file = "C:/Users/Sam/Documents/Vital/User/Wavetables/IF_B.wav")
